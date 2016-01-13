@@ -1,0 +1,10 @@
+{
+    "title": "Hello World!",
+    "date": "2015-12-17",
+    "entry": "main",
+    "label": ["meta"],
+    "discription": "新博客的第一帖！",
+    "cover": "me.jpg",
+    "no-compile": ["test2.less","test3.less"],
+    "no-copy": ["test3.less","test4.md"]
+}
