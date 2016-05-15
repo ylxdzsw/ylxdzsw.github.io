@@ -35,7 +35,7 @@ section {
 }
 @media (max-width: 725px) {
   section {
-    padding: 25px;
+    padding: 10px 25px;
   }
 }
 section:nth-child(2n-1) {
