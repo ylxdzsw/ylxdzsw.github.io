@@ -1,0 +1,9 @@
+<!DOCTYPE html><html lang="zh_CN"><head><meta charset="utf8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>JLT设计小记 | ylxdzsw's blog</title><link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,600|Roboto+Mono' rel='stylesheet' type='text/css'><script src="/lib/zepto.js"></script><link rel="stylesheet" href="/lib/prism.css"/><script src="/lib/prism.js"></script><link rel="stylesheet" href="/nattoppet/vue.css"/><script src="/nattoppet/vue.js"></script></head><body><h2 id="jlt-">JLT设计小记</h2>
+<p>在给<a href="https://github.com/ylxdzsw/Restful.jl">Restful.jl</a>加上静态文件服务的过程中我突然意识到Julia似乎缺少一个给力的模板引擎。
+虽然Restful.jl设计是用来支持WebApp的，但是服务器模板渲染对于一些偏展示的页面来说还是非常方便的。
+在<a href="https://github.com/JuliaLang/METADATA.jl">METADATA</a>上搜了一番，只发现个<a href="https://github.com/JunoLab/Hiccup.jl">Hiccup.jl</a>，有点像以前用过的<a href="https://github.com/mauricemach/coffeekup">CoffeeKup</a>，
+是一堆函数，利用语言本身的嵌套调用结构来表达HTML，但是我个人很不喜欢这种方式，受限于语言本身的语法，DSL定义没法像<a href="https://github.com/jadejs/jade">Jade</a>那么自由，又由于抛弃了HTML本身的语法，
+不但不能复制粘贴原有代码，还平添学习成本。所以几番思考之后，决定自己造一个轮子。</p>
+<h3 id="-">最初的想法</h3>
+<p>首先想的是</p>
+</body></html>

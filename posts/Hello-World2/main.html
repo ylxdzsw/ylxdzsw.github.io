@@ -15,7 +15,13 @@ julia> f(2,3)
 5
 
 julia> g(2,3)
-6</code></pre><h2>try markdown</h2><h4 id="this-is-a-markdown-sample">this is a markdown sample</h4>
+6</code></pre><h3>this is a h3</h3><p>Julia `function` arguments follow a convention sometimes called “pass-by-sharing”,
+which means that values are not copied when they are passed to functions.
+Function arguments themselves act as new variable bindings (new locations that can refer to values),
+but the values they `refer` to are identical to the passed values.
+Modifications to mutable values (such as Arrays) made within a function will be visible to the caller.
+This is the same behavior found in Scheme, most Lisps, Python, Ruby and Perl,
+among other dynamic languages.</p><h2>try markdown</h2><h4 id="this-is-a-markdown-sample">this is a markdown sample</h4>
 <blockquote>
 <p>they can be assigned to variables, and called using the standard function
 call syntax from the variable they have been assigned to</p>
