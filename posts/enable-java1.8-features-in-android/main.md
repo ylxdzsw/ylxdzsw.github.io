@@ -4,7 +4,7 @@ Google在Android-N的SDK中支持了Java 1.8的部分特性，包括默认和静
 
 ### 1. 安装Android Studio 2.1+
 
-旧版本以及其它IDE都还暂时不支持Jack编译器，而这是启用Java 1.8特性所必需的，所以需要首先更新Android Studio到最新版本。
+旧版本不支持Jack编译器，而这是启用Java 1.8特性所必需的，所以需要首先更新Android Studio到最新版本。
 
 ### 2. 设置build.gradle
 
@@ -28,8 +28,6 @@ android {
 ```
 
 主要是3点: 启用Jack编译器, 设置Java版本以及设置sdk版本。
-
-注意必须使用Android-N的sdk，但是`targetSdkVersion`和`minSdkVersion`可以低于Android-N，最小可以支持到API9(Gingerbread)。
 
 ### 3. 安装build-tools
 
@@ -63,7 +61,7 @@ java.lang.IllegalStateException: failed to find Build Tools revision 24.0.0 rc4
 > ```
 > The "3" in the command refers the the index listed in the output of the first command.
 
-按照这个方法安装`Build-Tools 24 rc4`之后，`sdk/build-tools`中就出现了`24.0.0-preview`文件夹，再回到Android Studio已经没有报错了。
+按照这个方法安装`Build-Tools 24 rc4`之后，`sdk/build-tools`中就出现了`24.0.0-preview`文件夹，再回到Android Studio已经可以正常编译了。
 
 
 
