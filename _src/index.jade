@@ -9,5 +9,5 @@ html(lang='zh_CN')
         h1#title stay young, stay naïve
         hr
         ul#post-list
-        for post in posts
+        for post in posts.sort().reverse()
             li.post: a(href=`${post}.html`, target='_blank')= post
