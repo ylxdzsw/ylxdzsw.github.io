@@ -1,0 +1,40 @@
+extends ../../templates/vue.jade
+
+block head
+    title Hello World | ylxdzsw's blog
+
+block body
+    h2 hello, world!
+    blockquote: p Too Young Too Simple
+    p.
+        Julia function arguments follow a convention sometimes called “pass-by-sharing”,
+        which means that values are not copied when they are passed to functions.
+        Function arguments themselves act as new variable bindings (new locations that can refer to values),
+        but the values they refer to are identical to the passed values.
+        Modifications to mutable values (such as Arrays) made within a function will be visible to the caller.
+        This is the same behavior found in Scheme, most Lisps, Python, Ruby and Perl,
+        among other dynamic languages.
+    pre.language-julia: code.
+        f(x,y) = x + y
+
+        function g(x,y)
+          return x * y
+          x + y
+        end
+
+        julia> f(2,3)
+        5
+
+        julia> g(2,3)
+        6
+    h3 this is a h3
+    p.
+        Julia `function` arguments follow a convention sometimes called “pass-by-sharing”,
+        which means that values are not copied when they are passed to functions.
+        Function arguments themselves act as new variable bindings (new locations that can refer to values),
+        but the values they `refer` to are identical to the passed values.
+        Modifications to mutable values (such as Arrays) made within a function will be visible to the caller.
+        This is the same behavior found in Scheme, most Lisps, Python, Ruby and Perl,
+        among other dynamic languages.
+    h2 try markdown
+    include:marked main.md

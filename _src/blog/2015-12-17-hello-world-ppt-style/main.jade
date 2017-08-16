@@ -1,0 +1,57 @@
+extends ../../templates/ppt.jade
+
+block head
+    script!= require("../../lib/zepto.js")
+    script sr.init()
+    title Hello World | ylxdzsw's blog
+
+block body
+    section.scen
+        h1.title Hello, World!
+
+    section.scen
+        h2 Lorem Ipsum
+        blockquote: p Too Young Too Simple
+        p.
+            Julia function arguments follow a convention sometimes called “pass-by-sharing”,
+            which means that values are not copied when they are passed to functions.
+            Function arguments themselves act as new variable bindings (new locations that can refer to values),
+            but the values they refer to are identical to the passed values.
+            Modifications to mutable values (such as Arrays) made within a function will be visible to the caller.
+            This is the same behavior found in Scheme, most Lisps, Python, Ruby and Perl,
+            among other dynamic languages.
+
+    section.scen
+        h2 code highlighting
+        pre.language-julia: code.language-julia.
+            f(x,y) = x + y
+
+            function g(x,y)
+            return x * y
+            x + y
+            end
+
+            julia> f(2,3)
+            5
+
+            julia> g(2,3)
+            6
+
+    section.scen
+        h2 Yet another page
+        p.
+            Julia `function` arguments follow a convention sometimes called “pass-by-sharing”,
+            which means that values are not copied when they are passed to functions.
+            Function arguments themselves act as new variable bindings (new locations that can refer to values),
+            but the values they `refer` to are identical to the passed values.
+            Modifications to mutable values (such as Arrays) made within a function will be visible to the caller.
+            This is the same behavior found in Scheme, most Lisps, Python, Ruby and Perl,
+            among other dynamic languages.
+
+    section.scen
+        h2 effects (click to reveal)
+        ul
+            li.fade.click manjaro rolling because life's never still
+            li.fade.delay manjaro rolling because life's never still
+            li.fade.delay manjaro rolling because life's never still
+            li.fade.delay manjaro rolling because life's never still
