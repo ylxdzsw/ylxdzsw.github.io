@@ -1,6 +1,6 @@
-## GSOC 2017: final report
+## GSoC 2017: final report
 
-It has been about 4 months since Google and Julia org kindly accepted my first GSOC proposal, and the exciting program
+It has been about 4 months since Google and Julia org kindly accepted my first GSoC proposal, and the exciting program
 is ending. My project is focused on improving the training process of [Flux.jl](https://github.com/FluxML/Flux.jl), but
 since that don't fill 3 months full-time work, I also made some enhancements for [Knet.jl](https://github.com/denizyuret/Knet.jl)
 in the last a few weeks.
