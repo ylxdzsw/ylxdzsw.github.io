@@ -152,7 +152,7 @@ tested the training on TensorFlow backend</p>
 function during training. I implemented the <code>throttle</code> function from <a href=https://github.com/jashkenas/underscore/blob/master/underscore.js#L835>underscore.js</a> so things can be less magic.</p>
 </li>
 </ul>
-<p>Most of them are already merged, however, since Flux is switching to a new archtecture, some of these changes are outdated
+<p>Most of them are already merged. However, since Flux is switching to a new archtecture, some of these changes are outdated
 and some are broken. They need to be rebased when Flux become relatively stable again.</p>
 <h3 id=about-knet>About Knet</h3>
 <p>Knet is another ML library which is built from scratch. It contains an AD implementation seperated as
@@ -169,8 +169,8 @@ the fusing using the dispatch mechanism so it pass the test on Julia v0.6.</p>
 <li><p><a href=https://github.com/denizyuret/Knet.jl/pull/152>modular interface</a>: The primary API of Knet is <code>grad</code>, which returns
 a function that calculates the gradients of the first argument of a function. This means one need to put all trainable
 parameters together in a data structure and pass it to the forward function. For models involves many layers, this is
-annoying and error prone. I implemented a modular interface like Flux or PyTorch, which keeps and update their parameters
-themselves. I also provided some common layers, which can be used as building blocks of more complicated models.</p>
+annoying and error prone. I implemented a modular interface like Flux or PyTorch, where each layer keeps and update their
+parameters themselves. I also provided some common layers, which can be used as building blocks of more complicated models.</p>
 </li>
 </ul>
 <h3 id=conclusion>Conclusion</h3>

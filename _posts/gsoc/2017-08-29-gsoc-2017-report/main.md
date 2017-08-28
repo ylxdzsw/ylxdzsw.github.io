@@ -36,7 +36,7 @@ tested the training on TensorFlow backend
 - [callback with `throttle`](https://github.com/FluxML/Flux.jl/pull/52): Previously Flux use a macro to call the callback
 function during training. I implemented the `throttle` function from [underscore.js](https://github.com/jashkenas/underscore/blob/master/underscore.js#L835) so things can be less magic.
 
-Most of them are already merged, however, since Flux is switching to a new archtecture, some of these changes are outdated
+Most of them are already merged. However, since Flux is switching to a new archtecture, some of these changes are outdated
 and some are broken. They need to be rebased when Flux become relatively stable again.
 
 ### About Knet
@@ -56,8 +56,8 @@ the fusing using the dispatch mechanism so it pass the test on Julia v0.6.
 - [modular interface](https://github.com/denizyuret/Knet.jl/pull/152): The primary API of Knet is `grad`, which returns
 a function that calculates the gradients of the first argument of a function. This means one need to put all trainable
 parameters together in a data structure and pass it to the forward function. For models involves many layers, this is
-annoying and error prone. I implemented a modular interface like Flux or PyTorch, which keeps and update their parameters
-themselves. I also provided some common layers, which can be used as building blocks of more complicated models.
+annoying and error prone. I implemented a modular interface like Flux or PyTorch, where each layer keeps and update their
+parameters themselves. I also provided some common layers, which can be used as building blocks of more complicated models.
 
 ### Conclusion
 
