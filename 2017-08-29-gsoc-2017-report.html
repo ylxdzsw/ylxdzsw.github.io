@@ -104,6 +104,10 @@ ul ol {
 }
 a {
   color: #42b983;
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
 }
 blockquote {
   margin: 2rem 0;
@@ -115,7 +119,62 @@ blockquote p {
 }
 </style><script>(function(){}).call(this);</script><title>GSOC 2017 final report | ylxdzsw's blog</title></head><body><h2 id=gsoc-2017-final-report>GSOC 2017: final report</h2>
 <p>It has been about 4 months since Google and Julia org kindly accepted my first GSOC proposal, and the exciting program
-is ending. My project is focused on improving the training process of Flux.jl, but since that don&#39;t fill 3 months full-
-time work, I also made some enhancement for Knet.jl in the last a few weeks.</p>
+is ending. My project is focused on improving the training process of <a href=https://github.com/FluxML/Flux.jl>Flux.jl</a>, but
+since that don&#39;t fill 3 months full-time work, I also made some enhancements for <a href=https://github.com/denizyuret/Knet.jl>Knet.jl</a>
+in the last a few weeks.</p>
 <h3 id=about-flux>About Flux</h3>
+<p>Flux is a julia ML library under active development. At the time when I start participating this program, Flux compiles
+arbitrary julia function wraped by a macro <code>@net</code> to a computation graph which can then run on MXNet or TensorFlow
+backend. However a few weeks ago, it switched to a custom auto diff implementation and runs on
+<a href=https://github.com/JuliaGPU/CUDAnative.jl>CUDANative</a>. The code base changed like a totally different project, but the
+idea is the same: you just write the forward pass of your model in plain julia and get the ability to train it on GPUs
+for free.</p>
+<p>My main contributions are:</p>
+<ul>
+<li><p><a href=https://github.com/FluxML/Flux.jl/pull/26>optimizers</a>: Flux default to the basic SGD to train a model, which performs
+not very well for some models. I implemented several popular optimizers including AdaGrad, RMSProp, Adam, etc. The code
+is orgnized by components, so one can easily compose <code>decay</code> or <code>momentum</code> with custom components to make a new optimizer.</p>
+</li>
+<li><p><a href=https://github.com/FluxML/Flux.jl/pull/18>batch training</a>: Flux is originaly designed to handle single instance and
+batch seamlessly, however the implementation is not complete. I added a <code>Batched</code> type to iter over data in batch and
+fix several places to make batched input works in both backends.</p>
+</li>
+<li><p><a href=https://github.com/FluxML/Flux.jl/pull/44>training julia model</a>: Flux is aimed to compile and run models in backends,
+but it is also useful to test the training process in pure julia. I implemented the <code>back!</code> method for primitive layers
+so we can train a <code>Chain</code> of primitive layers in pure julia.</p>
+</li>
+<li><p><a href=https://github.com/FluxML/Flux.jl/pull/51>training on TensorFlow backend</a>: When I first read Flux, it use the
+native training function provided by <a href=https://github.com/malmaud/TensorFlow.jl>TensorFlow.jl</a>. Later, it swiched to a
+custom implementation to keep unified with MXNet backend, but unfortunately, the implementation is broken. I fixed and
+tested the training on TensorFlow backend</p>
+</li>
+<li><p><a href=https://github.com/FluxML/Flux.jl/pull/52>callback with <code>throttle</code></a>: Previously Flux use a macro to call the callback
+function during training. I implemented the <code>throttle</code> function from <a href=https://github.com/jashkenas/underscore/blob/master/underscore.js#L835>underscore.js</a> so things can be less magic.</p>
+</li>
+</ul>
+<p>Most of them are already merged, however, since Flux is switching to a new archtecture, some of these changes are outdated
+and some are broken. They need to be rebased when Flux become relatively stable again.</p>
+<h3 id=about-knet>About Knet</h3>
+<p>Knet is another ML library which is built from scratch. It contains an AD implementation seperated as
+<a href=https://github.com/denizyuret/AutoGrad.jl>AutoGrad.jl</a>, an <code>KArray</code> type that runs on GPU, and some neural network
+functions. Knet records the computation graph dynamically, so the user can freely run a model contains branches or loops
+without unrolling or something like that.</p>
+<p>My main contributions are:</p>
+<ul>
+<li><p><a href=https://github.com/denizyuret/AutoGrad.jl/pull/24>support Julia v0.6</a>: One of the biggest breaking change of Julia
+v0.6 is the changed semantic of &quot;dot operations&quot;. A series of dot oprerations will be fused to a single <code>broadcast</code> call
+by the julia compiler, which is conflict with current AutoGrad implementation. I implemented a little trick to circumvent
+the fusing using the dispatch mechanism so it pass the test on Julia v0.6.</p>
+</li>
+<li><p><a href=https://github.com/denizyuret/Knet.jl/pull/152>modular interface</a>: The primary API of Knet is <code>grad</code>, which returns
+a function that calculates the gradients of the first argument of a function. This means one need to put all trainable
+parameters together in a data structure and pass it to the forward function. For models involves many layers, this is
+annoying and error prone. I implemented a modular interface like Flux or PyTorch, which keeps and update their parameters
+themselves. I also provided some common layers, which can be used as building blocks of more complicated models.</p>
+</li>
+</ul>
+<h3 id=conclusion>Conclusion</h3>
+<p>This summer I learnt and practised a lot of things of Julia and neural networks, with the stipends from Google. I really
+thank my mentor <a href=https://github.com/MikeInnes>Mike J Innes</a> who keep indicating the right direction to go and helping
+out when I get stucked.</p>
 </body></html>
