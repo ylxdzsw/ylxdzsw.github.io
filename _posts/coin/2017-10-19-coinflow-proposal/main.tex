@@ -1,8 +1,9 @@
-\documentclass{myarticle}
+\documentclass{manuscript}
 
 \usepackage[hidelinks]{hyperref}
 \usepackage{textcomp}
 \usepackage{amsmath}
+\usepackage{tikz}
 
 \title{A Graph-based Algorithm for Finding Arbitrage Oppotunities in the Cryptocurrency Spot Market}
 \author{Zhang Shiwei}
@@ -18,7 +19,7 @@
     Cryptocurrencys spot markets are exchanges where people trading their digital coins like Bitcoin, Ethereum, etc.
     On October 19, 2017, the market capitalizations of the top coins are shown in Table \ref{Tab:1}.\footnote{Source:\url{coinmarketcap.com}}
 
-    \begin{table}[hb]
+    \begin{table}[h]
         \centering
         \begin{tabular}{l *{4}{r}}
             Coin & Market Cap. & Price & Volume (24h) \\
@@ -33,7 +34,7 @@
         \caption{Cryptocurrencys market capitalizations}\label{Tab:1}
     \end{table}
 
-    Many exchanges not only offers trading pairs between digital coins and government-issued currencies, but also supports
+    Many exchanges not only offer trading pairs between digital coins and government-issued currencies, but also support
     the trading between diffrent coins. This enables some trading strategies like triangular arbitrage.
 
     Another notable feature of the cryptocurrency spot market is that some exchanges charges no trading fees (e.g. OKEx),
@@ -63,8 +64,8 @@
     \subsection{Inter-market Arbitrage}
 
     Suppose there are two exchange $E_1$ and $E_2$ offering the same trading pair ETH/BTC with price $ask_i(t)$ and $bid_i(t)$
-    at time $t$, where $i = {1,2}$. An inter-market arbitrage strategy can be buying ETH with BTC in $E_1$ and then sell
-    them for BTC in $E_2$. If $ask_1(t) < bid_2(t)$ and you managed to trade at both price, a profit $bid_2(t) - ask_1(t)$
+    at time $t$, where $i = {1,2}$. An inter-market arbitrage strategy can be buying ETH with BTC in $E_1$ and sell them
+    for BTC in $E_2$. If $ask_1(t) < bid_2(t)$ and you managed to trade at both price, a profit $bid_2(t) - ask_1(t)$
     then got realized.
 
     This is pretty similar with the triangular arbitrage described in section \ref{triangular arbitrage}. In fact, we can
@@ -74,7 +75,45 @@
 
     \subsection{Graph Algorithms}
 
+    In graph theory, graphs are mathematical structures used to model pairwise relations between objects. A graph in this
+    context is made up of nodes and paths. A weight can be attached to nodes and/or paths. The following figure shows a
+    drawing of a directed graph.
+
+    \begin{figure}[h]
+        \centering
+        \begin{tikzpicture}[
+                > = stealth,
+                node/.style={ rectangle, rounded corners = 3mm, draw = black!80 },
+                up/.style={ ->, transform canvas={yshift=.7mm} },
+                down/.style={ ->, transform canvas={yshift=-.7mm} }
+            ]
+            \node (A) [node] at (0, 4) {A(2)};
+            \node (B) [node] at (4, 4) {B(3)};
+            \node (C) [node] at (0, 0) {C(4)};
+            \node (D) [node] at (4, 0) {D(6)};
+
+            \draw [up]   (A) -> node[yshift=2mm]{22}    (B);
+            \draw [down] (B) -> node[yshift=-2mm]{0.36} (A);
+            \draw [->]   (A) -> node[xshift=-3mm]{3.1}  (C);
+            \draw [->]   (D) -> node[xshift=2mm]{6}     (B);
+            \draw [->]   (C) -> node[yshift=-2mm]{7}    (D);
+            \draw [->]   (A) -> node[xshift=1.4mm, xshift=1.4mm]{4} (D);
+        \end{tikzpicture}
+        \caption{A directed graph with weights both on nodes and paths}\label{Fig:1}
+    \end{figure}
+
+    There are many mature algorithm can be performed on graphs, like finding the shortest (in terms of the sum of weights
+    of paths) path between two nodes with Floyd-Warshall algorithm or enumerating strongly connected components with
+    Tarjan's algorithm.
+
     \section{Coinflow}
+
+    \subsection{The Idea}
+
+
+
+    \subsection{Details}
+
     \section{Experiments}
     \section{Disscussion}
 
