@@ -10,4 +10,4 @@ html(lang='zh_CN')
         hr
         ul#post-list
         for post in posts.sort().reverse()
-            li.post: a(href=`${post}.html`, target='_blank')= post
+            li.post: a(href=post, target='_blank')= post.split('.').slice(0, -1).join('.')
