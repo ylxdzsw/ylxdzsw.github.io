@@ -1,5 +1,85 @@
-\documentclass{article}
+\documentclass{myarticle}
+
+\usepackage[hidelinks]{hyperref}
+\usepackage{textcomp}
+\usepackage{amsmath}
+
+\title{A Graph-based Algorithm for Finding Arbitrage Oppotunities in the Cryptocurrency Spot Market}
+\author{Zhang Shiwei}
+\date{October 2017}
 
 \begin{document}
-    That's how fancy it works.
+    \maketitle
+
+    \section{Introduction}
+
+    \subsection{Cryptocurrency Spot Market}
+
+    Cryptocurrencys spot markets are exchanges where people trading their digital coins like Bitcoin, Ethereum, etc.
+    On October 19, 2017, the market capitalizations of the top coins are shown in Table \ref{Tab:1}.\footnote{Source:\url{coinmarketcap.com}}
+
+    \begin{table}[hb]
+        \centering
+        \begin{tabular}{l *{4}{r}}
+            Coin & Market Cap. & Price & Volume (24h) \\
+            \hline
+            Bitcoin & \$102,461,472,454 & \$6158.66 & \$2,708,970,000 \\
+            Ethereum & \$28,154,471,164 & \$295.64 & \$451,489,000 \\
+            Ripple & \$7,867,600,806 & \$0.20 & \$136,479,000 \\
+            Bitcoin Cash & \$5,375,340,170 & \$321.73 & \$158,438,000 \\
+            Litecoin & \$3,155,405,470 & \$59.01 & \$176,593,000 \\
+            \hline
+        \end{tabular}
+        \caption{Cryptocurrencys market capitalizations}\label{Tab:1}
+    \end{table}
+
+    Many exchanges not only offers trading pairs between digital coins and government-issued currencies, but also supports
+    the trading between diffrent coins. This enables some trading strategies like triangular arbitrage.
+
+    Another notable feature of the cryptocurrency spot market is that some exchanges charges no trading fees (e.g. OKEx),
+    thus we can trade very rapidly, no matter how small the profit is.
+
+    \subsection{Triangular Arbitrage}\label{triangular arbitrage}
+
+    Suppose we have $x_i$ dollars. If we use them to buy some bitcoins, then use these bitcoins to buy ethereums, and
+    finally sell those ethereums for $x_f$ dollars. If $x_f > x_i$, a profit is realized. Since the cryptocurrency spot
+    market is active, we can expect $x_f - x_i$ is very small, and only occurs at minute or second time scale.
+
+    Triangular arbitrage opportunities can be identified through the rate product
+    \[ \gamma(t) = \prod_{i=1}^{3}r_i(t) \]
+    where $r_i(t)$ denotes an exchange rate at time $t$. An arbitrage is theoretically possible if $\gamma > 1$. For each
+    group of exchange rates there are two unique rate products that can be calculated. For example, consider the set of
+    rates \{BTC/USD, ETH/USD, ETH/BTC\}. If one initially holds US dollars, a possible arbitrage transaction sequence is
+    USD\textrightarrow{}BTC\textrightarrow{}ETH\textrightarrow{}USD with the rate product given by
+    \[ \gamma_1(t) = \left[\frac{1}{\text{BTC/USD}_{ask}(t)}\right]\cdot
+                     \left[\frac{1}{\text{ETH/BTC}_{ask}(t)}\right]\cdot
+                     \left[\text{ETH/USD}_{bid}(t)\right] \]
+    and the rate product of the other possible trading sequence is
+    \[ \gamma_2(t) = \left[\text{BTC/USD}_{bid}(t)\right]\cdot
+                     \left[\text{ETH/BTC}_{bid}(t)\right]\cdot
+                     \left[\frac{1}{\text{ETH/USD}_{ask}(t)}\right] \]
+    These two rate products define all possible arbitrage transactions using this set of trading pairs.\cite{fenn2009mirage}
+
+    \subsection{Inter-market Arbitrage}
+
+    Suppose there are two exchange $E_1$ and $E_2$ offering the same trading pair ETH/BTC with price $ask_i(t)$ and $bid_i(t)$
+    at time $t$, where $i = {1,2}$. An inter-market arbitrage strategy can be buying ETH with BTC in $E_1$ and then sell
+    them for BTC in $E_2$. If $ask_1(t) < bid_2(t)$ and you managed to trade at both price, a profit $bid_2(t) - ask_1(t)$
+    then got realized.
+
+    This is pretty similar with the triangular arbitrage described in section \ref{triangular arbitrage}. In fact, we can
+    assume there being two implict trading pair between $\text{BTC}_{E_1} \text{/} \text{BTC}_{E_2}$ with both ask and
+    bid price always being 1 (or minus transferring fee rates). The Inter-market arbitrage then become a ``quadrangle arbitrage''
+    with all theorems the same as triangular arbitrage except for there being 4 nodes.
+
+    \subsection{Graph Algorithms}
+
+    \section{Coinflow}
+    \section{Experiments}
+    \section{Disscussion}
+
+
+    \bibliographystyle{apalike}%unsrt
+    \bibliography{main}
+
 \end{document}
