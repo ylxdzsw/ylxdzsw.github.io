@@ -1,4 +1,9 @@
 extends @nattoppet/vue.jade
 
+block head
+    title Parameterized Types in Julia as a Language | ylxdzsw's blog
+    style!= require("@nattoppet/prism.css")
+    script!= require("@nattoppet/prism.js")
+
 block body
     include:marked main.md

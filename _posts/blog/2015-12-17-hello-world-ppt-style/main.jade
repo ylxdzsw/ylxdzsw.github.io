@@ -1,9 +1,9 @@
 extends @nattoppet/ppt.jade
 
 block head
-    script!= require("@nattoppet/zepto.js")
-    script sr.init()
     title Hello World | ylxdzsw's blog
+    style!= require("@nattoppet/prism.css")
+    script!= require("@nattoppet/prism.js")
 
 block body
     section.scen
