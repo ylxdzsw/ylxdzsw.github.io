@@ -11,3 +11,5 @@ html(lang='zh_CN')
         ul#post-list
         for post in posts.sort().reverse()
             li.post: a(href=post, target='_blank')= post.split('.').slice(0, -1).join('.')
+        hr
+        p Copyright © 2015-2017: root@ylxdzsw.com
