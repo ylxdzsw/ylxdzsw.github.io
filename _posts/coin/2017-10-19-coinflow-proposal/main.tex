@@ -110,10 +110,17 @@
 
     \subsection{The Idea}
 
-    We can think of our assets in $(exchange, coin)$ as a node in a graph and exchange pairs as paths indicating a method
-    through which we can ``pipe'' our assets from one node to another with a rate. For example, if there is a bid order
+    We can think of our assets in $(exchange, coin)$ as nodes in a graph and exchange pairs as paths indicating methods
+    through which we can transfer our assets from one node to another with a rate. For example, if there is a bid order
     of LTC/BTC with price 0.008 and fee 0.1\% in OKEx, we can draw a line from $(OKEx, LTC)$ to $(OKEx, BTC)$ with weight
-    0.007992 since you can sell 1 LTC on OKEx and get 0.007992 BTC by
+    0.007992 since you can sell 1 LTC on OKEx and get 0.007992 BTC by filling that order. There are also paths with weight
+    1 between diffrent exchanges with the same coin since we can withdraw the coins from one exchange and deposit to another
+    with only constant fee (and almost ignorable).
+
+    With these nodes and paths, we get a graph where our assets can flow from exchanges and coins types with operations
+    (trading or transfering). Then we can try to find circles in this graph where the product of paths' weights > 1. For
+    example,
+
 
 
 
