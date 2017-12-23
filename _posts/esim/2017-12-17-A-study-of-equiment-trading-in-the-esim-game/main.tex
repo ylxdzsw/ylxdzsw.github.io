@@ -12,7 +12,7 @@
 
 \pgfplotsset{compat=1.15}
 
-\title{A Study of The Equipments Market in The E-Sim Game}
+\title{A Study of The Equipment Market in The E-Sim Game}
 \author{Zhang Shiwei}
 \date{December 2017}
 
@@ -23,11 +23,12 @@
 
     \subsection{The E-Sim game}
 
-    The \href{https://www.e-sim.org}{E-Sim} game is a boring browser game where you work everday to make weapons and
-    use them to fight for the country you born for no reason. The most important stat of a player is how many damage
+    The \href{https://www.e-sim.org}{E-Sim} game is a boring browser game where you work every day to make weapons and
+    use them to fight for the country you born for no reason. The most important stat of a player is how many damages
     they can make, which in turn depends mostly on their strength and equipments. Since the first game server,
-    \href{https://primera.e-sim.org}{\textit{primera}}, has already been runing for more than 6 years, most players have similar
-    strength about 3200\verb!+!, which almost don't grow anymore, so equipments is the dominant parameter of a character.
+    \href{https://primera.e-sim.org}{\textit{primera}}, has already been runing for more than 6 years, most players have
+    similar strength about 3200\verb!+!, which almost don't grow anymore, so equipments is the dominant parameter of a
+    character.
 
     \subsection{Equipments}
 
@@ -35,39 +36,39 @@
         \centering
         \vspace{-1\baselineskip}
         \includegraphics[width=0.28\textwidth]{equipment_example.png}
-        \caption{Example of an equipment}\label{fig:eq_eg}
+        \caption{An equipment}\label{fig:an_equipment}
     \end{wrapfigure}
 
     Each character can wear an equipment on each of his 8 slots. Equipments have 6 qualities: Q1 - Q6. Equipments last
-    forever until being merged or split by it's owner. A player can get equipments by battle drops, buying from others
-    and special events. Each equipment have 2 parameters, which are generated randomly accroding to it's type and quality.
+    forever until being merged or split by its owner. A player can get equipments by battle drops, buying from others
+    and special events. Each equipment have 2 parameters, which are generated randomly accroding to its type and quality.
 
     Players can merge and split their equipments to make new ones. Merging takes 3 equipments of the same quality and makes
     an new equipments of higher quality. The 3 materials are destroyed from the game. The parameters of the new equipment
-    is random, but it's slot is same as one of the materials. For example, you can merge 2 Q2 Helmets with a Q2 Vision,
-    and you will get a Q3 Helmet or a Q3 Vision, whose parameters, however, are totally random and independent of the
-    materials. The game charges a fee for merging equipments.
+    is random, but its slot is same as one of the materials. For example, you can merge 2 Q2 Helmets with a Q2 Vision,
+    and you will get a either Q3 Helmet or a Q3 Vision, whose parameters, however, are totally random and independent of
+    the materials. The game charges a fee for merging equipments.
 
-    Splitting is basically the reverse of merging. Players can split an equipment of at lease Q2 into 2 equipments of
+    Splitting is basically the reverse of merging. Players can split an equipment of at least Q2 into 2 equipments of
     lower qualities. One of the new equipments is guaranteed to be on the same slot of the one split. Splitting charges
     no fee.
 
     \subsection{The Auction}
 
-    The auction in game is where players trade thier assets like companies, drugs and equipments. The currency used in
-    the auction is glod, refered to as ``g''. The auction uses the Vickrey mechanism, aka. \textit{sealed-bid second-price
-    auction}. Players can put their equipments on the auction with an intial price. Others can bid for any price higher
-    than the current. The current price is ether the initial price or the second top offer. The actual price of the top
-    offer, however, is hidden. When a sell ends, the top bidder will get the asset for the current price, and the remaining
-    part will be returned to him. A typical auction last for 24 hours. The seller can cancel a sell as long as no one
-    gave an offer yet.
+    The auction in the game is where players trade their assets like companies, drugs, and equipments. The currency used
+    in the auction is gold, referred to as ``g''. The auction uses the Vickrey mechanism, aka. \textit{sealed-bid
+    second-price auction}. Players can put their equipments on the auction with an initial price. Others can bid for any
+    price higher than the current. The current price is either the initial price or the second top offer. The actual price
+    of the top offer, however, is hidden. When a sell ends, the top bidder will get the asset for the current price, and
+    the remaining part will be returned to him. A typical auction lasts for 24 hours. The seller can cancel a sell as long
+    as no one gave an offer yet.
 
-    The game charges 2\% of the initial price when creating an aution and 1\% of the final price when the auction ends.
+    The game charges 2\% of the initial price when creating an auction and 1\% of the final price when the auction ends.
 
     \subsection{Some Definitions}
 
     \textbf{Defective}: There are three types of parameters of equipments, those increasing damage by absolute values,
-    those increasing damage by percentages, and those related to economics. Since the game have been runing for over 6
+    those increasing damage by percentages, and those related to economics. Since the game have been running for over 6
     years, most players have very high stats, thus increasing damage by percentage is significantly better than increasing
     by absolute value. As a result, no player wear equipments that increasing absolute stats seriously. I call the equipments
     that have at least one parameter of this type \textit{defectives}.
@@ -76,18 +77,55 @@
     slots. So no one will wear equipments of low qualities. The only usage of the low quality equipments is being the
     meterials of merging. I call equipments whose average price is below 10g \textit{materials}. Precisely, they are:
     \begin{itemize}[nosep]
-        \item Q1 Pants, Shoes, Lucky charms and Personal armors
-        \item Q1 and Q2 Offhands
-        \item Q1 - Q3 Helmets, Visions and Weapon upgrades
+        \item Q1 Pants, Shoes, Lucky charms and Personal armors;
+        \item Q1 and Q2 Offhands;
+        \item Q1 - Q3 Helmets, Visions, and Weapon upgrades.
     \end{itemize}
+
+    \textbf{Equipments}: Well, I know that ``equipment'' is an uncountable noun. Please replace every ``equipment''
+    with ``item'' byte by byte.
 
     \section{Equipment Appraisal}
 
-    \subsection{Regression of price $\sim$ quality}
+    \subsection{Regression of price $\sim$ quality of meterials}
 
-    \begin{figure}[h]
+    Since the slot of a merging product must be the same as one of its materials, we can always make a desired equipment
+    by merge 3 materials of the same slot. This implies for a given slot, we have
+        $$ P_{i+1} \leqslant 3P_{i} + F_{i} $$,
+    where $P_i$ stands for the average price of Qi equipments and $F = (0.3, 1, 3, 9, 27)^\intercal$ stands for the merging
+    fee, because if it's not the case when $i = k$, we can just buy 3 Qks and merge a Qk\verb!+!1 our selves and then sell
+    it to easily achieve a profit of $P_{i+1} - 3P_{i} + F_{i}$.
+
+    Let $q_{i+1} = 3q_{i} + F_{i}$, and $P'_i$ denotes $q_1$ when $q_i = P_i$, I call $P'_i$ the \textit{equivalent Q1 price}
+    of Qi, which is the maximum profitable Q1 price if we sell Qi by buying and merging Q1s. The actual $P$ and $P'$
+    for Helmets, Visions, and Weapon upgrades are shown in Figure~\ref{fig:reg_price_quality}.
+
+    \begin{figure}[ht]
         \centering
-        \input{fig-reg1}
-        \caption{The average price of material equipments}\label{fig:reg1}
+        \input{fig-reg-price-quality}
+        \caption{The average price of material equipments}\label{fig:reg_price_quality}
     \end{figure}
+
+    As the dashed lines shown, we have many increasing segments, which means the aforementioned inequaly does not hold.
+    This suggests our first strategy: For each $i$ where $P'_{i+1} > P'_i$, we can buy 3 Qi, then merge and sell an
+    Qi\verb!+!1. For example, the most steep segment is Q2-Q3 Vision, we can profit from it by:
+    \begin{enumerate}[nosep]
+        \item buying 3 Q2 Vision at average price 1.127g;
+        \item merging them with 1g fee to get an Q3 Vision;
+        \item selling the Q3 Vision at average price 5.956g;
+        \item the profit is $5.956 - (3 * 1.127 + 1) = 1.575$g.
+    \end{enumerate}
+    Such an easy strategy can achieve about 36\% profit rate, Wow!
+
+    \subsection{Price distribution}
+
+    The price of the a trade is a random variable, of course. We want to know the distribution $f_{q, s, p_1, p_2, t}(p)$ so
+    we can appraise an equipment more accurately. The factors are 1) $q$: the quality, 2) $s$: the slot, 3) $p_1$, $p_2$:
+    the two parameters, and 4) t: the time of a day when the trade ends. The $t$ is important because E-Sim is a global
+    game, but most players live in the Europe. Given the design of the acution UI, players tends to bid when auctions are
+    about to end. As a result, auctions that ends when European are sleeping are likely to sell in a lower price.
+
+    Since the products' parameters are independent with the materials in merging and splitting, the price of materials
+    should not depend on their parameters. We can first study the distribution of materials' prices.
+
 \end{document}
