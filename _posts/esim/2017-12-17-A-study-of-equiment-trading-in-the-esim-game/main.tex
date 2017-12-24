@@ -113,14 +113,14 @@
         \item buying 3 Q2 Vision at average price 1.127g;
         \item merging them with 1g fee to get an Q3 Vision;
         \item selling the Q3 Vision at average price 5.956g;
-        \item the profit is $5.956 - (3 * 1.127 + 1) = 1.575$g.
+        \item the profit is $5.956 * 0.98 - (3 * 1.127 + 1) = 1.456$g.
     \end{enumerate}
-    Such an easy strategy can achieve about 36\% profit rate, Wow!
+    Such an easy strategy can achieve about 33\% profit rate, Wow!
 
     \subsection{Price distribution}
 
     The price of the a trade is a random variable, of course. We want to know the distribution $f_{q, s, p_1, p_2, t}(p)$ so
-    we can appraise an equipment more accurately. The factors are 1) $q$: the quality, 2) $s$: the slot, 3) $p_1$, $p_2$:
+    we can appraise an equipment more precisely. The factors are 1) $q$: the quality, 2) $s$: the slot, 3) $p_1$, $p_2$:
     the two parameters, and 4) t: the time of a day when the trade ends. The $t$ is important because E-Sim is a global
     game, but most players live in the Europe. Given the design of the acution UI, players tends to bid when auctions are
     about to end. As a result, auctions that ends when European are sleeping are likely to sell in a lower price.
@@ -128,4 +128,11 @@
     Since the products' parameters are independent with the materials in merging and splitting, the price of materials
     should not depend on their parameters. We can first study the distribution of materials' prices.
 
+    \begin{figure}[ht]
+        \centering
+        \input{fig-hist-material-price}
+        \caption{The prices of different Q3 equipments}\label{fig:hist_material_price}
+    \end{figure}
+
+    Ummm, We have too few data to fit a usful model, so give up, for now.
 \end{document}
