@@ -1,0 +1,101 @@
+\documentclass{manuscript}
+
+\usepackage[hidelinks]{hyperref}
+\usepackage{textcomp}
+\usepackage{enumitem}
+\usepackage{amsmath}
+\usepackage{tikz}
+
+\title{A Bayesianism Theory of Judging and Sentencing}
+\author{Zhang Shiwei}
+\date{March 2018}
+
+\begin{document}
+    \maketitle
+
+    \begin{abstract}
+        This paper presents a new theory of justice where one get punished for the mathematical expectation of the
+        ``evilness'' of his behaviour, no matter what the actual results. This helps prevent people from taking risk,
+        and encourages them to be a good Samaria.
+    \end{abstract}
+
+    \section{A taste of this theory}
+
+    \begin{quotation}
+        Joe wants to kill Paul and therefor on the eve of Paul's setting forth on a hike across the desert, Joe sneaks
+        into Paul's room and replaces the water in his canteen with scentless and colorless poison. Karl also wants to
+        kill Paul and therefor later the same evening he sneaks into Paul's room and drills a small hole in the bottom
+        of Paul's canteen. Paul leaves the next morning without noticing the hole in his canteen. After two hours in the
+        desert he decides that it is time to drink but by now the canteen is empty. Without other sources of water he dies
+        of dehydration in the desert. Who is responsible for the death?
+    \end{quotation}
+
+    This is a famous story mentioned in \cite{fletcher1998basic}. In most theories, Joe is either innocent or a attempted
+    murderer, because Paul didn't die by drinking the poison. However, in our theory, the answer is somewhat simple: both
+    Joe and Karl are guilty as murderers.
+
+    The reasoning is that, they should be responsible for their action, not for Paul's death. The punishment for their
+    actions depend on the possible results given the condition and their knowleadge at that time. For example, let $S(X)$
+    be the punishment one should get for the event $X$, Joe's punishment should be
+    $$\begin{aligned}
+        E(S(X)P(X|C, K)|C, K) &= S(X_k)P(X_k|C,K) + S(X_{nk})P(X_{nk}|C,K) \\
+                              &= S(X_k)P(X_k \cap X_d|C,K) + S(X_{nk})P(X_{nk} \cap X_d|C,K) + {} \\
+                              &\phantom{{}={}} S(X_k)P(X_k \cap X_{nd}|C,K) + S(X_{nk})P(X_{nk} \cap X_{nd}|C,K)
+    \end{aligned}$$
+
+    Where
+
+    \begin{itemize}[label={}, itemsep=0.1em]
+        \item $X_k$: ``Joe kill Paul (Paul die by poison)''
+        \item $X_{nk}$: ``Joe doesn't kill Paul''
+        \item $X_d$: ``Paul's canteen is drilled''
+        \item $X_{nd}$: ``Paul's canteen isn't drilled''
+        \item $K$: ``The knowleadge of Joe (the fact that he don't know Karl's plan)''
+        \item $C$: ``The condition at that time (drinking poison will cause death, etc.)''
+    \end{itemize}
+
+    We can have the jury agree with a set of values mentioned in the equation by common sense.
+
+    \begin{itemize}[label={}, itemsep=0.1em]
+        \item $P(X_k|X_d,C,K) = 0$ (``Paul won't die for poison if his canteen is drilled.'')
+        \item $P(X_k|X_{nd},C,K) = 0.9999$ (``Paul tends to die for poison if his canteen is not drilled.'')
+        \item $P(X_d|C, K) = 0.0001$ (``How likely the canteen will be drilled in Joe's mind'')
+        \item $S(X_k) = 1$: ``The punishment for killing a man''
+        \item $S(X_{nk}) = 0$: ``The punishment for not killing a man''
+    \end{itemize}
+
+    With these values determined, we can continue our calculation of Joe's punishment.
+
+    $$\begin{aligned}
+        E(\text{\ldots}) &= S(X_k)P(X_k|X_d,C,K)P(X_d|C,K) + 0 + {} \\
+                         &\phantom{{}={}} S(X_k)P(X_k|X_{nd},C,K)(1-P(X_d|C,K)) + 0 \\
+                         &= 0.9999 \approx 1
+    \end{aligned}$$
+
+    Thus, Joe deserves 0.9999 of the punishment for killing a man. The same calculation can be applyed to Karl. One can
+    think that there are 3 possible results for drilling Paul's canteen: killing him, not killing him, and extending his
+    life for 2 hours since otherwise he will die quicker for poison. The possibility and thus the contribution to the
+    final expectation of the third result is obviours and it's easy to get to the same conclusion that Karl should also
+    receive 0.9999 of the punishment of killing a man.
+
+    The equation can still be expanded if necessary. For example, Paul may or may not notice the hole, and this is a
+    factor that affects the estimation of $P(X_k \cap X_d | C, K)$. We can ignore the event's that is too rare given our
+    knowleadge since they won't affect the result too much after multiplying with a probability near 0.
+
+    \section{Description}
+
+    \subsection{The goal}
+
+    \subsection{The method}
+
+    \section{Examples}
+
+    The blacksmith who fail to nail in the horseshoe unleashes a crescendo of consequences: the horse falls, the rider is
+    killed , the battle is lost, and the kingdom is conquered.
+
+    \section{Details}
+
+    \bibliographystyle{apalike}%unsrt
+    \bibliography{main}
+
+\end{document}
