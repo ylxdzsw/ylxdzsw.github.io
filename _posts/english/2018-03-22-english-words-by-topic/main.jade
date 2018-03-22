@@ -1,0 +1,54 @@
+extends @nattoppet/koa.jade
+
+mixin entry(word, meaning, ...examples)
+    li.entry
+        span.word(onclick="say(this.textContent)")= word
+        if meaning
+            = ': ' + meaning
+        if examples.length
+            ul
+                each example in examples
+                    li= example
+
+block head
+    title Words By Topic | ylxdzsw's blog
+    script.
+        function say(word) {
+            speechSynthesis.speak(new SpeechSynthesisUtterance(word))
+        }
+    style.
+        .word {
+            font-family: consolas, melon, monospace;
+            font-size: 1.05rem;
+            color: #2cad13;
+            cursor: pointer;
+        }
+
+block body
+    +section("Speech")
+        ul
+            +entry("utter", "说出", "utterance /ˈʌt(ə)r(ə)ns/")
+            +entry("intone", "(缓慢、平直、严肃、无语气地)说话")
+            +entry("intonation", "腔调, 抑扬")
+            +entry("nuance", "细微差别")
+            +entry("dialect", "方言")
+            +entry("pitch", "音调、音高")
+            +entry("linguistic", "语言学")
+            +entry("phonetic", "语音学")
+            +entry("phone", "音素，人类辨识语音的最小单位，与语言无关")
+            +entry("phonemes", "音位，可以对语义造成影响的音素")
+            +entry("syllable", "音节")
+
+    +section("Body")
+        ul
+            +entry("gum", "牙龈")
+            +entry("temple", "太阳穴")
+            +entry("mustache", "小胡子(上嘴唇和鼻子间的)")
+            +entry("beard", "胡须(下巴和侧脸上的)")
+            +entry("dimple", "酒窝")
+            +entry("pimple", "粉刺")
+            +entry("navel", "肚脐")
+            +entry("artery", "动脉")
+            +entry("vein", "静脉")
+            +entry("capillary", "毛细血管")
+            +entry("adrenaline", "肾上腺素")
