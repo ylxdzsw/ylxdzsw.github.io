@@ -25,7 +25,7 @@
     representation. They use Weka to perform the mining.
 
     In the next section several data mining techniques were explained and compaired:
-    \begin{description}
+    \begin{description}[noitemsep, nolistsep]
         \item[J48 tree] (more commonly known as C4.5). It builds decision trees by maximizing information gain greedly at
                         each node.\textsuperscript{\cite{quinlan_c4.5:_1993}}
         \item[LAD tree] Inducing ADTrees using LogitBoost. An ADTree consists of an alternation of decision nodes, which
@@ -43,6 +43,15 @@
                         of the state of a node.\textsuperscript{\cite{barco_comparison_2006}}
     \end{description}
 
+    In the fourth section some definitions are given. The most important concept is KPI, which acts as the target value
+    to predict. They define KPI as a variable takes 3 possible values: Normal, Critical and Warning. The value of KPI is
+    determined by DCR (Call Drop Rate), CSSR (Call set up success rate), TR (Traffic Rate), and HOF (Handover Faulures)
+    empirically.
+
+    In the fifth and sixth sections the authors showed their results by screenshots of Weka outputs, and made several
+    comparisons between above algorithms.
+
+    \subsection{Detecting and Localizing End-to-End Performance Degradation for Cellular Data Services \textsuperscript{\cite{ahmed_detecting_2016}}}
 
 
     \bibliographystyle{unsrt}
