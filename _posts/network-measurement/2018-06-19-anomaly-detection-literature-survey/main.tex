@@ -1,0 +1,50 @@
+\documentclass{manuscript}
+
+\usepackage{textcomp}
+\usepackage{enumitem}
+\usepackage[utf8]{inputenc}
+
+\title{Literature Survey of Network Anomaly Detection}
+\author{Zhang Shiwei}
+\date{June 2018}
+
+\begin{document}
+    \maketitle
+
+    \section{Paper Review}
+
+    \subsection{Network Fault Diagnosis Using Data Mining Classifiers \textsuperscript{\cite{rozaki_network_2015}}}
+
+    This paper was presented in AIRCC, 2015 by Eleni Rozaki from the Cardiff University.
+
+    The first section describes the FCAPS framework and the position of their contribution under that framework. The
+    FCAPS framework stands for fault, configuration, accounting, performance, and security. Their work focus on fault
+    diagnosis.
+
+    The second section is the general process of data mining, i.e., data cleaning, section, pattern mining, and knowledge
+    representation. They use Weka to perform the mining.
+
+    In the next section several data mining techniques were explained and compaired:
+    \begin{description}
+        \item[J48 tree] (more commonly known as C4.5). It builds decision trees by maximizing information gain greedly at
+                        each node.\textsuperscript{\cite{quinlan_c4.5:_1993}}
+        \item[LAD tree] Inducing ADTrees using LogitBoost. An ADTree consists of an alternation of decision nodes, which
+                        specify a predicate condition, and prediction nodes, which contain a single number. An instance
+                        is classified by an ADTree by following all paths for which all decision nodes are true, and
+                        summing any prediction nodes that are traversed.\textsuperscript{\cite{holmes_multiclass_2002}}
+        \item[JRip] Alternatively grow and prune rules to build an initial rule set in terms of information gain, Then
+                    examine each rule by generate two variants of each rule from randomized data, see which have shorter
+                    descrition length.\textsuperscript{\cite{cohen_fast_1995}}
+        \item[PART] Generating a decision list by buiding a C4.5 decision tree in each iteration and makes the "best" leaf
+                    into a rule. Instances are classified at the first match.\textsuperscript{\cite{frank_generating_1998}}
+        \item[Naïve Bayes] Using Bayes rule to calculate the conditional probability with the assumption that all
+                           attributes are independent of each other.\textsuperscript{\cite{john_estimating_1995}}
+        \item[Bayesnet] Also known as belief networks. It use Bayes rule recursively in a DAG to infer the probabilities
+                        of the state of a node.\textsuperscript{\cite{barco_comparison_2006}}
+    \end{description}
+
+
+
+    \bibliographystyle{unsrt}
+    \bibliography{main}
+\end{document}
