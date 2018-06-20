@@ -2,6 +2,7 @@
 
 \usepackage{textcomp}
 \usepackage{enumitem}
+\usepackage{indentfirst}
 \usepackage[utf8]{inputenc}
 
 \title{Literature Survey of Network Anomaly Detection}
@@ -13,7 +14,7 @@
 
     \section{Paper Review}
 
-    \subsection{Network Fault Diagnosis Using Data Mining Classifiers \textsuperscript{\cite{rozaki_network_2015}}}
+    \subsection{Network Fault Diagnosis Using Data Mining Classifiers \cite{rozaki_network_2015}}
 
     This paper was presented in AIRCC, 2015 by Eleni Rozaki from the Cardiff University.
 
@@ -27,20 +28,20 @@
     In the next section several data mining techniques were explained and compaired:
     \begin{description}[noitemsep, nolistsep]
         \item[J48 tree] (more commonly known as C4.5). It builds decision trees by maximizing information gain greedly at
-                        each node.\textsuperscript{\cite{quinlan_c4.5:_1993}}
+                        each node.\cite{quinlan_c4.5:_1993}
         \item[LAD tree] Inducing ADTrees using LogitBoost. An ADTree consists of an alternation of decision nodes, which
                         specify a predicate condition, and prediction nodes, which contain a single number. An instance
                         is classified by an ADTree by following all paths for which all decision nodes are true, and
-                        summing any prediction nodes that are traversed.\textsuperscript{\cite{holmes_multiclass_2002}}
+                        summing any prediction nodes that are traversed.\cite{holmes_multiclass_2002}
         \item[JRip] Alternatively grow and prune rules to build an initial rule set in terms of information gain, Then
                     examine each rule by generate two variants of each rule from randomized data, see which have shorter
-                    descrition length.\textsuperscript{\cite{cohen_fast_1995}}
+                    descrition length.\cite{cohen_fast_1995}
         \item[PART] Generating a decision list by buiding a C4.5 decision tree in each iteration and makes the "best" leaf
-                    into a rule. Instances are classified at the first match.\textsuperscript{\cite{frank_generating_1998}}
+                    into a rule. Instances are classified at the first match.\cite{frank_generating_1998}
         \item[Naïve Bayes] Using Bayes rule to calculate the conditional probability with the assumption that all
-                           attributes are independent of each other.\textsuperscript{\cite{john_estimating_1995}}
+                           attributes are independent of each other.\cite{john_estimating_1995}
         \item[Bayesnet] Also known as belief networks. It use Bayes rule recursively in a DAG to infer the probabilities
-                        of the state of a node.\textsuperscript{\cite{barco_comparison_2006}}
+                        of the state of a node.\cite{barco_comparison_2006}
     \end{description}
 
     In the fourth section some definitions are given. The most important concept is KPI, which acts as the target value
@@ -51,8 +52,27 @@
     In the fifth and sixth sections the authors showed their results by screenshots of Weka outputs, and made several
     comparisons between above algorithms.
 
-    \subsection{Detecting and Localizing End-to-End Performance Degradation for Cellular Data Services \textsuperscript{\cite{ahmed_detecting_2016}}}
+    \subsection{Detecting and Localizing End-to-End Performance Degradation for Cellular Data Services \cite{ahmed_detecting_2016}}
 
+    This paper was presented in INFOCOM, 2016 by Michigan State University and AT\&T.
+
+    Firstly they stated the goal, which is mainly to ascribe E2E performance degradations to one of the four factors:
+    application type, content provider, mobile device, and user location.
+
+    Next they gave an overview of their method. The first step is to build 24 * 7 models that predicting the performance
+    of the instances correspond to a specific hour in a week. Then, use these predictions to define degardation. Finally
+    use association rules mining to find patterns that cause degradations.
+
+    In the rest of Section 1 they described the 3 main challenges and their solutions. The first challenge is data sparsity.
+    They use recursive grouping to handle this. The second challenge is to localize the cause of degardation, which is
+    what they deploy the association for. The last one is to quantitatively evaluate the result, they solve this by mannually
+    inspect some cases and inject synthetic cases which act as ground truth.
+
+    In the second Section the authors discussed some related works in network diagnosis and performance measurement.
+
+    \section{Relative Work Summary}
+
+    \section{My Proposal}
 
     \bibliographystyle{unsrt}
     \bibliography{main}
