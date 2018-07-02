@@ -2,8 +2,9 @@
 
 \usepackage{textcomp}
 \usepackage{enumitem}
+\usepackage{amsmath}
+\usepackage{amssymb}
 \usepackage{indentfirst}
-\usepackage[utf8]{inputenc}
 
 \title{Literature Survey of Network Anomaly Detection}
 \author{Zhang Shiwei}
@@ -66,13 +67,63 @@
     In the rest of Section 1 they described the 3 main challenges and their solutions. The first challenge is data sparsity.
     They use recursive grouping to handle this. The second challenge is to localize the cause of degardation, which is
     what they deploy the association for. The last one is to quantitatively evaluate the result, they solve this by mannually
-    inspect some cases and inject synthetic cases which act as ground truth.
+    inspecting some cases and injecting synthetic cases which act as ground truth.
 
-    In the second Section the authors discussed some related works in network diagnosis and performance measurement.
+    In the second section the authors discussed some related works in network diagnosis and performance measurement. Their
+    work is unique in that they use association rules to find the root cause.
+
+    In the third section they introduced the collection and basic analysis of data. The data were collected from between
+    SGW and PGW within a core GPRS network of a US cellular service provider. The data contain TCP level information. The
+    E2E performance metrics consist of TCP loss ratio and RTT. The TCP loss ratio is defined as $\frac{\text{bytes retransmitted}}
+    {\text{actual bytes in the flow}}$, where retransmissions are detected by tracking packet sequence numbers. The RTT
+    is splited to cellular network side RTT and internet side RTT.
+
+    The fourth section is the major part where the whole process was described in detail.
+
+    \textbf{performance matrix:} They first calculated $E_A = [1..24 * 7, \{\mathbb{L}, \mathbb{C}, \mathbb{D}, \mathbb{A}\}]$,
+    where $E_A[i, \mathbb{X}]$ is a vector of a length $X$ vector contains of the median values in W weeks.
+
+    \textbf{remove outliers:} Outliers are identified by robust regression, which use iteratively re-weighted least squares
+    (IRLS) to find a weight that minimizes the impact of extreme data points.
+
+    \textbf{E2E matrix:} Next they defined the E2E matrix as $E_I = [1..L, 1..P, 1..D, 1..A]$. The element type depends.
+
+    \textbf{deviating E2E instance identification:} First they defined $\bar{E_A}$ which differs from $E_A$ only in that
+    it contains the standard deviation of the W values whereas $E_A$ contains the medieans. Then, they choose
+    $[\text{predicted performance} - 2\sigma, \text{predicted performance} + 2\sigma]$ as the definition of
+    ``deviating too much''. For each E2E instance, if it have deviating performance in more than 50\% in the $24*7$ hours,
+    it will be labeled as deviating.
+
+    \textbf{grouping} Association rule mining techniques were deployed to perform grouping. The transactions is a list of
+    $\langle l, p, d, a, c \rangle$, where $c$ is where it is deviating or not. Then, the classic Apriori algorithm is
+    used to find the rules. Each rule like $\text{NewYork}, \text{Google}, \text{iPhone} \rightarrow \text{deviate}$
+    corresponds to a group $\text{NewYork, Google, iPhone,} \ast$.
+
+    \textbf{further selection} They used a complex method to further reduce the number of groups and determine the model
+    to use for instances that belongs to more than one group.
+
+    \textbf{performance degradation detection} The performance degradation is detected by compairing the performance of
+    latest hour with $\text{predicted performance} + 2\sigma$ of the same hour. The association rule mining techniques
+    then used again to find the cause of degradation in the latest hour.
+
+    Finally they made some evaluations. First they inspected the accuracy using synthetic data, then tried the model in
+    the wild and made some explainations to the result.
+
+    \subsection{Highlights of Other Related Works}
+
+    \cite{hutchison_mobile_2014} They collect data from end devices too. Their data is more continuous and have more
+    performance-related information.
 
     \section{Relative Work Summary}
 
     \section{My Proposal}
+
+    \subsection{FFM\cite{juan_field-aware_2016}}
+
+    Field-aware factorization machine (FFM) is a model that is good at handling sparse catogorical features.
+    $$ y(x) = w_0 + \sum^n_{i=1}w_ix_i + \sum^n_{i=1}\sum^n_{j=i+1}\langle \mathbf{v}_{i, f_j}, \mathbf{v}_{j, f_i}\rangle x_ix_j $$
+    $f_i$ is the field of the i-th feature. By sorting $w_i$ and $\langle \mathbf{v}_{i, f_j}, \mathbf{v}_{j, f_i}\rangle$,
+    we can find out what combinations of features will cause RTT to be high.
 
     \bibliographystyle{unsrt}
     \bibliography{main}
