@@ -1,4 +1,6 @@
 /*
+Copyright (c) 2018: Zhang Shiwei (ylxdzsw@gmail.com)
+
 This script build the blog by:
 1. get a list of posts by find main.* in `_posts` folder recursively
 2. delete compiled posts that do not appears in above list
@@ -15,6 +17,8 @@ const crypto = require('crypto')
 class Post {
     constructor(path) {
         this.path = path
+        this.hash = this.getHash()
+        this.name = this.getName()
     }
 
     getHash() {
@@ -41,9 +45,13 @@ class Post {
 }
 
 class JadePost extends Post {
+    getName() {
+        return path.basename(this.path) + '.html'
+    }
+
     async compile() {
         const target = path.join(this.path, "main.jade")
-        const result = path.join(__dirname, path.basename(this.path) + '.html')
+        const result = path.join(__dirname, this.getName())
         return new Promise((resolve, reject) => {
             cp.exec(`nattoppet ${target} > ${result}`, (err) => err ? reject(err) : resolve())
         })
@@ -51,9 +59,13 @@ class JadePost extends Post {
 }
 
 class HTMLPost extends Post {
+    getName() {
+        return path.basename(this.path) + '.html'
+    }
+
     async compile() {
         const src = path.join(this.path, "main.html")
-        const dst = path.join(__dirname, path.basename(this.path) + '.html')
+        const dst = path.join(__dirname, this.getName())
         return new Promise((resolve, reject) => {
             fs.copyFile(src, dst, (err) => err ? reject(err) : resolve())
         })
@@ -61,6 +73,10 @@ class HTMLPost extends Post {
 }
 
 class TeXPost extends Post {
+    getName() {
+        return path.basename(this.path) + '.pdf'
+    }
+
     async compile() {
         try {
             return await (async () => {
@@ -69,13 +85,14 @@ class TeXPost extends Post {
                         if (err) return reject(err)
 
                         const src = path.join(this.path, "main.pdf")
-                        const dst = path.join(__dirname, path.basename(this.path) + '.pdf')
+                        const dst = path.join(__dirname, this.getName())
                         fs.copyFile(src, dst, (err) => err ? reject(err) : resolve())
                     })
                 })
             })()
         } finally { // clean up without waiting
-            for (const postfix of ["aux", "fdb_latexmk", "fls", "log", "pdf", "synctex.gz", "synctex(busy)", "bbl", "idx", "out", "blg", "dvi"]) {
+            for (const postfix of ["aux", "fdb_latexmk", "fls", "log", "pdf", "synctex.gz",
+                                   "synctex(busy)", "bbl", "idx", "out", "blg", "dvi"]) {
                 fs.unlink(path.join(this.path, "main." + postfix), ()=>0)
             }
         }
@@ -83,51 +100,49 @@ class TeXPost extends Post {
 }
 
 class PDFPost extends Post {
+    getName() {
+        return path.basename(this.path) + '.pdf'
+    }
+
     async compile() {
         const src = path.join(this.path, "main.pdf")
-        const dst = path.join(__dirname, path.basename(this.path) + '.pdf')
+        const dst = path.join(__dirname, this.getName())
         return new Promise((resolve, reject) => {
             fs.copyFile(src, dst, (err) => err ? reject(err) : resolve())
         })
     }
 }
 
-const posts = new Set()
+function find_posts() {
+    const posts = []
 
-const post = (x, postfix) => {
-    x = x.split(path.sep)
-    x = x[x.length-1] + '.' + postfix
-    posts.add(x)
-    return x
-}
+    const walk = dir => {
+        const list = fs.readdirSync(dir)
 
-const walk = dir => {
-    const list = fs.readdirSync(dir).sort()
+        if (list.includes("main.jade")) {
+            return posts.push(new JadePost(path.join(dir, "main.jade")))
+        } else if (list.includes("main.html")) {
+            return posts.push(new HTMLPost(path.join(dir, "main.html")))
+        } else if (list.includes("main.tex")) {
+            return posts.push(new TeXPost(path.join(dir, "main.tex")))
+        } else if (list.includes("main.pdf")) {
+            return posts.push(new PDFPost(path.join(dir, "main.pdf")))
+        }
 
-    for (let item of list) {
-        const stat = fs.statSync(path.join(dir, item))
-
-        if (stat.isFile()) {
-            if (item == "main.jade" || item == "main.html") {
-                const name = post(dir, 'html')
-                fs.writeFileSync(name, compile(path.join(dir, item)))
-                break
-            } else if (item == "main.pdf") {
-                const name = post(dir, 'pdf')
-                fs.copyFileSync(path.join(dir, item), name)
-            } else if (item == "main.tex") {
-                post(dir, 'pdf')
-                for (let postfix of ["aux", "fdb_latexmk", "fls", "log", "pdf", "synctex.gz", "synctex(busy)", "bbl", "idx", "out", "blg", "dvi"]) {
-                    fs.unlink(path.join(dir, "main." + postfix), e=>0)
-                }
+        for (const item of list) {
+            const subdir = path.join(dir, item)
+            if (fs.statSync(subdir).isDirectory()) {
+                walk(subdir)
             }
-        } else if (stat.isDirectory()) {
-            walk(path.join(dir, item))
         }
     }
+
+    walk(path.join(__dirname, "_posts"))
+    return posts
 }
 
-walk(__dirname + "/_posts")
+const posts = find_posts()
+
 let index = path.join(opt, "index.jade")
 let msg = ''
 if (fs.existsSync(index)) {
