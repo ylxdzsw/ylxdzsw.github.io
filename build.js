@@ -12,6 +12,10 @@ const cp = require('child_process')
 const path = require('path')
 const crypto = require('crypto')
 
+function logcb(err) {
+    if (err) console.error(err)
+}
+
 class Post {
     constructor(path) {
         this.path = path
@@ -41,7 +45,11 @@ class Post {
 }
 
 class JadePost extends Post {
-
+    compile() {
+        const target = path.join(this.path, "main.jade")
+        const result = path.join(__dirname, path.basename(this.path) + '.html')
+        cp.exec(`nattoppet ${target} > ${result}`, logcb)
+    }
 }
 
 class HTMLPost extends Post {
