@@ -3,11 +3,15 @@ Copyright (c) 2018: Zhang Shiwei (ylxdzsw@gmail.com)
 
 This script build the blog by:
 1. get a list of posts by find main.* in `_posts` folder recursively
-2. delete compiled posts that do not appears in above list
-3. calculate hashs of posts and compare them with those in `state.json`
-4. recompile posts that hashes do not match, them update `state.json`
+2. delete compiled posts that do not appear in the above list
+3. compare the hashs of posts with those in `info.json` and set update timestamps
+4. recompile posts that hashes do not match, then update `info.json`
 5. generate the index page
 */
+
+"don't use strict"
+
+const starttime = Date.now()
 
 const fs = require('fs')
 const cp = require('child_process')
@@ -34,7 +38,7 @@ class Post {
                 for (const name of fs.readdirSync(p).sort())
                     hash(path.join(p, name))
             } else {
-                throw new Error("what the fuck is this?")
+                throw new Error("what the fuck is this? " + p)
             }
         }
 
@@ -81,7 +85,7 @@ class TeXPost extends Post {
         try {
             return await (async () => {
                 return new Promise((resolve, reject) => {
-                    cp.exec(`latexmk -interaction=nonstopmode -pdf`, { cwd: this.path }, (err) => {
+                    cp.exec(`latexmk main.tex -interaction=nonstopmode -pdf`, { cwd: this.path }, (err) => {
                         if (err) return reject(err)
 
                         const src = path.join(this.path, "main.pdf")
@@ -113,42 +117,79 @@ class PDFPost extends Post {
     }
 }
 
-function find_posts() {
-    const posts = []
+// step 1. get a list of posts by find main.* in `_posts` folder recursively
 
-    const walk = dir => {
-        const list = fs.readdirSync(dir)
+const posts = []
 
-        if (list.includes("main.jade")) {
-            return posts.push(new JadePost(path.join(dir, "main.jade")))
-        } else if (list.includes("main.html")) {
-            return posts.push(new HTMLPost(path.join(dir, "main.html")))
-        } else if (list.includes("main.tex")) {
-            return posts.push(new TeXPost(path.join(dir, "main.tex")))
-        } else if (list.includes("main.pdf")) {
-            return posts.push(new PDFPost(path.join(dir, "main.pdf")))
-        }
+const walk = dir => {
+    const list = fs.readdirSync(dir)
 
-        for (const item of list) {
-            const subdir = path.join(dir, item)
-            if (fs.statSync(subdir).isDirectory()) {
-                walk(subdir)
-            }
-        }
+    if (list.includes("main.jade")) {
+        return posts.push(new JadePost(dir))
+    } else if (list.includes("main.html")) {
+        return posts.push(new HTMLPost(dir))
+    } else if (list.includes("main.tex")) {
+        return posts.push(new TeXPost(dir))
+    } else if (list.includes("main.pdf")) {
+        return posts.push(new PDFPost(dir))
     }
 
-    walk(path.join(__dirname, "_posts"))
-    return posts
+    for (const item of list) {
+        const subdir = path.join(dir, item)
+        fs.statSync(subdir).isDirectory() && walk(subdir)
+    }
 }
 
-const posts = find_posts()
+walk(path.join(__dirname, "_posts"))
 
-let index = path.join(opt, "index.jade")
-let msg = ''
-if (fs.existsSync(index)) {
-    index = pug.renderFile(index, {filename: index, basedir: '/'}, {posts: [...posts]}).body
-    index = minify.render(index, { removeAttributeQuotes:true, removeComments:true }).body
-    fs.writeFileSync("index.html", index)
-    msg = "and an index"
+// step 2. delete compiled posts that do not appear in the above list
+
+for (const p of fs.readdirSync(__dirname)
+                  .filter(x=>x.endsWith('.html') || x.endsWith('.pdf'))
+                  .filter(x=>!x.startsWith('google') && !x.startsWith('index'))) {
+    posts.some(x => x.name == p) || fs.unlink(path.join(__dirname, p), ()=>0)
 }
-console.info(`build finished, ${posts.size} bundles ${msg} generated`)
+
+// step 3. compare the hashs of posts with those in `info.json` and set update timestamps
+
+const hashdict = Object.create(null)
+
+for (const p of posts)
+    hashdict[p.hash] = p
+
+for (const p of JSON.parse(fs.readFileSync(path.join(__dirname, 'info.json'), { encoding: 'utf8' }))) {
+    const x = hashdict[p.hash]
+    if (x) x.timestamp = p.timestamp
+}
+
+// step 4. recompile posts that hashes do not match, then update `info.json`
+
+const tasks = []
+let infostr = '[\n'
+
+for (const p of posts.sort((a, b) => a.hash > b.hash ? 1 : -1)) {
+    if (!p.timestamp) { // TODO: maybe limit concurrent compilation?
+        tasks.push(p.compile())
+        p.timestamp = Date.now()
+    }
+    infostr += `  { "hash": "${p.hash}", "timestamp": ${p.timestamp} },\n` // manually build the json so ensuring the order so git better diff it.
+}
+
+fs.writeFileSync(path.join(__dirname, 'info.json'), infostr.slice(0, -2) + '\n]')
+
+// step 5. generate the index page
+
+const index_head = `<!DOCTYPE html><html><head><meta charset=utf8><meta name=viewport content="width=device-width"><title>ylxdzsw's blog</title></head><body><h1 id=title>stay young, stay naïve</h1><hr>`
+const index_foot = `<hr><p>Copyright © 2015-2018: root@ylxdzsw.com</p></body></html>`
+const index_body = posts.sort((a, b) => a.name < b.name ? 1 : -1)
+                        .map(x => `<li><a target="_blank" href="${x.name}">${path.basename(x.path)}</a> (last update at ${new Date(x.timestamp).toLocaleString()})</li>`)
+                        .join('')
+
+fs.writeFileSync(path.join(__dirname, 'index.html'), index_head + index_body + index_foot)
+
+// wait and done
+
+Promise.all(tasks).then(() => {
+    console.info(`build finished in ${Date.now() - starttime}ms, ${tasks.length} post updated`)
+    process.exit(0)
+})
