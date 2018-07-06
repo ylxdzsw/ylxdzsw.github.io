@@ -53,7 +53,7 @@ class JadePost extends Post {
         return path.basename(this.path) + '.html'
     }
 
-    async compile() {
+    compile() {
         const target = path.join(this.path, "main.jade")
         const result = path.join(__dirname, this.getName())
         return new Promise((resolve, reject) => {
@@ -67,7 +67,7 @@ class HTMLPost extends Post {
         return path.basename(this.path) + '.html'
     }
 
-    async compile() {
+    compile() {
         const src = path.join(this.path, "main.html")
         const dst = path.join(__dirname, this.getName())
         return new Promise((resolve, reject) => {
@@ -81,25 +81,28 @@ class TeXPost extends Post {
         return path.basename(this.path) + '.pdf'
     }
 
-    async compile() {
-        try {
-            return await (async () => {
-                return new Promise((resolve, reject) => {
-                    cp.exec(`latexmk main.tex -interaction=nonstopmode -pdf`, { cwd: this.path }, (err) => {
-                        if (err) return reject(err)
-
-                        const src = path.join(this.path, "main.pdf")
-                        const dst = path.join(__dirname, this.getName())
-                        fs.copyFile(src, dst, (err) => err ? reject(err) : resolve())
-                    })
-                })
-            })()
-        } finally { // clean up without waiting
+    compile() {
+        const clean_up = () => {
+            const tasks = []
             for (const postfix of ["aux", "fdb_latexmk", "fls", "log", "pdf", "synctex.gz",
                                    "synctex(busy)", "bbl", "idx", "out", "blg", "dvi"]) {
-                fs.unlink(path.join(this.path, "main." + postfix), ()=>0)
+                tasks.push(new Promise((resolve, reject) => {
+                    fs.unlink(path.join(this.path, "main." + postfix), resolve)
+                }))
             }
+            return Promise.all(tasks)
         }
+
+        return new Promise((resolve, reject) => {
+            cp.exec(`latexmk main.tex -interaction=nonstopmode -pdf`, { cwd: this.path }, (err) => {
+                if (err) return reject(err)
+
+                const src = path.join(this.path, "main.pdf")
+                const dst = path.join(__dirname, this.getName())
+                fs.copyFile(src, dst, (err) => err ? reject(err) : resolve())
+            })
+        }).then(v => new Promise((resolve, reject) => clean_up().then(x=>resolve(v))),
+                e => new Promise((resolve, reject) => clean_up().then(x=>reject(e))))
     }
 }
 
@@ -108,7 +111,7 @@ class PDFPost extends Post {
         return path.basename(this.path) + '.pdf'
     }
 
-    async compile() {
+    compile() {
         const src = path.join(this.path, "main.pdf")
         const dst = path.join(__dirname, this.getName())
         return new Promise((resolve, reject) => {
@@ -179,10 +182,10 @@ fs.writeFileSync(path.join(__dirname, 'info.json'), infostr.slice(0, -2) + '\n]'
 
 // step 5. generate the index page
 
-const index_head = `<!DOCTYPE html><html><head><meta charset=utf8><meta name=viewport content="width=device-width"><title>ylxdzsw's blog</title></head><body><h1 id=title>stay young, stay naïve</h1><hr>`
+const index_head = `<!DOCTYPE html><html><head><meta charset=utf8><meta name=viewport content="width=device-width"><title>ylxdzsw's blog</title></head><body><h1 id=title>stay young, stay naïve</h1><hr>\n`
 const index_foot = `<hr><p>Copyright © 2015-2018: root@ylxdzsw.com</p></body></html>`
 const index_body = posts.sort((a, b) => a.name < b.name ? 1 : -1)
-                        .map(x => `<li><a target="_blank" href="${x.name}">${path.basename(x.path)}</a> (last update at ${new Date(x.timestamp).toLocaleString()})</li>`)
+                        .map(x => `<li><a target="_blank" href="${x.name}">${path.basename(x.path)}</a> (last update at ${new Date(x.timestamp).toLocaleString()})</li>\n`)
                         .join('')
 
 fs.writeFileSync(path.join(__dirname, 'index.html'), index_head + index_body + index_foot)
