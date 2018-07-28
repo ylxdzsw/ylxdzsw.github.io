@@ -11,7 +11,7 @@ This script build the blog by:
 
 "don't use strict"
 
-const starttime = Date.now()
+const now = Date.now()
 
 const fs = require('fs')
 const cp = require('child_process')
@@ -173,7 +173,7 @@ let infostr = '[\n'
 for (const p of posts.sort((a, b) => a.hash > b.hash ? 1 : -1)) {
     if (!p.timestamp) { // TODO: maybe limit concurrent compilation?
         tasks.push(p.compile())
-        p.timestamp = Date.now()
+        p.timestamp = now
     }
     infostr += `  { "hash": "${p.hash}", "timestamp": ${p.timestamp} },\n` // manually build the json so ensuring the order so git better diff it.
 }
@@ -182,10 +182,20 @@ fs.writeFileSync(path.join(__dirname, 'info.json'), infostr.slice(0, -2) + '\n]'
 
 // step 5. generate the index page
 
-const index_head = `<!DOCTYPE html><html><head><meta charset=utf8><meta name=viewport content="width=device-width"><title>ylxdzsw's blog</title></head><body><h1 id=title>stay young, stay naïve</h1><hr>\n`
+const stale_color = time => {
+    const diff = now - time
+    return diff < 604800000 ? 'lime' : // 7 days
+           diff < 2592000000 ? 'greenyellow' : // 30 days
+           diff < 8640000000 ? 'yellow' : // 100 days
+           diff < 31536000000 ? 'orange' : // 365 days
+           diff < 86400000000 ? 'tomato' : 'red' // 1000 days
+}
+
+const index_head = `<!DOCTYPE html><html><head><meta charset=utf8><meta name=viewport content="width=device-width"><title>ylxdzsw's blog</title><style>li{padding-left:0.8em;list-style-type:none}@media(max-width:415px){.detail{display:none}}</style></head><body><h1 style="display:inline;margin:0.2em 0.5em 0.2em 0.2em">ylxdzsw's blog</h1><a target="_blank" href="_about.html">About me</a><hr>\n`
 const index_foot = `<hr><p>Copyright © 2015-2018: root@ylxdzsw.com</p></body></html>`
-const index_body = posts.sort((a, b) => a.name < b.name ? 1 : -1)
-                        .map(x => `<li><a target="_blank" href="${x.name}">${path.basename(x.path)}</a> (last update at ${new Date(x.timestamp).toLocaleString()})</li>\n`)
+const index_body = posts.filter(x => !x.name.startsWith('_'))
+                        .sort((a, b) => a.name < b.name ? 1 : -1)
+                        .map(x => `<li style="border-left:solid ${stale_color(x.timestamp)}"><a target="_blank" href="${x.name}">${path.basename(x.path)}</a> <span class="detail" style="color:gray;font-size:0.85em">(last update at ${new Date(x.timestamp).toLocaleString()})</span></li>\n`)
                         .join('')
 
 fs.writeFileSync(path.join(__dirname, 'index.html'), index_head + index_body + index_foot)
@@ -193,6 +203,6 @@ fs.writeFileSync(path.join(__dirname, 'index.html'), index_head + index_body + i
 // wait and done
 
 Promise.all(tasks).then(() => {
-    console.info(`build finished in ${Date.now() - starttime}ms, ${tasks.length} post updated`)
+    console.info(`build finished in ${Date.now() - now}ms, ${tasks.length} post updated`)
     process.exit(0)
 })
