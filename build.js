@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 /*
 Copyright (c) 2018: Zhang Shiwei (ylxdzsw@gmail.com)
 
