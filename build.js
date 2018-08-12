@@ -21,6 +21,8 @@ const cp = require('child_process')
 const path = require('path')
 const crypto = require('crypto')
 
+const purge_cache = process.argv.includes("--purge-cache")
+
 class Post {
     constructor(p) {
         this.path = p
@@ -172,6 +174,8 @@ for (const p of posts.sort((a, b) => a.hash > b.hash ? 1 : -1)) {
     if (!p.timestamp) { // TODO: maybe limit concurrent compilation?
         tasks.push(p.compile())
         p.timestamp = now
+    } else if (purge_cache && p instanceof JadePost) {
+        tasks.push(p.compile())
     }
     infostr += `  { "hash": "${p.hash}", "timestamp": ${p.timestamp} },\n` // manually build the json so ensuring the order so git better diff it.
 }

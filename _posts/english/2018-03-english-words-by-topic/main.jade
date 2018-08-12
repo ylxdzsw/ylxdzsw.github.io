@@ -10,7 +10,7 @@ mixin entry(word, meaning, ...examples)
                 each example in examples
                     li= example
 
-block head
+block content
     title Words By Topic | ylxdzsw's blog
     script.
         function say(word) {
@@ -24,7 +24,6 @@ block head
             cursor: pointer;
         }
 
-block body
     +section("Speech")
         ul
             +entry("utter", "说出", "utterance /ˈʌt(ə)r(ə)ns/")
