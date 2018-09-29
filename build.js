@@ -56,16 +56,15 @@ class Post {
     }
 }
 
-class JadePost extends Post {
+class YMDPost extends Post {
     getLink() {
         return path.basename(this.path) + '.html'
     }
 
     compile() {
-        const target = path.join(this.path, "main.jade")
         const result = path.join(__dirname, this.link)
         return new Promise((resolve, reject) => {
-            cp.exec(`nattoppet ${target} > ${result}`, (err) => err ? reject(err) : resolve())
+            cp.exec(`nattoppet ${this.path}/main.*.ymd > ${result}`, (err) => err ? reject(err) : resolve())
         })
     }
 }
@@ -135,8 +134,8 @@ const posts = []
 const walk = dir => {
     const list = fs.readdirSync(dir)
 
-    if (list.includes("main.jade")) {
-        return posts.push(new JadePost(dir))
+    if (list.some(x => /^main\.([^\.]+)\.ymd$/.test(x))) {
+        return posts.push(new YMDPost(dir))
     } else if (list.includes("main.html")) {
         return posts.push(new HTMLPost(dir))
     } else if (list.includes("main.tex")) {
@@ -174,7 +173,7 @@ for (const p of posts.sort((a, b) => a.hash > b.hash ? 1 : -1)) {
     if (!p.timestamp) { // TODO: maybe limit concurrent compilation?
         tasks.push(p.compile())
         p.timestamp = now
-    } else if (purge_cache && p instanceof JadePost) {
+    } else if (purge_cache && p instanceof YMDPost) {
         tasks.push(p.compile())
     }
     infostr += `  { "hash": "${p.hash}", "timestamp": ${p.timestamp} },\n` // manually build the json so ensuring the order so git better diff it.
