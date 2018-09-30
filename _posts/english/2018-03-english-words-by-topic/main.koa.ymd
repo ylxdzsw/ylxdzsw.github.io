@@ -1,0 +1,66 @@
+[title]: Words By Topic
+
+<script>
+function say(word) { speechSynthesis.speak(new SpeechSynthesisUtterance(word)) }
+</script>
+
+<style>
+.word {
+font-family: consolas, melon, monospace;
+font-size: 1.05rem;
+color: #2cad13;
+cursor: pointer;
+}
+</style>
+
+[section] Speech
+
+[word] utter: 说出; utterance /ˈʌt(ə)r(ə)ns/
+[word] intone: (缓慢、平直、严肃、无语气地)说话
+[word] intonation: 腔调, 抑扬
+[word] nuance: 细微差别
+[word] dialect: 方言
+[word] pitch: 音调、音高
+[word] linguistic: 语言学
+[word] phonetic: 语音学
+[word] phone: 音素，人类辨识语音的最小单位，与语言无关
+[word] phonemes: 音位，可以对语义造成影响的音素
+[word] syllable: 音节
+
+[section] Body
+
+[word] gum: 牙龈
+[word] temple: 太阳穴
+[word] mustache: 小胡子(上嘴唇和鼻子间的)
+[word] beard: 胡须(下巴和侧脸上的)
+[word] dimple: 酒窝
+[word] pimple: 粉刺
+[word] navel: 肚脐
+[word] artery: 动脉
+[word] vein: 静脉
+[word] capillary: 毛细血管
+[word] adrenaline: 肾上腺素
+[word] insulin: 胰岛素
+[word] intestine: 肠; small intestine, large intestine, rectum
+
+[section] Alcohol
+
+[word] beer: 啤酒
+[word] cider: 苹果酒
+[word] mead: 蜂蜜酒
+[word] pulque: 龙舌兰酒
+[word] wine: 葡萄酒
+[word] ale: 麦芽酒
+[word] lager: 拉格啤酒(窖藏啤酒)
+[word] stout: 烈酒
+[word] porter: 黑啤酒
+[word] libation: (献给神的)祭酒
+[word] flagon: 大肚酒壶
+[word] jug: (带柄的)水壶
+[word] flask: 细颈瓶(像烧瓶那样)
+
+[word]=
+const word = capture_until(':')
+const meaning = capture_line()
+;`<li><span class="word" onclick="say(this.textContent)">${word}</span>: ${meaning}</li>`
+
