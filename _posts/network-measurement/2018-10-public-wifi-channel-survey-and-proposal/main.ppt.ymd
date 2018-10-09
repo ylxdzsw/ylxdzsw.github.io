@@ -1,0 +1,91 @@
+[title]: Wifi Channel Survey and Proposal
+
+[section] Wifi Channel Survey and Proposal
+
+[section] Table of Contents
+
+[-] Background Knowledge
+[-] Related Works
+[-] Ideas
+
+[section] WiFi Protocols and Channels
+
+[-] 802.11b/g/n/ax: 2.4G, 11+3 channels
+[-] 802.11a/n/ac/ax: 5G, only {36, 40, 44, 48, 52*, 56*, 60*, 64*, 149, 153, 157, 161, 165} are allowed in China[sup](†)
+
+[span](6rem)
+[foot] * DFS/TPC only
+[foot] † [link](https://en.wikipedia.org/wiki/List_of_WLAN_channels)
+
+[section] Co-channel Interference (CCI) and Adjacent Channel Interference (ACI)
+
+[-] CCI: multiple devices use the same channel. CSMA/CA is used in this case.
+[-] ACI: multiple devices use slighly overlapping channels, causing them treat each other as noise.
+[-] For 802.11b, {1, 6, 11} is the most common set of non-overlapping channels.
+
+[span](2rem)
+[img](2.4G-channel.svg)
+
+[span](2rem)
+[foot] Figure: https://en.wikipedia.org/wiki/File:2.4_GHz_Wi-Fi_channels_(802.11b,g_WLAN).svg under CC licence
+
+[section] Security
+
+[-] WPS PIN is not secure. It can be crecked within one day.
+[-] WPA and TKIP are not considered secure, but still often enabled for compatibility.
+
+[section] Related Works
+
+[section]
+
+  <b><i>Adjacent Channel Interference in Dual-radio 802.11a Nodes and Its Impact on Multi-hop Networking
+
+  IEEE Globecom 2006, Harvard University
+
+  ...Although these nodes use chipsets that satisfy the transmit-mask requirements set by the IEEE 802.11 standard, the
+multi-hop performance is still significantly affected by ACI. That is, a node’s transmitter can interfere with its own
+receiver on a different channel; as a result, multi-hop throughput is severely degraded.
+
+  ...We demonstrate that this interference can lead to two-fold or worse performance degradation in data transfer. The
+performance degradation is particularly significant for an important scenario where the signal-to-noise ratio (SNR) of
+the receiving channel is at the lower end of the low-loss region.
+
+[section]
+
+  <b><i>Adjacent Channel Interference in 802.11a: Modeling and Testbed Validation
+
+  IEEE Radio and Wireless Symposium 2008, University of Crete
+
+  ...Our results indicate that equipping a single node with multiple interfaces requires careful channel allocation and
+physical antenna separation, since throughput can be severely degraded.
+
+  ...The results in this paper verify this analytical tool can provide initial insight on the adjacent channel interference
+effects at the design phase of long-distance wireless links, prior to their deployment without requiring time consuming
+experiments or installations.
+
+[section]
+
+  <b><i>Characterizing Interference in a Campus WiFi Network via Mobile Crowd Sensing
+
+  International Conference on Collaborative Computing 2015, Huazhong University of Science and Technology
+
+<div style="float: left; width: 48%">[img].full(table1.png)</div>
+<div style="float: right; width: 48%">[img].full(fig1.png)</div>
+<div style="width: 1px; height: 2rem; clear: both"></div>
+
+[-] Geographical AP density distribution
+[-] WiFi Channel Usage
+[-] Indoor vs. Outdoors
+[-] Private vs. Public
+
+[section] Proposal
+
+[-] Basic statistics: distribution of signal strength, distance, channels, etc.
+[-] Channel: CCI and ACI. Illegal usage of 5G wifi channels.
+[-] BSSID: usually it's MAC, we can determine the manufacturer from it.
+[-] Distance: relation between signal strength and distance?
+
+[section] Other ideas
+
+[-] Security: we can try the top 1000 popular passwords
+[-] try to connect unencrypted WiFi and analyze the authentication page
