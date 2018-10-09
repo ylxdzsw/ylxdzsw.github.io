@@ -31,7 +31,7 @@
 
 [section] Security
 
-[-] WPS PIN is not secure. It can be crecked within one day.
+[-] WPS PIN is not secure. It can be cracked within one day.
 [-] WPA and TKIP are not considered secure, but still often enabled for compatibility.
 
 [section] Related Works
@@ -78,6 +78,23 @@ experiments or installations.
 [-] Indoor vs. Outdoors
 [-] Private vs. Public
 
+[section]
+
+  <b><i>A Walk on the Client Side: Monitoring Enterprise Wifi Networks Using Smartphone Channel Scans
+
+  IEEE INFOCOM 2016, Universty at Buffalo and University of Notre Dame
+
+  The main idea of this paper is that smartphone WiFi scan can provide infomation that cannot be gathered only by AP-based
+methods, thus enterprises can ustilize it to provide better WiFi service. It presents two cases to support the idea.
+
+  Spectrum Management: suffered from hidden client problem, AP-based methods cannot accuratly build the complete conflict
+graph, which also cause suboptimal channel assignments.
+
+  Spatial Planning: by recording APs providing better signals and the second candidate when a user performing a connection,
+we can find APs that can be relatively safe removed or repositioned.
+
+  Finally they also discussed the user privacy and incentive issues.
+
 [section] Proposal
 
 [-] Basic statistics: distribution of signal strength, distance, channels, etc.
@@ -89,3 +106,5 @@ experiments or installations.
 
 [-] Security: we can try the top 1000 popular passwords
 [-] try to connect unencrypted WiFi and analyze the authentication page
+[-] determine if phone or router? (by ssid and manufacturer)
+[-] utilize more lower-level infomation to infer number of users (by CSMA)
