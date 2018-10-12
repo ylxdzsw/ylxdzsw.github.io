@@ -1,0 +1,85 @@
+[title]: Inferring Mobile Phone Keystroke with WiFi Signals
+
+[section] Inferring Mobile Phone Keystroke with WiFi Signals
+
+[section] History
+
+[h3] Keyboard Acoustic Emanations Revisited
+
+  ACM Transactions on Information and System Security 2009, University of California, Berkeley.
+
+  <sub><i><b>Abstract: </b>We present a novel attack taking as input a 10-minute sound recording of a user typing English
+text using a keyboard and recovering up to 96% of typed characters. There is no need for training recordings labeled with
+the corresponding clear text. A recognizer bootstrapped from a 10-minute sound recording can even recognize random text
+such as passwords: In our experiments, 90% of 5-character random passwords using only letters can be generated in fewer
+than 20 attempts by an adversary; 80% of 10-character passwords can be generated in fewer than 75 attempts by an adversary.
+In the attack, we use the statistical constraints of the underlying content, English language, to reconstruct text from
+sound recordings without knowing the corresponding clear text. The attack incorporates a combination of standard machine
+learning and speech recognition techniques, including cepstrum features, Hidden Markov Models, linear classification, and
+feedback-based incremental learning
+
+[-] with training data: apply several acoustic processing then machine learning
+[-] without training data: feature extraction -> clustering -> language model
+
+[h3] Keystroke Recognition Using WiFi Signals
+
+  ACM MobiCom 2015, Michigan State University & Nanjing University
+
+  ...In this paper, we show for the first time that WiFi signals can also be exploited to recognize keystrokes. The intuition
+is that while typing a certain key, the hands and fingers of a user move in a unique formation and direction and thus
+generate a unique pattern in the time-series of Channel State Information (CSI) values, which we call CSI-waveform for
+that key.
+
+[img].center.big(wikey system.png)
+
+[section] Overview
+
+  <b><i>When CSI Meets Public WiFi: Inferring Your Mobile Phone Password via WiFi Signals
+
+  ACM SIGSAC Conference on Computer and Communications Security 2016, Shanghai Jiao Tong University & University of Massachusetts at Boston & University of South Florida
+
+  ...WindTalker is motivated from the observation that keystrokes on mobile devices will lead to different hand coverage
+and the finger motions, which will introduce a unique interference to the multi-path signals and can be reflected by the
+channel state information (CSI). WindTalker presents a novel approach to collect the target's CSI data by deploying a
+public WiFi hotspot.
+
+[img].center.mid(Windtalker system.png)
+
+[section] Details
+
+[h3] Data collection
+
+[-] start eavesdropping only when user use HTTPS
+[-] use a Sensitive IP Pool to recognize AliPay or similar apps
+[-] use ICMP to force transmission to collect CSI data (800 packets/s)
+
+[h3] Data Processing
+
+[-] Low pass filter
+[-] PCA
+
+[h3] Keystroke Inference
+
+[section] Result
+
+  successfully recover 2, 4, 7 and 9 passwords if allowing to try the password input for 5, 10, 50 and 100 times (or Top
+5, 10, 50, and 100 candidates).
+
+[img].center.mid(real.png)
+
+[section] Advantages
+
+[-] Do not require an external device close to the target
+[-] Do not compromise target device
+[-] Hard to detect since it's just a normal public WiFi
+[-] Can be used together with traffic information
+
+[section] Disadvantages
+
+[-] Require a device and driver that provides open access to CSI value.
+[-] Need training data of the same configuration (device, environment, gesture, etc.). A possible solution is to use captcha to have user type specific text.
+
+[section] Following works
+
+[-] motion and gesture recognition
+[-] train more robust model that handle different configuration.
