@@ -232,12 +232,12 @@ fs.writeFileSync(path.join(__dirname, 'index.html'), index_head + index_body + i
 
 // Step 7. generate the RSS feed
 
-const feed_head = `<?xml version="1.0" encoding="utf-8"?><rss version="2.0"><channel><title>ylxdzsw's blog</title><link>https://blog.ylxdzsw.com/</link><description>Works, thoughts, life, and balderdash.</description><lastBuildDate>${new Date(now).toUTCString()}</lastBuildDate>`
+const feed_head = `<?xml version="1.0" encoding="utf-8"?><rss version="2.0"><channel><title>ylxdzsw's blog</title><link>https://blog.ylxdzsw.com/</link><description>Works, thoughts, life, and balderdash.</description>\n<lastBuildDate>${new Date(now).toUTCString()}</lastBuildDate>\n`
 const feed_foot = `</channel></rss>`
 const feed_body = posts.filter(x => x.name)
                        .sort((a, b) => a.name < b.name ? 1 : -1)
                        .slice(0, 15)
-                       .map(x => `<item><title>${x.name}</title><link>https://blog.ylxdzsw.com/${x.link}</link><guid>${x.hash}</guid><pubDate>${new Date(x.timestamp).toUTCString()}</pubDate></item>`)
+                       .map(x => `<item><title>${x.name}</title><link>https://blog.ylxdzsw.com/${x.link}</link><guid>${x.hash}</guid><pubDate>${new Date(x.timestamp).toUTCString()}</pubDate></item>\n`)
                        .join('')
 
 fs.writeFileSync(path.join(__dirname, 'feed.xml'), feed_head + feed_body + feed_foot)
