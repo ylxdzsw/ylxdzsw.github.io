@@ -1,0 +1,35 @@
+[title]: Method Chaining, Destructor, and Rust
+
+[h2] Method chaining
+
+[h2] The finishing problem
+
+[h2] The road not taken: destructor
+
+[code].python>>>
+class Log():
+    def __init__(this):
+        this._message = ""
+        this._severity = "debug"
+    def message(this, x):
+        this._message = x
+        return this
+    def severity(this, x):
+        this._severity = x
+        return this
+    def __del__(this):
+        print(f"{this._severity}: {this._message}")
+
+print("start")
+
+Log().message("message1").severity("info")
+
+Log().message("message2").severity("warning")
+
+print("end")
+<<<
+
+[h2] Rust
+
+[h2] Scope, "with", and lifetime
+

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?><rss version="2.0"><channel><title>ylxdzsw's blog</title><link>https://blog.ylxdzsw.com/</link><description>Works, thoughts, life, and balderdash.</description>
-<lastBuildDate>Tue, 06 Nov 2018 14:12:42 GMT</lastBuildDate>
+<lastBuildDate>Sun, 25 Nov 2018 15:07:10 GMT</lastBuildDate>
+<item><title>2018-11-method-chaining-destructor-and-rust</title><link>https://blog.ylxdzsw.com/2018-11-method-chaining-destructor-and-rust.html</link><guid>45b03da732e5472b74574fc0780904df</guid><pubDate>Sun, 25 Nov 2018 15:07:10 GMT</pubDate></item>
 <item><title>2018-11-daily-balderdash-2018-autumn</title><link>https://blog.ylxdzsw.com/2018-11-daily-balderdash-2018-autumn.html</link><guid>734f589db2239f44aecb21a9b7969675</guid><pubDate>Tue, 06 Nov 2018 14:11:05 GMT</pubDate></item>
 <item><title>2018-10-public-wifi-channel-survey-and-proposal</title><link>https://blog.ylxdzsw.com/2018-10-public-wifi-channel-survey-and-proposal.html</link><guid>7baf791a615e9b3a21ab80dd2c4e1998</guid><pubDate>Tue, 09 Oct 2018 09:44:09 GMT</pubDate></item>
 <item><title>2018-10-inferring-mobile-phone-keystroke-with-wifi-signals</title><link>https://blog.ylxdzsw.com/2018-10-inferring-mobile-phone-keystroke-with-wifi-signals.html</link><guid>14e8d68bc716983e2a215f01f108d894</guid><pubDate>Fri, 12 Oct 2018 01:50:19 GMT</pubDate></item>
@@ -14,5 +15,4 @@
 <item><title>2017-10-coinflow-proposal</title><link>https://blog.ylxdzsw.com/2017-10-coinflow-proposal.pdf</link><guid>d8795d2fcf71c8aee4c56582a2fb3bbc</guid><pubDate>Thu, 09 Aug 2018 08:08:29 GMT</pubDate></item>
 <item><title>2017-08-gsoc-2017-report</title><link>https://blog.ylxdzsw.com/2017-08-gsoc-2017-report.html</link><guid>e0263aad1c4c8a51ee76f6642b26550c</guid><pubDate>Sat, 29 Sep 2018 08:28:33 GMT</pubDate></item>
 <item><title>2017-03-visiable-at-invisiable-magic</title><link>https://blog.ylxdzsw.com/2017-03-visiable-at-invisiable-magic.html</link><guid>0c785ca7083c7b9cad031a88134b716a</guid><pubDate>Thu, 09 Aug 2018 08:08:29 GMT</pubDate></item>
-<item><title>2017-02-python-basis</title><link>https://blog.ylxdzsw.com/2017-02-python-basis.html</link><guid>8987a8b53ca65e195c158c5e9997a8b5</guid><pubDate>Thu, 09 Aug 2018 08:08:29 GMT</pubDate></item>
 </channel></rss>

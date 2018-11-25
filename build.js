@@ -65,7 +65,8 @@ class YMDPost extends Post {
     compile() {
         const result = path.join(__dirname, this.link)
         return new Promise((resolve, reject) => {
-            cp.exec(`nattoppet ${this.path}/main.*.ymd > ${result}`, (err) => err ? reject(err) : resolve())
+            const cmd = `bash -c "nattoppet ${this.path.replace(/\\/g, '/')}/main.*.ymd > ${result.replace(/\\/g, '/')}"`
+            cp.exec(cmd, (err) => err ? reject(err) : resolve())
         })
     }
 }
