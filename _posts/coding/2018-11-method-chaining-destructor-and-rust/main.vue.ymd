@@ -55,7 +55,7 @@ def main():
 main()
 <<<
 
-  Looks crazy, unreliable, and an abuse of the destructor? Yes, there are a lot of problems. For example, if the compiler
+  Looks crazy, unreliable, and an abuse of the destructor? Yes, there are lots of problems. For example, if the compiler
 managed to allocate these variables on stack, it is not clear will <code>__del__</code> be called directly after the
 statement or postponed to the end of function when the memory is released. It is also not clear that whether and how
 exceptions are caught. However, all these arguments are valid only because it is written in Python, and Python does not
