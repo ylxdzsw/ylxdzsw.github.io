@@ -2,9 +2,35 @@
 
 [h2] Method chaining
 
+  Google Feeds pushed a blog post of Dave [origin post] to me yesterday. It is a good article which analyzed the finishing
+problem in method chaining. However, it missed a possible solution (or workaround using his wording), which I'll discuss
+in this post.
+
+  For who are not familiar with the term, method chaining is simply something like <code>a.b().c().d()</code>, where each
+method returns an object (usually <code>this</code>) for successive calls. jQuery is a good example of method chaining.
+Method chaining is considered visually beautiful and clean by most people.
+
+[origin post]: [link](https://daveaglick.com/posts/method-chaining-fluent-interfaces-and-the-finishing-problem) <i>Method Chaining, Fluent Interfaces, and the Finishing Problem</i>
+
 [h2] The finishing problem
 
+  One of the biggest problem of method chaining is the finishing problem, as extensively discussed in Dave's blog post.
+In short, the finishing problem means it is hard for the library to decide when to take an action. As in Dave's example:
+
+[code].csharp>>>
+    Log.Message("Oh, noes!").Severity(Severity.Bad).User("jsmith");
+<<<
+
+  The [code](Log) library does not know if it should start writing when [code](.Message) is called, since it might be followed
+by [code](.Severity) or <code>.User</code>. Dave listed several workarounds, but they need either a syntax or semantic change,
+except for the "casting" approach. But the "casting" approach is suboptimal as well: it introduces an unused reference,
+requires a proper type to convert to, and impossible in dynamic languages like Python and Javascript.
+
 [h2] The road not taken: destructor
+
+  However, there is yet another option Dave did not mention, and it does not need to change the syntax and does exactly what
+is expected: taking action directly after the chain ends. The idea is, well, taking action in the <i>destructor</i> (or
+finalizer in some languages). Here is a short example in Python.
 
 [code].python>>>
 class Log():
@@ -20,16 +46,41 @@ class Log():
     def __del__(this):
         print(f"{this._severity}: {this._message}")
 
-print("start")
+def main():
+    print("start")
+    Log().message("message1").severity("info")
+    Log().message("message2")
+    print("end")
 
-Log().message("message1").severity("info")
-
-Log().message("message2").severity("warning")
-
-print("end")
+main()
 <<<
 
-[h2] Rust
+  Looks crazy, unreliable, and an abuse of the destructor? Yes, but only because it is written in Python, and Python does
+not make clear promise on when and how the destructors are called (or at least most Python programmers do not know). With
+a little formalization this crazy idea can become a super powerful technique, and that's Rust.
 
 [h2] Scope, "with", and lifetime
 
+  Before advertisements of Rust, we first explain what happened in the above code. Here is the pseudo code that shows the
+implicit function calls in <code>main</code>:
+
+[code].c>>>
+    print("start")
+    a = malloc(Log)
+    Log::__init__(a)
+    Log::message(a, "message1")
+    Log::severity(a, "info") # this is the last explicit reference to `a`
+    Log::__del__(a)
+    free(a)
+    b = malloc(Log)
+    Log::__init__(b)
+    Log::message(b, "message2")
+    Log::__del__(b)
+    free(b)
+    print("end")
+<<<
+
+  I use <code>malloc/free</code> to show the memory allocation, but they are not necessarily in allocated in heap. An insane
+optimizer might even make them in the same memory, since <code>a</code> dies before <code>b</code> is born.
+
+[h2] Rust
