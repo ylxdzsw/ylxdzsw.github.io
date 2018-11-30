@@ -136,9 +136,9 @@ for _ in 0..N {
 rx.recv().unwrap();
 <<<
 
-  If you are not familiar with Rust, you may thought there is a bug since there is no statement that release the lock.
+  If you are not familiar with Rust, you may think there is a bug since there is no statement that release the lock.
 However, for Rust programmers it's very clear that the lock is released right before <code>data</code> goes out of its
-scope. That how finalizers work in Rust, and they work well. Beyond the scope-based management as shown in example, Rust
+scope. That's how finalizers work in Rust, and they work well. Beyond the scope-based management as shown in example, Rust
 also provides powerful lifetime analysis and explicit reference counting to support resources that live long, all in the
 same manner of RAM managing.
 
