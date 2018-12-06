@@ -115,8 +115,9 @@ until Rust appears.
 
 [h2] Rust
 
-  Rust is to my knowledge the first languages that fully leverages the modern memory manage techniques. Following is an
-example from the [link](https://doc.rust-lang.org/std/sync/struct.Mutex.html)(document) (comments and imports removed).
+  Rust is to my knowledge the first languages that fully leverages the modern memory manage techniques (who use RAII and
+smart pointers correctly in C++?). Following is an example from the [link](https://doc.rust-lang.org/std/sync/struct.Mutex.html)(document)
+(comments and imports removed).
 
 [code].rust>>>
 let data = Arc::new(Mutex::new(0));

@@ -83,9 +83,9 @@ data flow analysis, and fall back to runtime tracking like reference counting or
 </p><p>The last method is clearly the winner. It correctly deals with resources that live longer than their scopes, but also
 avoids the hassles of manual allocating and releasing. However, this technique is hardly used outside the domain of RAM,
 until Rust appears.
-</p><h2><a id=x4 href=#x4> Rust</a></h2><p>Rust is to my knowledge the first languages that fully leverages the modern memory manage techniques. Following is an
-example from the <a href=https://doc.rust-lang.org/std/sync/struct.Mutex.html>document</a> (comments and imports removed).
-</p><pre><code class=language-rust>let data = Arc::new(Mutex::new(0));
+</p><h2><a id=x4 href=#x4> Rust</a></h2><p>Rust is to my knowledge the first languages that fully leverages the modern memory manage techniques (who use RAII and
+smart pointers correctly in C++?). Following is an example from the <a href=https://doc.rust-lang.org/std/sync/struct.Mutex.html>document</a></p>(comments and imports removed).
+<pre><code class=language-rust>let data = Arc::new(Mutex::new(0));
 
 let (tx, rx) = channel();
 for _ in 0..N {
@@ -100,9 +100,9 @@ for _ in 0..N {
 }
 
 rx.recv().unwrap();
-</code></pre><p>If you are not familiar with Rust, you may thought there is a bug since there is no statement that release the lock.
+</code></pre><p>If you are not familiar with Rust, you may think there is a bug since there is no statement that release the lock.
 However, for Rust programmers it's very clear that the lock is released right before <code>data</code> goes out of its
-scope. That how finalizers work in Rust, and they work well. Beyond the scope-based management as shown in example, Rust
+scope. That's how finalizers work in Rust, and they work well. Beyond the scope-based management as shown in example, Rust
 also provides powerful lifetime analysis and explicit reference counting to support resources that live long, all in the
 same manner of RAM managing.
 </p><p>So fans of method chaining, time to switch to Rust :)
