@@ -2,6 +2,8 @@
 
 [require](@nattoppet/assets/katex.css)
 
+<style>@media (min-width: 625px) { .directive { margin-left: calc(50% - 220px) } }</style>
+
 [h2] An EM view of policy iteration
 
   [EM] is, intentionally or unintentionally, widely used in various areas. For example, the common method for
@@ -14,16 +16,19 @@ yet an article that points out that the famous policy iteration algorithm in rei
 
   The basic form of EM algorithm is given some observed data [$]X$, a set of unobserved random variable [$]Z$, and a
 likelihood function [$]L(θ; X, Z) = P(X, Z|θ)$, the [$]θ$ and [$]Z$ that maximizing the marginal likelihood of the observed
-data [$]L(θ; X)$ and be found by iteratively apply the two steps:
+data [$]L(θ; X)$ and be found by iteratively applying the two steps:
 
-  <b style="margin-left: calc(50% - 220px)"> E step: </b> [$$] Q(θ|θ^{(t)}) = \operatorname E_{Z|X,θ^{(t)}}(\log L(θ; X,Z))
-  <b style="margin-left: calc(50% - 220px)"> M step: </b> [$$] θ^{(t+1)} = \mathop{argmax}\limits_θ Q(θ|θ^{(t)})
+  <b class="directive"> E step: </b> [$$] Q(θ|θ^{(t)}) = \operatorname E_{Z|X,θ^{(t)}}(\log L(θ; X,Z))
+  <b class="directive"> M step: </b> [$$] θ^{(t+1)} = \mathop{argmax}\limits_θ Q(θ|θ^{(t)})
 
   EM algorithm can be seen of as a special case of coordinate ascent. It is guaranteed to converge in a local maximum.
 
 [h3] Markov decision process (MDP) and policy iteration (PI)
 
   TODO.
+
+[#] https://stackoverflow.com/questions/43728781/policy-iteration-vs-value-iteration
+[#] https://stackoverflow.com/questions/37370015/what-is-the-difference-between-value-iteration-and-policy-iteration/37385098
 
 [h3] PI is a kind of EM
 
@@ -44,8 +49,8 @@ V_{s;Ω_θ} &= R(s'| s, a) + γV_{s';Ω_θ}
 
   Directly apply the EM algorithm, we get:
 
-  <b style="margin-left: calc(50% - 220px)"> E step: </b> [$$] Q(θ|θ^{(t)}) = \operatorname E(V_{s_0;Ω_θ})
-  <b style="margin-left: calc(50% - 220px)"> M step: </b> [$$] θ^{(t+1)} = \mathop{argmax}\limits_θ Q(θ|θ^{(t)})
+  <b class="directive"> E step: </b> [$$] Q(θ|θ^{(t)}) = \operatorname E(V_{s_0;Ω_θ})
+  <b class="directive"> M step: </b> [$$] θ^{(t+1)} = \mathop{argmax}\limits_θ Q(θ|θ^{(t)})
 
   To solve the E step, we can expand it using the [LOTUS]:
 
@@ -54,14 +59,14 @@ V_{s;Ω_θ} &= R(s'| s, a) + γV_{s';Ω_θ}
 \begin{aligned}
 \E(V_{s;Ω_θ}) &= \E_{a,s'|s;Ω_θ}[R(s'| s, a) + γV_{s';Ω_θ}] \\
   &= \sum_{s', a}P(a | s; Ω_θ)P(s'| s, a)[R(s'| s, a) + γV_{s';Ω_θ}]
-\end{aligned}\tag{1}
+\end{aligned}
 <<
 
 [LOTUS]: [link](https://en.wikipedia.org/wiki/Law_of_the_unconscious_statistician)(Law of the unconscious statistician)
 
-  Eq. (1) is exactly the policy evaluation, which is a linear equation that usually be solved by iteration. And the M step,
+  This is exactly the policy evaluation, which is a linear equation that usually be solved by iteration. And the M step,
 of course, corresponds to the policy improvement. The exact [$]θ$ we choose to parameterize [$]Ω$ is not important,
-since we know after the M step, [$]Ω_θ(s) = \mathop{argmax}_a \operatorname E(V_{s;Ω_θ} | a)$, e.g., the greedy
+since we know after the M step, [$]Ω_θ(s) = \mathop{argmax}_a \operatorname E(V_{s;Ω_θ} | a)$, i.e., the greedy
 policy.
 
 [#] TODO: value iteration is just choosing another set of random variable?
