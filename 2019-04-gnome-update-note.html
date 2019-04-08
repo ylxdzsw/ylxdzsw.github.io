@@ -15,15 +15,15 @@ the updates. Here are the problems I experienced and my solutions to them.</p>
 <p>The most disappointing part of the update is, well, it does not run anymore. After entering password in GDM, my screen
 turns gray and a mouse pointer appears, but nothing more happens. After about 5 seconds of non-responding, it goes back
 to GDM and requires password again.</p>
-<p>Switching to another tty by <kbd>Ctrl+Alt+F3</kbd> and inspect the logs by <code>journalctl -xe</code>, it seems gnome crashed
+<p>Switching to another tty by <kbd>Ctrl+Alt+F3</kbd> and inspecting the logs by <code>journalctl -xe</code>, it seems gnome crashed
 during starting. The coredump traces show something related to <code>libmozjs.so</code>. I tried to disable all extensions by
 <code>gsettings set org.gnome.shell enabled-extensions &#39;[]&#39;</code> and it suprisingly worked. Gnome now starts.</p>
 <h3 id=fix-extension>Fix extension</h3>
 <p>I further hunted down the extension that causes the problem, and the result is quiet embarassing: it&#39;s <a href=https://github.com/ylxdzsw/gnome-shell-extension-shadowsocks>my own
 extension</a>. After several rounds of debugging, I found the
-two breaking changes that causes the problem. First, <code>panelMenu.Button::_init</code> is the one causes the crash. Previously
+two breaking changes that causes problems. First, <code>panelMenu.Button::_init</code> is the one causes the crash. Previously
 it is needed to properly initialize the button, but now it is seems to be obsolete and become problematic. Just remove it
-solved the crashing. The second problem is that <code>Uint8Array::toString</code> has silently changed its sematics: in the past it
+solved the crashing. The second problem is that <code>Uint8Array::toString</code> has silently changed its semantics: in the past it
 interprets all bytes in the array but now it stops at the first &#39;\0&#39; and ignores the following bytes. This makes reading
 <code>/proc/{pid}/cmdline</code> a little bit harder. I solved it by using <code>String.fromCharCode.apply</code> instead. It only supports
 ASCII chars, but is sufficient for my use case.</p>

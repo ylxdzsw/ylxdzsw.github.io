@@ -12,7 +12,7 @@ The most disappointing part of the update is, well, it does not run anymore. Aft
 turns gray and a mouse pointer appears, but nothing more happens. After about 5 seconds of non-responding, it goes back
 to GDM and requires password again.
 
-Switching to another tty by <kbd>Ctrl+Alt+F3</kbd> and inspect the logs by `journalctl -xe`, it seems gnome crashed
+Switching to another tty by <kbd>Ctrl+Alt+F3</kbd> and inspecting the logs by `journalctl -xe`, it seems gnome crashed
 during starting. The coredump traces show something related to `libmozjs.so`. I tried to disable all extensions by
 `gsettings set org.gnome.shell enabled-extensions '[]'` and it suprisingly worked. Gnome now starts.
 
@@ -20,9 +20,9 @@ during starting. The coredump traces show something related to `libmozjs.so`. I 
 
 I further hunted down the extension that causes the problem, and the result is quiet embarassing: it's [my own
 extension](https://github.com/ylxdzsw/gnome-shell-extension-shadowsocks). After several rounds of debugging, I found the
-two breaking changes that causes the problem. First, `panelMenu.Button::_init` is the one causes the crash. Previously
+two breaking changes that causes problems. First, `panelMenu.Button::_init` is the one causes the crash. Previously
 it is needed to properly initialize the button, but now it is seems to be obsolete and become problematic. Just remove it
-solved the crashing. The second problem is that `Uint8Array::toString` has silently changed its sematics: in the past it
+solved the crashing. The second problem is that `Uint8Array::toString` has silently changed its semantics: in the past it
 interprets all bytes in the array but now it stops at the first '\0' and ignores the following bytes. This makes reading
 `/proc/{pid}/cmdline` a little bit harder. I solved it by using `String.fromCharCode.apply` instead. It only supports
 ASCII chars, but is sufficient for my use case.
