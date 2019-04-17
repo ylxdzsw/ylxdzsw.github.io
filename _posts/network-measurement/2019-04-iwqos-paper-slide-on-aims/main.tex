@@ -1,0 +1,49 @@
+\documentclass[aspectratio=169]{beamer}
+
+\usepackage{hyperref}
+% \hypersetup{pdfpagemode=FullScreen}
+
+\usetheme{Dresden}
+\title{An Empirical Study of Mobile Network Behavior and Application Performance in the Wild}
+\author{S. Zhang, W. Li, D. Wu, B. Jin, RKC. Chang, D. Gao, Y. Wang, RKP. Mok}
+\institute{Southern University of Science and Technology, China}
+\date{\today}
+
+% \AtBeginSection[]{
+%   \begin{frame}
+%   \vfill
+%   \centering
+%   \begin{beamercolorbox}[sep=8pt,center,shadow=true,rounded=true]{title}
+%     \usebeamerfont{title}\insertsectionhead\par%
+%   \end{beamercolorbox}
+%   \vfill
+%   \end{frame}
+% }
+
+\begin{document}
+    \begin{frame}
+        \titlepage
+    \end{frame}
+
+    % \begin{frame}
+    %     \frametitle{Outline}
+    %     \tableofcontents
+    % \end{frame}
+
+    \input{introduction.tex}
+    \input{analysis.tex}
+    \input{detection.tex}
+    \input{conclusion.tex}
+
+    \appendix
+
+    \begin{frame}
+        \centering \huge
+        Any questions?
+    \end{frame}
+
+    \begin{frame}
+        \centering \huge
+        Thank you!
+    \end{frame}
+\end{document}

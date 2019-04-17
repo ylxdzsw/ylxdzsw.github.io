@@ -94,7 +94,7 @@ class TeXPost extends Post {
         const clean_up = () => {
             const tasks = []
             for (const postfix of ["aux", "fdb_latexmk", "fls", "log", "pdf", "synctex.gz",
-                                   "synctex(busy)", "bbl", "idx", "out", "blg", "dvi"]) {
+                                   "synctex(busy)", "bbl", "idx", "out", "blg", "dvi", "nav", "snm", "toc"]) {
                 tasks.push(new Promise((resolve, reject) => {
                     fs.unlink(path.join(this.path, "main." + postfix), resolve)
                 }))
