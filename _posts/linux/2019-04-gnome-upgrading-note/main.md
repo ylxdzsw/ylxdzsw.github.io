@@ -1,4 +1,4 @@
-## Gnome 3.32 Update Notes
+## Gnome 3.32 Upgrading Notes
 
 Manjaro has moved a new batch of updates to the stable channel last week, including Gnome 3.32 - a project that breaks
 existing extensions in every single updates. Unfortunately, my system crashes after `pacman -Syu`. I was busy so I just
