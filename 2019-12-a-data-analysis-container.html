@@ -1,0 +1,113 @@
+<!doctype html>
+<meta name=viewport content="width=device-width,initial-scale=1">
+<meta name=author content=ylxdzsw@gmail.com>
+<meta charset=utf-8>
+<title> A Container for Data Analysis
+ | ylxdzsw's blog</title>
+<style>html{font-family:sans-serif;font-size:18px;line-height:1.5;text-align:justify;color:#33333d;-webkit-user-select:none;hyphens:auto}@media (max-width: 625px){html{font-size:14px}}body{max-width:1170px;margin:0 auto;padding:15px}h2,h3{position:relative;margin:0;padding:.8rem 0 0}h2:before,h3:before{content:"#";color:#42b983;position:absolute;left:-1rem;top:.75rem;font-size:1.2rem;font-weight:bold;opacity:0}@media (max-width: 625px){h2:before,h3:before{left:-.8rem;top:.85rem}}h2:hover:before,h3:hover:before{opacity:1}h2 a,h3 a{color:#2c3e50}h2{margin-top:0;padding-bottom:0.7rem;border-bottom:0.5px solid #ddd}h2:before{top:.9rem;font-size:1.4rem}@media (max-width: 625px){h2:before{left:-.8rem;top:1rem}}p{margin:1.2rem 0}pre{background-color:#fafaf9;overflow-x:auto}code{font-family:monospace;font-size:.8rem;padding:.1rem}ul ol{padding-left:1.5rem;margin:1.2rem 0}a{color:#42b983;text-decoration:none}a:hover{text-decoration:underline}blockquote{margin:2rem 0;padding:0 1.2rem;border-left:4px solid #42b983}blockquote p{margin-left:0}
+</style><h2 id=a-container-for-data-analysis>A Container for Data Analysis</h2>
+<p>Data analysis often requires many storage and computation power, so poor guys like me needs to use shared servers
+provided by school/company. However, using shared server means</p>
+<ol start=0>
+<li>The server assigned to me often changes, and I need to install my environment again on the new server.</li>
+<li>Others may change the environment by following a random stupid outdated blog with <code>sudo</code>, and break my code, or
+worse, break the whole system.</li>
+</ol>
+<p>Except for that, some softwares like <code>frp</code> or <code>julia</code> are not included in the official repos of many distros, installing
+them requires extra work. Also, ML ecosystem are evolving and the packages are fragile. A installation instruction that
+works today may fail tomorrow.</p>
+<p>After wasting enough life on setting up environments, I decided to make a container today. The goals are:</p>
+<ul>
+<li>easy to install: better in no more than 3 lines.</li>
+<li>works out of the box: <code>import sklearn</code> right after installing.</li>
+<li>no root permission required.</li>
+</ul>
+<h3 id=building-the-container>Building the container</h3>
+<p>First choice is what container containerization technology to use. Most popular ones include <code>LXC</code> and <code>docker</code>, but I
+decided to use <code>systemd-container</code> because</p>
+<ol start=0>
+<li>It is installed by default in Arch, so no additional package need to be installed in the host.</li>
+<li>It is just a plain directory of a rootfs, which makes debugging or modification from host extreamly easy.</li>
+<li>Being a plain rootfs also means it can be used without <code>systemd-container</code> and even without root access.</li>
+</ol>
+<p>The next step is to select a distro. Arch is the first comes to my mind of course. However, <code>pacman</code> is too big for a
+container. Another problem is that Arch packages often comes with &quot;devel&quot; files like headers and docs, which my container
+doesn&#39;t need. Thus I turned to Alpine. Using musl rather than glibc really made some trubles first, but I got smaller
+image as return.</p>
+<p>Making the image is really easy. First, find the url of &quot;Mini Root Filesystem&quot; from the
+<a href=https://alpinelinux.org/downloads/ >website</a>, then run the following command to pull it.</p>
+<pre><code>sudo machinectl pull-tar --verify=checksum http://dl-cdn.alpinelinux.org/alpine/v3.10/releases/x86_64/alpine-minirootfs-3.10.3-x86_64.tar.gz alpine
+</code></pre><p>This will download the tarball, check sha, and put it into <code>/var/lib/machines/alpine</code>. <code>machinectl</code> comes with Arch by
+default, and can be installed on Ubuntu with <code>sudo apt install systemd-container</code>. After it done (this should be fast
+since the tarball is only 5M), enter the container by <code>systemd-nspawn -M alpine</code>.</p>
+<p>The package manager of Alpine is very simple and fast (faster than <code>pacman</code> IMO!). Install basic packages as following:</p>
+<pre><code>apk add python3 python3-dev # for python
+apk add R R-dev # for R
+apk add g++ linux-headers zeromq # for building jupyter kernels
+apk add npm # for jupyter extensions
+</code></pre><p>There are several packages not in the official registar. For example, <code>frp</code> and <code>julia</code>. I had to download the binary
+mannually and put them into <code>/usr</code>. Note the official <code>julia</code> builds are based on glibc. Luckly there is a working musl
+build <a href=github.com/fredrikekre/julia-alpine>here</a>, and it works fine for me.</p>
+<p>After installing these packages, we can start installing my packages with <code>pip3</code> and the built-in package managers of
+<code>julia</code> and <code>R</code>. Note that since most pre-built wheels are depend on glibc, <code>pip3</code> needs to compile pretty much
+everything, which is very slow (It takes more than 30 min to get <code>sklearn</code>).</p>
+<p>Finally after installing all packages, </p>
+<h3 id=usage>Usage</h3>
+<p>My image is shared on Google Drive, it includes</p>
+<ul>
+<li><em>jupyter lab</em>, with python3, julia, R kernels and drawio extension;</li>
+<li><em>frpc</em> to allow you connect your server from outside (you need a public visiable server running <code>frps</code>);</li>
+<li><em>python3</em> with numpy, pandas and sklearn;</li>
+<li><em>R</em> with ggplot2 and forecast;</li>
+<li>and <em>Julia</em> with PyCall and RCall :)</li>
+</ul>
+<p>To install the container with root access, just run</p>
+<pre><code># (remember to `sudo apt install systemd-container`)
+
+sudo machinectl pull-tar --verify=no &lt;url&gt; jupyter
+</code></pre><p>Then start the jupyter service with</p>
+<pre><code>sudo systemd-run systemd-nspawn -M jupyter jupyter lab --allow-root --ip=0.0.0.0 --port=8848
+</code></pre><h3 id=run-the-container-without-root-access>Run the container without root access</h3>
+<p>It&#39;s well known that who can <code>chroot</code> also has the ability to break out. But (not so) recently Linux got a new feature
+called namespace. With it we can run our container without root access.</p>
+<p>To run the container, first download and untar, <code>cd</code> into it, then</p>
+<pre><code>unshare -r -m --propagation slave bash -c &quot;mount -R /proc proc; mount -R /dev dev; chroot . /bin/sh&quot;
+</code></pre><p>Now you are in the container! You might want to <code>source /etc/profile</code> otherwise any commands must be full path because
+<code>$PATH</code> is not set. <code>unshare</code> is a thin wrapper around the <code>unshare(2)</code>, which create a new namespace where the user id
+is 0. The <code>mount</code>s allow us to see the outside world and interact with the kernel, which is required by most programs.</p>
+
+<h3 id=troubleshooting>Troubleshooting</h3>
+<ol>
+<li>import RCall on terminal is fine, but on Jupyter fails. </li>
+</ol>
+<pre><code>Warning: RCall.jl: Error: package or namespace load failed for âmethodsâ in dyn.load(file, DLLpath = DLLpath, ...):
+ unable to load shared object &#39;/usr/lib/R/library/methods/libs/methods.so&#39;:
+  Error loading shared library libR.so: No such file or directory (needed by /usr/lib/R/library/methods/libs/methods.so)
+Error: package or namespace load failed for âutilsâ in dyn.load(file, DLLpath = DLLpath, ...):
+ unable to load shared object &#39;/usr/lib/R/library/utils/libs/utils.so&#39;:
+  Error loading shared library libR.so: No such file or directory (needed by /usr/lib/R/library/utils/libs/utils.so)
+Error: package or namespace load failed for âgrDevicesâ in dyn.load(file, DLLpath = DLLpath, ...):
+ unable to load shared object &#39;/usr/lib/R/library/grDevices/libs/grDevices.so&#39;:
+  Error loading shared library libR.so: No such file or directory (needed by /usr/lib/R/library/grDevices/libs/grDevices.so)
+Error: package or namespace load failed for âgraphicsâ in dyn.load(file, DLLpath = DLLpath, ...):
+ unable to load shared object &#39;/usr/lib/R/library/grDevices/libs/grDevices.so&#39;:
+  Error loading shared library libR.so: No such file or directory (needed by /usr/lib/R/library/grDevices/libs/grDevices.so)
+Error: package or namespace load failed for âstatsâ in dyn.load(file, DLLpath = DLLpath, ...):
+ unable to load shared object &#39;/usr/lib/R/library/grDevices/libs/grDevices.so&#39;:
+  Error loading shared library libR.so: No such file or directory (needed by /usr/lib/R/library/grDevices/libs/grDevices.so)
+Error: package or namespace load failed for âmethodsâ in dyn.load(file, DLLpath = DLLpath, ...):
+ unable to load shared object &#39;/usr/lib/R/library/methods/libs/methods.so&#39;:
+  Error loading shared library libR.so: No such file or directory (needed by /usr/lib/R/library/methods/libs/methods.so)
+During startup - Warning messages:
+1: package &quot;methods&quot; in options(&quot;defaultPackages&quot;) was not found 
+2: package âutilsâ in options(&quot;defaultPackages&quot;) was not found 
+3: package âgrDevicesâ in options(&quot;defaultPackages&quot;) was not found 
+4: package âgraphicsâ in options(&quot;defaultPackages&quot;) was not found 
+5: package âstatsâ in options(&quot;defaultPackages&quot;) was not found 
+6: package âmethodsâ in options(&quot;defaultPackages&quot;) was not found 
+@ RCall /root/.julia/packages/RCall/g7dhB/src/io.jl:113
+InitError: REvalError: Error in options(rcalljl_device = png) : object &#39;png&#39; not found
+during initialization of module RCall
+</code></pre><p>Solution: it is because <code>libR.so</code> is put on a strange place <code>/usr/lib/R/lib</code>, along with the fact that jupyter doesn&#39;t
+load <code>/etc/profile</code>, so julia can&#39;t find it. I had to mannually set <code>&quot;env&quot;: {&quot;LD_LIBRARY_PATH&quot;: &quot;/usr/lib:/usr/local/lib:/&quot;}</code>
+in <code>~/.local/share/jupyter/kernels/julia-1.2/kernel.json</code></p>
