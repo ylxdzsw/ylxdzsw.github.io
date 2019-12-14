@@ -7,6 +7,7 @@
   { "hash": "42510532f42e57b60c963c189c28a4ac", "timestamp": 1538209713940 },
   { "hash": "455cc5cccbf2b7794795880834dd88ac", "timestamp": 1538209713940 },
   { "hash": "583e8b3a40ace642b641630c0a804c5b", "timestamp": 1533802317598 },
+  { "hash": "5ec34a4915d1e44707b30ad9ba5d8dd6", "timestamp": 1576310526358 },
   { "hash": "6fbf005e1bea8f9887b200ac9bcd7d98", "timestamp": 1538299249520 },
   { "hash": "723f8a81b6c02c45f5c194528ec175ff", "timestamp": 1538209713940 },
   { "hash": "7baf791a615e9b3a21ab80dd2c4e1998", "timestamp": 1539078249827 },
@@ -25,6 +26,5 @@
   { "hash": "e0263aad1c4c8a51ee76f6642b26550c", "timestamp": 1538209713940 },
   { "hash": "e84038970cc78587d164874d98fd5aa0", "timestamp": 1538209713940 },
   { "hash": "ec27937162bf5c30212e20f1279e694e", "timestamp": 1576237416391 },
-  { "hash": "f00b8d54089f048dde494084cdcc67f5", "timestamp": 1544495616445 },
-  { "hash": "f2c613c82b61db63a0bb71f0a2cb35a2", "timestamp": 1576249811340 }
+  { "hash": "f00b8d54089f048dde494084cdcc67f5", "timestamp": 1544495616445 }
 ]

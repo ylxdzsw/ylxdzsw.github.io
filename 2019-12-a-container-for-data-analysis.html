@@ -7,7 +7,7 @@
 <style>html{font-family:sans-serif;font-size:18px;line-height:1.5;text-align:justify;color:#33333d;-webkit-user-select:none;hyphens:auto}@media (max-width: 625px){html{font-size:14px}}body{max-width:1170px;margin:0 auto;padding:15px}h2,h3{position:relative;margin:0;padding:.8rem 0 0}h2:before,h3:before{content:"#";color:#42b983;position:absolute;left:-1rem;top:.75rem;font-size:1.2rem;font-weight:bold;opacity:0}@media (max-width: 625px){h2:before,h3:before{left:-.8rem;top:.85rem}}h2:hover:before,h3:hover:before{opacity:1}h2 a,h3 a{color:#2c3e50}h2{margin-top:0;padding-bottom:0.7rem;border-bottom:0.5px solid #ddd}h2:before{top:.9rem;font-size:1.4rem}@media (max-width: 625px){h2:before{left:-.8rem;top:1rem}}p{margin:1.2rem 0}pre{background-color:#fafaf9;overflow-x:auto}code{font-family:monospace;font-size:.8rem;padding:.1rem}ul ol{padding-left:1.5rem;margin:1.2rem 0}a{color:#42b983;text-decoration:none}a:hover{text-decoration:underline}blockquote{margin:2rem 0;padding:0 1.2rem;border-left:4px solid #42b983}blockquote p{margin-left:0}
 </style><h2 id=a-container-for-data-analysis>A Container for Data Analysis</h2>
 <p>Data analysis often requires many storage and computation power, so poor guys like me needs to use shared servers
-provided by school/company. However, using shared server means</p>
+provided by school/company. However, using shared servers means</p>
 <ol start=0>
 <li>The server assigned to me often changes, and I need to install my environment again on the new server.</li>
 <li>Others may change the environment by following a random stupid outdated blog with <code>sudo</code>, and break my code, or
@@ -51,63 +51,64 @@ build <a href=github.com/fredrikekre/julia-alpine>here</a>, and it works fine fo
 <p>After installing these packages, we can start installing my packages with <code>pip3</code> and the built-in package managers of
 <code>julia</code> and <code>R</code>. Note that since most pre-built wheels are depend on glibc, <code>pip3</code> needs to compile pretty much
 everything, which is very slow (It takes more than 30 min to get <code>sklearn</code>).</p>
-<p>Finally after installing all packages, </p>
-<h3 id=usage>Usage</h3>
-<p>My image is shared on Google Drive, it includes</p>
+<p>Finally, export the image file with</p>
+<pre><code>sudo machinectl export-tar jupyter jupyter.tar.xz
+</code></pre><h3 id=usage>Usage</h3>
+<p>My image is shared on Google Drive and served by CloudFlare, it includes</p>
 <ul>
-<li><em>jupyter lab</em>, with python3, julia, R kernels and drawio extension;</li>
-<li><em>frpc</em> to allow you connect your server from outside (you need a public visiable server running <code>frps</code>);</li>
-<li><em>python3</em> with numpy, pandas and sklearn;</li>
-<li><em>R</em> with ggplot2 and forecast;</li>
-<li>and <em>Julia</em> with PyCall and RCall :)</li>
+<li><strong>jupyter lab</strong>, with python3, julia, R kernels and drawio extension;</li>
+<li><strong>frpc</strong> to allow connecting the server from outside (with a public visiable server running <code>frps</code>);</li>
+<li><strong>python3</strong> with numpy, pandas and sklearn;</li>
+<li><strong>R</strong> with ggplot2 and forecast;</li>
+<li>and <strong>Julia</strong> with PyCall and RCall :)</li>
 </ul>
-<p>To install the container with root access, just run</p>
-<pre><code># (remember to `sudo apt install systemd-container`)
-
-sudo machinectl pull-tar --verify=no &lt;url&gt; jupyter
+<p>To install the container, just run</p>
+<pre><code>sudo machinectl pull-tar --verify=no https://gd.ylxdzsw.com/container%20images/jupyter.tar.xz
 </code></pre><p>Then start the jupyter service with</p>
 <pre><code>sudo systemd-run systemd-nspawn -M jupyter jupyter lab --allow-root --ip=0.0.0.0 --port=8848
-</code></pre><h3 id=run-the-container-without-root-access>Run the container without root access</h3>
-<p>It&#39;s well known that who can <code>chroot</code> also has the ability to break out. But (not so) recently Linux got a new feature
-called namespace. With it we can run our container without root access.</p>
-<p>To run the container, first download and untar, <code>cd</code> into it, then</p>
-<pre><code>unshare -r -m --propagation slave bash -c &quot;mount -R /proc proc; mount -R /dev dev; chroot . /bin/sh&quot;
-</code></pre><p>Now you are in the container! You might want to <code>source /etc/profile</code> otherwise any commands must be full path because
-<code>$PATH</code> is not set. <code>unshare</code> is a thin wrapper around the <code>unshare(2)</code>, which create a new namespace where the user id
-is 0. The <code>mount</code>s allow us to see the outside world and interact with the kernel, which is required by most programs.</p>
-
+</code></pre><p>Now jupyter is running at <code>http://&lt;server&gt;:8848</code> with default password <code>fuck</code>. Though I&#39;m totally fine with this
+password, it can be easily changed in <code>/root/.jupyter/jupyter_notebook_config.py</code>. If the server is behind NAT,
+<a href=https://github.com/fatedier/frp>frp</a> can be used to allow external access.</p>
+<h3 id=run-the-container-without-root-access-and-without-systemd>Run the container without root access and without systemd</h3>
+<p>It&#39;s well known that anyone capable of <code>chroot</code> also has the ability to break out. But (not so) recently Linux got a new
+feature called namespace. With it we can run our container without root access.</p>
+<p>To run the container, just download and untar, <code>cd</code> into it, then</p>
+<pre><code>unshare -r -m --propagation slave bash -c &quot;mount -R /proc proc; mount -R /dev dev; chroot . /bin/sh -l&quot;
+</code></pre><p>Now we are in the container! <code>unshare</code> is a thin wrapper around the <code>unshare(2)</code>, which create a new namespace where the
+user id is 0. The <code>mount</code>s allow us to see the outside world and interact with the kernel. The full command to run and
+detach jupyter from host without systemd is:</p>
+<pre><code>setsid unshare -r -m --propagation slave bash -c &#39;mount -R /proc proc; mount -R /dev dev; chroot . /bin/sh -l -c &quot;HOME=/root jupyter lab --allow-root --ip=0.0.0.0 --port=8848&quot;&#39; &gt; /dev/null 2&gt;&amp;1
+</code></pre>
 <h3 id=troubleshooting>Troubleshooting</h3>
-<ol>
-<li>import RCall on terminal is fine, but on Jupyter fails. </li>
-</ol>
-<pre><code>Warning: RCall.jl: Error: package or namespace load failed for âmethodsâ in dyn.load(file, DLLpath = DLLpath, ...):
+<h4 id=import-rcall-on-terminal-is-fine-but-on-jupyter-fails->import RCall on terminal is fine, but on Jupyter fails.</h4>
+<pre><code>Warning: RCall.jl: Error: package or namespace load failed for &quot;methods&quot; in dyn.load(file, DLLpath = DLLpath, ...):
  unable to load shared object &#39;/usr/lib/R/library/methods/libs/methods.so&#39;:
   Error loading shared library libR.so: No such file or directory (needed by /usr/lib/R/library/methods/libs/methods.so)
-Error: package or namespace load failed for âutilsâ in dyn.load(file, DLLpath = DLLpath, ...):
+Error: package or namespace load failed for &quot;utils&quot; in dyn.load(file, DLLpath = DLLpath, ...):
  unable to load shared object &#39;/usr/lib/R/library/utils/libs/utils.so&#39;:
   Error loading shared library libR.so: No such file or directory (needed by /usr/lib/R/library/utils/libs/utils.so)
-Error: package or namespace load failed for âgrDevicesâ in dyn.load(file, DLLpath = DLLpath, ...):
+Error: package or namespace load failed for &quot;grDevices&quot; in dyn.load(file, DLLpath = DLLpath, ...):
  unable to load shared object &#39;/usr/lib/R/library/grDevices/libs/grDevices.so&#39;:
   Error loading shared library libR.so: No such file or directory (needed by /usr/lib/R/library/grDevices/libs/grDevices.so)
-Error: package or namespace load failed for âgraphicsâ in dyn.load(file, DLLpath = DLLpath, ...):
+Error: package or namespace load failed for &quot;graphics&quot; in dyn.load(file, DLLpath = DLLpath, ...):
  unable to load shared object &#39;/usr/lib/R/library/grDevices/libs/grDevices.so&#39;:
   Error loading shared library libR.so: No such file or directory (needed by /usr/lib/R/library/grDevices/libs/grDevices.so)
-Error: package or namespace load failed for âstatsâ in dyn.load(file, DLLpath = DLLpath, ...):
+Error: package or namespace load failed for &quot;stats&quot; in dyn.load(file, DLLpath = DLLpath, ...):
  unable to load shared object &#39;/usr/lib/R/library/grDevices/libs/grDevices.so&#39;:
   Error loading shared library libR.so: No such file or directory (needed by /usr/lib/R/library/grDevices/libs/grDevices.so)
-Error: package or namespace load failed for âmethodsâ in dyn.load(file, DLLpath = DLLpath, ...):
+Error: package or namespace load failed for &quot;methods&quot; in dyn.load(file, DLLpath = DLLpath, ...):
  unable to load shared object &#39;/usr/lib/R/library/methods/libs/methods.so&#39;:
   Error loading shared library libR.so: No such file or directory (needed by /usr/lib/R/library/methods/libs/methods.so)
 During startup - Warning messages:
 1: package &quot;methods&quot; in options(&quot;defaultPackages&quot;) was not found 
-2: package âutilsâ in options(&quot;defaultPackages&quot;) was not found 
-3: package âgrDevicesâ in options(&quot;defaultPackages&quot;) was not found 
-4: package âgraphicsâ in options(&quot;defaultPackages&quot;) was not found 
-5: package âstatsâ in options(&quot;defaultPackages&quot;) was not found 
-6: package âmethodsâ in options(&quot;defaultPackages&quot;) was not found 
+2: package &quot;utils&quot; in options(&quot;defaultPackages&quot;) was not found 
+3: package &quot;grDevices&quot; in options(&quot;defaultPackages&quot;) was not found 
+4: package &quot;graphics&quot; in options(&quot;defaultPackages&quot;) was not found 
+5: package &quot;stats&quot; in options(&quot;defaultPackages&quot;) was not found 
+6: package &quot;methods&quot; in options(&quot;defaultPackages&quot;) was not found 
 @ RCall /root/.julia/packages/RCall/g7dhB/src/io.jl:113
 InitError: REvalError: Error in options(rcalljl_device = png) : object &#39;png&#39; not found
 during initialization of module RCall
-</code></pre><p>Solution: it is because <code>libR.so</code> is put on a strange place <code>/usr/lib/R/lib</code>, along with the fact that jupyter doesn&#39;t
-load <code>/etc/profile</code>, so julia can&#39;t find it. I had to mannually set <code>&quot;env&quot;: {&quot;LD_LIBRARY_PATH&quot;: &quot;/usr/lib:/usr/local/lib:/&quot;}</code>
+</code></pre><p><strong>Solution</strong>: it is because <code>libR.so</code> is put on a strange place <code>/usr/lib/R/lib</code>, along with the fact that jupyter doesn&#39;t
+load <code>/etc/profile</code>, so julia can&#39;t find it. I had to mannually set <code>&quot;env&quot;: {&quot;LD_LIBRARY_PATH&quot;: &quot;/usr/lib:/usr/local/lib:/usr/lib/R/lib&quot;}</code>
 in <code>~/.local/share/jupyter/kernels/julia-1.2/kernel.json</code></p>

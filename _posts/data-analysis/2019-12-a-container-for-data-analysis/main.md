@@ -1,7 +1,7 @@
 ## A Container for Data Analysis
 
 Data analysis often requires many storage and computation power, so poor guys like me needs to use shared servers
-provided by school/company. However, using shared server means
+provided by school/company. However, using shared servers means
 
 0. The server assigned to me often changes, and I need to install my environment again on the new server.
 0. Others may change the environment by following a random stupid outdated blog with `sudo`, and break my code, or
@@ -59,24 +59,26 @@ After installing these packages, we can start installing my packages with `pip3`
 `julia` and `R`. Note that since most pre-built wheels are depend on glibc, `pip3` needs to compile pretty much
 everything, which is very slow (It takes more than 30 min to get `sklearn`).
 
-Finally after installing all packages, 
+Finally, export the image file with
+
+```
+sudo machinectl export-tar jupyter jupyter.tar.xz
+```
 
 ### Usage
 
-My image is shared on Google Drive, it includes
+My image is shared on Google Drive and served by CloudFlare, it includes
 
-- *jupyter lab*, with python3, julia, R kernels and drawio extension;
-- *frpc* to allow you connect your server from outside (you need a public visiable server running `frps`);
-- *python3* with numpy, pandas and sklearn;
-- *R* with ggplot2 and forecast;
-- and *Julia* with PyCall and RCall :)
+- **jupyter lab**, with python3, julia, R kernels and drawio extension;
+- **frpc** to allow connecting the server from outside (with a public visiable server running `frps`);
+- **python3** with numpy, pandas and sklearn;
+- **R** with ggplot2 and forecast;
+- and **Julia** with PyCall and RCall :)
 
-To install the container with root access, just run
+To install the container, just run
 
 ```
-# (remember to `sudo apt install systemd-container`)
-
-sudo machinectl pull-tar --verify=no <url> jupyter
+sudo machinectl pull-tar --verify=no https://gd.ylxdzsw.com/container%20images/jupyter.tar.xz
 ```
 
 Then start the jupyter service with
@@ -85,58 +87,66 @@ Then start the jupyter service with
 sudo systemd-run systemd-nspawn -M jupyter jupyter lab --allow-root --ip=0.0.0.0 --port=8848
 ```
 
-### Run the container without root access
+Now jupyter is running at `http://<server>:8848` with default password `fuck`. Though I'm totally fine with this
+password, it can be easily changed in `/root/.jupyter/jupyter_notebook_config.py`. If the server is behind NAT,
+[frp](https://github.com/fatedier/frp) can be used to allow external access.
 
-It's well known that who can `chroot` also has the ability to break out. But (not so) recently Linux got a new feature
-called namespace. With it we can run our container without root access.
+### Run the container without root access and without systemd
 
-To run the container, first download and untar, `cd` into it, then
+It's well known that anyone capable of `chroot` also has the ability to break out. But (not so) recently Linux got a new
+feature called namespace. With it we can run our container without root access.
+
+To run the container, just download and untar, `cd` into it, then
 
 ```
-unshare -r -m --propagation slave bash -c "mount -R /proc proc; mount -R /dev dev; chroot . /bin/sh"
+unshare -r -m --propagation slave bash -c "mount -R /proc proc; mount -R /dev dev; chroot . /bin/sh -l"
 ```
 
-Now you are in the container! You might want to `source /etc/profile` otherwise any commands must be full path because
-`$PATH` is not set. `unshare` is a thin wrapper around the `unshare(2)`, which create a new namespace where the user id
-is 0. The `mount`s allow us to see the outside world and interact with the kernel, which is required by most programs.
+Now we are in the container! `unshare` is a thin wrapper around the `unshare(2)`, which create a new namespace where the
+user id is 0. The `mount`s allow us to see the outside world and interact with the kernel. The full command to run and
+detach jupyter from host without systemd is:
 
-<!--https://wiki.archlinux.org/index.php/Chroot#Using_chroot)-->
+```
+setsid unshare -r -m --propagation slave bash -c 'mount -R /proc proc; mount -R /dev dev; chroot . /bin/sh -l -c "HOME=/root jupyter lab --allow-root --ip=0.0.0.0 --port=8848"' > /dev/null 2>&1
+```
+
+<!--https://wiki.archlinux.org/index.php/Chroot#Using_chroot-->
 
 ### Troubleshooting
 
-1. import RCall on terminal is fine, but on Jupyter fails. 
+#### import RCall on terminal is fine, but on Jupyter fails. 
 
 ```
-Warning: RCall.jl: Error: package or namespace load failed for âmethodsâ in dyn.load(file, DLLpath = DLLpath, ...):
+Warning: RCall.jl: Error: package or namespace load failed for "methods" in dyn.load(file, DLLpath = DLLpath, ...):
  unable to load shared object '/usr/lib/R/library/methods/libs/methods.so':
   Error loading shared library libR.so: No such file or directory (needed by /usr/lib/R/library/methods/libs/methods.so)
-Error: package or namespace load failed for âutilsâ in dyn.load(file, DLLpath = DLLpath, ...):
+Error: package or namespace load failed for "utils" in dyn.load(file, DLLpath = DLLpath, ...):
  unable to load shared object '/usr/lib/R/library/utils/libs/utils.so':
   Error loading shared library libR.so: No such file or directory (needed by /usr/lib/R/library/utils/libs/utils.so)
-Error: package or namespace load failed for âgrDevicesâ in dyn.load(file, DLLpath = DLLpath, ...):
+Error: package or namespace load failed for "grDevices" in dyn.load(file, DLLpath = DLLpath, ...):
  unable to load shared object '/usr/lib/R/library/grDevices/libs/grDevices.so':
   Error loading shared library libR.so: No such file or directory (needed by /usr/lib/R/library/grDevices/libs/grDevices.so)
-Error: package or namespace load failed for âgraphicsâ in dyn.load(file, DLLpath = DLLpath, ...):
+Error: package or namespace load failed for "graphics" in dyn.load(file, DLLpath = DLLpath, ...):
  unable to load shared object '/usr/lib/R/library/grDevices/libs/grDevices.so':
   Error loading shared library libR.so: No such file or directory (needed by /usr/lib/R/library/grDevices/libs/grDevices.so)
-Error: package or namespace load failed for âstatsâ in dyn.load(file, DLLpath = DLLpath, ...):
+Error: package or namespace load failed for "stats" in dyn.load(file, DLLpath = DLLpath, ...):
  unable to load shared object '/usr/lib/R/library/grDevices/libs/grDevices.so':
   Error loading shared library libR.so: No such file or directory (needed by /usr/lib/R/library/grDevices/libs/grDevices.so)
-Error: package or namespace load failed for âmethodsâ in dyn.load(file, DLLpath = DLLpath, ...):
+Error: package or namespace load failed for "methods" in dyn.load(file, DLLpath = DLLpath, ...):
  unable to load shared object '/usr/lib/R/library/methods/libs/methods.so':
   Error loading shared library libR.so: No such file or directory (needed by /usr/lib/R/library/methods/libs/methods.so)
 During startup - Warning messages:
 1: package "methods" in options("defaultPackages") was not found 
-2: package âutilsâ in options("defaultPackages") was not found 
-3: package âgrDevicesâ in options("defaultPackages") was not found 
-4: package âgraphicsâ in options("defaultPackages") was not found 
-5: package âstatsâ in options("defaultPackages") was not found 
-6: package âmethodsâ in options("defaultPackages") was not found 
+2: package "utils" in options("defaultPackages") was not found 
+3: package "grDevices" in options("defaultPackages") was not found 
+4: package "graphics" in options("defaultPackages") was not found 
+5: package "stats" in options("defaultPackages") was not found 
+6: package "methods" in options("defaultPackages") was not found 
 @ RCall /root/.julia/packages/RCall/g7dhB/src/io.jl:113
 InitError: REvalError: Error in options(rcalljl_device = png) : object 'png' not found
 during initialization of module RCall
 ```
 
-Solution: it is because `libR.so` is put on a strange place `/usr/lib/R/lib`, along with the fact that jupyter doesn't
-load `/etc/profile`, so julia can't find it. I had to mannually set `"env": {"LD_LIBRARY_PATH": "/usr/lib:/usr/local/lib:/"}`
+**Solution**: it is because `libR.so` is put on a strange place `/usr/lib/R/lib`, along with the fact that jupyter doesn't
+load `/etc/profile`, so julia can't find it. I had to mannually set `"env": {"LD_LIBRARY_PATH": "/usr/lib:/usr/local/lib:/usr/lib/R/lib"}`
 in `~/.local/share/jupyter/kernels/julia-1.2/kernel.json`
