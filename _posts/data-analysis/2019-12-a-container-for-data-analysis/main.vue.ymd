@@ -1,3 +1,11 @@
 [title]: A Container for Data Analysis
 
 [require](main.md)
+
+[h3] ScreenShots
+
+<style> img { display: block; margin: 1rem 0; width: 100%; max-width: 720px} </style>
+
+[img](index.png)
+[img](julia.png)
+[img](drawio.png)

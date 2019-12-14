@@ -19,20 +19,20 @@ After wasting enough life on setting up environments, I decided to make a contai
 
 ### Building the container
 
-First choice is what container containerization technology to use. Most popular ones include `LXC` and `docker`, but I
-decided to use `systemd-container` because
+First decision is what container containerization technology to use. Most popular choices include `LXC` and `docker`,
+but I prefer to use `systemd-container` because
 
-0. It is installed by default in Arch, so no additional package need to be installed in the host.
+0. It is installed by default on Arch, so no additional package need to be installed on the host.
 0. It is just a plain directory of a rootfs, which makes debugging or modification from host extreamly easy.
 0. Being a plain rootfs also means it can be used without `systemd-container` and even without root access.
 
 The next step is to select a distro. Arch is the first comes to my mind of course. However, `pacman` is too big for a
-container. Another problem is that Arch packages often comes with "devel" files like headers and docs, which my container
-doesn't need. Thus I turned to Alpine. Using musl rather than glibc really made some trubles first, but I got smaller
-image as return.
+container. Another problem is that Arch packages often comes with "devel" files like headers and docs, which my
+container doesn't need. Thus I turned to Alpine. Using musl rather than glibc really made some trubles first, but I got
+a much smaller image as return.
 
 Making the image is really easy. First, find the url of "Mini Root Filesystem" from the
-[website](https://alpinelinux.org/downloads/), then run the following command to pull it.
+[Alpine website](https://alpinelinux.org/downloads/), then run the following command to pull it.
 
 ```
 sudo machinectl pull-tar --verify=checksum http://dl-cdn.alpinelinux.org/alpine/v3.10/releases/x86_64/alpine-minirootfs-3.10.3-x86_64.tar.gz alpine
@@ -52,14 +52,14 @@ apk add npm # for jupyter extensions
 ```
 
 There are several packages not in the official registar. For example, `frp` and `julia`. I had to download the binary
-mannually and put them into `/usr`. Note the official `julia` builds are based on glibc. Luckly there is a working musl
+mannually and put them into `/usr`. Note the official `julia` builds are based on glibc. Luckily there is a musl
 build [here](github.com/fredrikekre/julia-alpine), and it works fine for me.
 
-After installing these packages, we can start installing my packages with `pip3` and the built-in package managers of
-`julia` and `R`. Note that since most pre-built wheels are depend on glibc, `pip3` needs to compile pretty much
-everything, which is very slow (It takes more than 30 min to get `sklearn`).
+After installing these packages, we can start installing "scientific" packages with `pip3` and the built-in package
+managers of `julia` and `R`. Note that since most pre-built wheels are depend on glibc, `pip3` needs to compile pretty
+much everything, which is very slow (It takes more than 30 min to get `sklearn`).
 
-Finally, export the image file with
+Finally, after the container is filled with high end packages, export it with
 
 ```
 sudo machinectl export-tar jupyter jupyter.tar.xz
@@ -96,9 +96,11 @@ password, it can be easily changed in `/root/.jupyter/jupyter_notebook_config.py
 It's well known that anyone capable of `chroot` also has the ability to break out. But (not so) recently Linux got a new
 feature called namespace. With it we can run our container without root access.
 
-To run the container, just download and untar, `cd` into it, then
+To run the container, just download and untar, then use `unshare` to simulate `chroot`:
 
 ```
+wget https://gd.ylxdzsw.com/container%20images/jupyter.tar.xz
+tar -Jxvf jupyter.tar.xz
 unshare -r -m --propagation slave bash -c "mount -R /proc proc; mount -R /dev dev; chroot . /bin/sh -l"
 ```
 
