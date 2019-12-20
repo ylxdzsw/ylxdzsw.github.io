@@ -63,7 +63,7 @@ much everything, which is very slow (It takes more than 30 min to get <code>skle
 <li>and <strong>Julia</strong> with PyCall and RCall :)</li>
 </ul>
 <p>To install the container, just run</p>
-<pre><code>sudo machinectl pull-tar --verify=no https://gd.ylxdzsw.com/container%20images/jupyter.tar.xz
+<pre><code>sudo machinectl pull-tar --verify=no https://gdrive.ylxdzsw.com/container%20images/jupyter.tar.xz
 </code></pre><p>Then start the jupyter service with</p>
 <pre><code>sudo systemd-run systemd-nspawn -M jupyter jupyter lab --allow-root --ip=0.0.0.0 --port=8848
 </code></pre><p>Now jupyter is running at <code>http://&lt;server&gt;:8848</code> with default password <code>fuck</code>. Though I&#39;m totally fine with this
@@ -73,7 +73,7 @@ password, it can be easily changed in <code>/root/.jupyter/jupyter_notebook_conf
 <p>It&#39;s well known that anyone capable of <code>chroot</code> also has the ability to break out. But (not so) recently Linux got a new
 feature called namespace. With it we can run our container without root access.</p>
 <p>To run the container, just download and untar, then use <code>unshare</code> to simulate <code>chroot</code>:</p>
-<pre><code>wget https://gd.ylxdzsw.com/container%20images/jupyter.tar.xz
+<pre><code>wget https://gdrive.ylxdzsw.com/container%20images/jupyter.tar.xz
 tar -Jxvf jupyter.tar.xz
 unshare -r -m --propagation slave bash -c &quot;mount -R /proc proc; mount -R /dev dev; chroot . /bin/sh -l&quot;
 </code></pre><p>Now we are in the container! <code>unshare</code> is a thin wrapper around the <code>unshare(2)</code>, which create a new namespace where the
