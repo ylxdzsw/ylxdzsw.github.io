@@ -10,8 +10,7 @@ which means that values are not copied when they are passed to functions. Functi
 variable bindings (new locations that can refer to values), but the values they refer to are identical to the passed
 values. Modifications to mutable values (such as Arrays) made within a function will be visible to the caller. This is
 the same behavior found in Scheme, most Lisps, Python, Ruby and Perl, among other dynamic languages.
-</p></section><section class=scen><h2> code</h2><pre><code class=language-julia>
-f(x,y) = x + y
+</p></section><section class=scen><h2> code</h2><pre><code class=language-julia>f(x,y) = x + y
 
 function g(x,y)
     return x * y

@@ -1,0 +1,108 @@
+=== slide 1 - title ===
+
+Good afternoon! I'm Shiwei from Southern University of Science and Technology in China. I'd like to present our study on
+a mobile crowdsourcing dataset and share our knowleadge gained from the analysis.
+
+=== slide 2 - overview ===
+
+The key contributions of our study can be summarized as 3 points.
+
+First, We analyzied a two-year long dataset obtained by a mobile crowdsourcing app. Then we characterize the performance
+of different protocols, DNS deployments, IP anycast, etc. in the wild. Finally we proposed a performance degradation
+detection method based on an association rules mining algorithm, the Apriori algorithm, tailored for imbalaced and
+sparse datasets.
+
+[from June 1 2016 to May 31 2018]
+
+=== slide 3 - data collection ===
+
+Ok, first I'll describe the data. We used an app called Mopeye to collect the data. The details of Mopeye is included in
+our USENIX paper. The key character of Mopeye is that it use VPN service API to collect real traffic on users
+smartphone, and it can record the corresponding app name for each connection. So we can study the behaviour of each
+individual app.
+
+=== slide 4 - dataset ===
+
+We use the data from 2016 to 2018. It contains about 20M records from 11k users in 173 countries. The interesting thing
+we found is that only 6 percent of Wifi measurements were observed to have more then 300 Mbps PHY rates. Given
+that 11ac, you know, the mainstream protocol, supports 1.3Gbps, it is strange that most Wifi works at low speed mode.
+
+Another finding is that more than a third of ISPs have no 4G measurements observed, mainly in Africa and Asia.
+We know that 5G is comming, but the deployment of 4G is still not that good.
+
+=== slide 5 - protocols ===
+
+Next we compare the performance of the major protocols running on the Internet, namely HTTP, HTTPS, DNS, and XMPP that
+are mostly used in instant messaging and VoIP services. We find that in terms of median performance, XMPP traffics
+expreience more than twice the RTT of the HTTPS traffics. Since the quality of instant messaging and VoIP are sensitive
+to the latency, these services provider can further improve their relay servers deployment.
+
+=== slide 6 - dns & anycast ===
+
+We also studied the performance of different DNS deployment and IP anycast utilization. In our data we find many users
+use an DNS that are not located in the same country of them, and this will increase the median latency of apps by about
+50 percent. This is reasonable since DNS is commonly used to direct user to their nearest server, and using a remote
+DNS means they will be redirected to a remote server. We further showed that using IP anycasting as an additional
+redirection method could improve the performance when DNS redirection failed.
+
+=== slide 7 - ads ===
+
+We know advertisements are the main source of revenue for many free apps, and the performance of loading ads will
+directly affect thier revenue. You know, the user won't click the ad if it doesn't load. We use the easylist to find the
+advertisement traffic. What we found is that, the advertisement traffic generally performs worse other traffic. That
+suggests that companies with decent CDN deployments could improve the loading time by caching ads on their own servers.
+
+[EasyList is a community driven list of URL patterns that are mostly used for ad-blocking tools]
+
+=== slide 8 - challenges ===
+
+Alright. So far we analyzed the data mannualy and found some interesting issues. But it is time consuming and we may
+miss some other events. So we introduced an automatic performance degradation method. The naive way is to build a time
+serice model to recognize anomaly events. But by the crowdsourcing nature of our data, the measurement is highly
+imbalaced and sparse, means that some instances will be measured many times and some are rarely measured. The time
+series model can't be built unbiased. So we choose a method based on association rules mining since it is easy to
+understand and explain.
+
+=== slide 9 - method ===
+
+For the time constraint I just brifly describe intuition of our method. Our method is based on apriori algorithm, we
+first find combinations of features that have enough measurements and compare the median RTT with a slightly different
+combination. We also use some hand designed filters to keep only the combinations that are more explainable. Finally we
+use hypothesis tests to verify the influence of the root cause we found.
+
+=== slide 10 - evaluation a ===
+
+Since we do not have ground truth data, it is hard to evaluate our method directly. So we can only do some analysis to
+ensure it comply to our intuition. First we mathematically proved that it at least have low false positive rate in random
+data, by model it on a shuffled dataset and calculated the false positive rate in our configuration. You can find the proof
+on our paper.
+
+=== slide 11 - evalutaion b ===
+
+We also inspected some cases flagged by the method. For example this is the latency of Google Germany. Our method flagged
+an anomaly in around October and it seems so, right? But as I said we can't verify this without additional information, but
+it worth investigation, and that's the aim of the automatic detection system.
+
+[the automatic detection system is mainly for triage, for finding cases that requires concern]
+
+=== slide 12 - evalutaion c ===
+
+This is the Microsoft Office Mobile. Our method flagged Amazon as a cause of performance degradation for the app suite.
+Again we hope there are someone could help us verify this and find the reason. But from the data, it is reasonable to
+question why a third party service performs worse. You know, in that case Microsoft could just use their own server.
+
+[Amazon is mainly used for the file CDN of Outlook]
+
+=== slide 13 - conclusion ===
+
+
+
+=== slide 14 - future works ===
+
+We will continue maintaining this app and see how 5G deplolyed and performs. Another idea is that we can combine active
+measurement with the automatic detection method. That is we can launch several measurement from like PlanetLab or Atlas
+RIPE, whenever we detect abnormal events. So we can verify and probably localize the problem.
+
+=== slide 15 - Q & A ===
+
+Thanks, so, any questions?

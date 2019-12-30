@@ -1,11 +1,27 @@
 <!doctype html>
 <meta name=viewport content="width=device-width,initial-scale=1">
 <meta name=author content=ylxdzsw@gmail.com>
+<meta charset=utf-8>
 <title> Method Chaining, Destructor, and Rust
  | ylxdzsw's blog</title>
-<style>html{font-family:sans-serif;font-size:18px;line-height:1.5;text-align:justify;color:#33333d;-webkit-user-select:none}@media (max-width: 625px){html{font-size:14px}}body{max-width:1170px;margin:0 auto;padding:15px}h2,h3{position:relative;margin:0;padding:.8rem 0 0}h2:before,h3:before{content:"#";color:#42b983;position:absolute;left:-1rem;top:.75rem;font-size:1.2rem;font-weight:bold;opacity:0}@media (max-width: 625px){h2:before,h3:before{left:-.8rem;top:.85rem}}h2:hover:before,h3:hover:before{opacity:1}h2 a,h3 a{color:#2c3e50}h2{margin-top:0;padding-bottom:0.7rem;border-bottom:0.5px solid #ddd}h2:before{top:.9rem;font-size:1.4rem}@media (max-width: 625px){h2:before{left:-.8rem;top:1rem}}p{margin:1.2rem 0}pre{background-color:#fafaf9}code{font-family:monospace;font-size:.8rem;padding:.1rem}ul ol{padding-left:1.5rem;margin:1.2rem 0}a{color:#42b983;text-decoration:none}a:hover{text-decoration:underline}blockquote{margin:2rem 0;padding:0 1.2rem;border-left:4px solid #42b983}blockquote p{margin-left:0}
-</style><h2><a id=x0 href=#x0> Method chaining</a></h2><h2><a id=x1 href=#x1> The finishing problem</a></h2><h2><a id=x2 href=#x2> The road not taken: destructor</a></h2><pre><code class=language-python>
-class Log():
+<style>html{font-family:sans-serif;font-size:18px;line-height:1.5;text-align:justify;color:#33333d;-webkit-user-select:none;hyphens:auto}@media (max-width: 625px){html{font-size:14px}}body{max-width:1170px;margin:0 auto;padding:15px}h2,h3{position:relative;margin:0;padding:.8rem 0 0}h2:before,h3:before{content:"#";color:#42b983;position:absolute;left:-1rem;top:.75rem;font-size:1.2rem;font-weight:bold;opacity:0}@media (max-width: 625px){h2:before,h3:before{left:-.8rem;top:.85rem}}h2:hover:before,h3:hover:before{opacity:1}h2 a,h3 a{color:#2c3e50}h2{margin-top:0;padding-bottom:0.7rem;border-bottom:0.5px solid #ddd}h2:before{top:.9rem;font-size:1.4rem}@media (max-width: 625px){h2:before{left:-.8rem;top:1rem}}p{margin:1.2rem 0}pre{background-color:#fafaf9;overflow-x:auto}code{font-family:monospace;font-size:.8rem;padding:.1rem}ul ol{padding-left:1.5rem;margin:1.2rem 0}a{color:#42b983;text-decoration:none}a:hover{text-decoration:underline}blockquote{margin:2rem 0;padding:0 1.2rem;border-left:4px solid #42b983}blockquote p{margin-left:0}
+</style><h2><a id=x0 href=#x0> Method chaining</a></h2><p>Google Feeds pushed a blog post of Dave  <a href=https://daveaglick.com/posts/method-chaining-fluent-interfaces-and-the-finishing-problem><i>Method Chaining, Fluent Interfaces, and the Finishing Problem</i></a> to me yesterday. It is a good article which analyzed the finishing
+problem in method chaining. However, it missed a possible solution (or workaround in his wording), which I'll discuss in
+this post.
+</p><p>For who are not familiar with the term, method chaining is simply something like <code>a.b().c().d()</code>, where each
+method returns an object (usually <code>this</code>) for successive calls. jQuery is a good example of method chaining.
+Method chaining is considered visually beautiful and clean by most people.
+</p><h2><a id=x1 href=#x1> The finishing problem</a></h2><p>One of the biggest problem of method chaining is the finishing problem, as extensively discussed in Dave's blog post.
+In short, the finishing problem means it is hard for the library to decide when to take an action. As in Dave's example:
+</p><pre><code class=language-csharp>    Log.Message("Oh, noes!").Severity(Severity.Bad).User("jsmith");
+</code></pre><p>The <code>Log</code> library does not know if it should start writing when <code>.Message</code> is called, since it might be followed
+by <code>.Severity</code> or <code>.User</code>. Dave listed several workarounds, but they need either a syntax or semantic change,
+except for the "casting" approach. But the "casting" approach is suboptimal as well: it introduces an unused reference,
+requires a proper type to convert to, and impossible in dynamic languages like Python and Javascript.
+</p><h2><a id=x2 href=#x2> The road not taken: destructor</a></h2><p>However, there is yet another option Dave did not mention, and it does not need to change the syntax and does exactly what
+is expected: taking action directly after the chain ends. The idea is, well, taking action in the <i>destructor</i> (or
+finalizer in some languages). Here is a short example in Python.
+</p><pre><code class=language-python>class Log():
     def __init__(this):
         this._message = ""
         this._severity = "debug"
@@ -18,11 +34,77 @@ class Log():
     def __del__(this):
         print(f"{this._severity}: {this._message}")
 
-print("start")
+def main():
+    print("start")
+    Log().message("message1").severity("info")
+    Log().message("message2")
+    print("end")
 
-Log().message("message1").severity("info")
+main()
+</code></pre><p>Looks crazy, unreliable, and an abuse of the destructor? Yes, there are lots of problems. For example, if the compiler
+managed to allocate these variables on stack, it is not clear will <code>__del__</code> be called directly after the
+statement or postponed to the end of function when the memory is released. It is also not clear that whether and how
+exceptions are caught. However, all these arguments are valid only because it is written in Python, and Python does not
+make clear promise on when and how the destructors are called (or at least most Python programmers do not know). With a
+little formalization this crazy idea can become a super powerful technique, and that's Rust.
+</p><h2><a id=x3 href=#x3> Scope, "with", and lifetime</a></h2><p>Before advertisements of Rust, we first explain what happened in the above code. Here is the pseudo code that shows the
+implicit function calls in <code>main</code>:
+</p><pre><code class=language-c>    print("start")
+    a = malloc(Log)
+    Log::__init__(a)
+    Log::message(a, "message1")
+    Log::severity(a, "info") # this is the last explicit reference to `a`
+    Log::__del__(a)
+    free(a)
+    b = malloc(Log)
+    Log::__init__(b)
+    Log::message(b, "message2")
+    Log::__del__(b)
+    free(b)
+    print("end")
+</code></pre><p>I use <code>malloc/free</code> to show the memory allocation, but they are not necessarily allocated in heap. An insane
+optimizer might even make them reuse the same memory, since <code>a</code> dies before <code>b</code> is born.
+</p><p>The important part is how <code>malloc/free</code> and <code>__init__/__del__</code> are related. Actually, the memory
+management can be fused into the constructor and destructor by the compiler. The <code>__init__/__del__</code> pattern
+reflects the basis of resource management: a resource has its lifetime, within which it can be accessed and used.
+At the start and end of a resource's lifetime, there are an entering action and an exiting action, where the resource is
+allocated and released respectively.
+</p><p>Sounds familiar? You are probably thinking of <code>with</code> statement in Python. Actually when I search for Python+destructor,
+the first result Google gave me is  <a href=https://stackoverflow.com/a/865272/4411558>telling me to use <code>with</code> instead</a>.
+</p><p><code>with</code> can be seen as syntax sugar of a special case of manual resource management, and it is far less
+powerful than the well-developed RAM management: the lifetime of the resource is strictly bound to the lexical scope, you
+cannot assign the resource to a global variable or pass it out in a closure to use later. Since we all trust the compiler
+of managing the memory, why we have to manually manage other resources?
+</p><p>Let's review the several methods of resource management. The first one is obviously the manual managing: you just
+call the allocating and releasing methods yourself. This is the most accurate, powerful but tedious method. The second is
+binding the resource to a lexical scope, like memory of stack variables and other resources managed by <code>with</code>
+statements. This method lacks generality: not all resources's lifetime is exactly the same as the scope they defined in.
+The third method is automatic tracking. The compiler tries to figure out the lifetime of each resource with techniques like
+data flow analysis, and fall back to runtime tracking like reference counting or other kinds of GC.
+</p><p>The last method is clearly the winner. It correctly deals with resources that live longer than their scopes, but also
+avoids the hassles of manual allocating and releasing. However, this technique is hardly used outside the domain of RAM,
+until Rust appears.
+</p><h2><a id=x4 href=#x4> Rust</a></h2><p>Rust is to my knowledge the first languages that fully leverages the modern memory manage techniques (who use RAII and
+smart pointers correctly in C++?). Following is an example from the <a href=https://doc.rust-lang.org/std/sync/struct.Mutex.html>document</a></p>(comments and imports removed).
+<pre><code class=language-rust>let data = Arc::new(Mutex::new(0));
 
-Log().message("message2").severity("warning")
+let (tx, rx) = channel();
+for _ in 0..N {
+    let (data, tx) = (data.clone(), tx.clone());
+    thread::spawn(move || {
+        let mut data = data.lock().unwrap();
+        *data += 1;
+        if *data == N {
+            tx.send(()).unwrap();
+        }
+    });
+}
 
-print("end")
-</code></pre><h2><a id=x3 href=#x3> Rust</a></h2><h2><a id=x4 href=#x4> Scope, "with", and lifetime</a></h2>
+rx.recv().unwrap();
+</code></pre><p>If you are not familiar with Rust, you may think there is a bug since there is no statement that release the lock.
+However, for Rust programmers it's very clear that the lock is released right before <code>data</code> goes out of its
+scope. That's how finalizers work in Rust, and they work well. Beyond the scope-based management as shown in example, Rust
+also provides powerful lifetime analysis and explicit reference counting to support resources that live long, all in the
+same manner of RAM managing.
+</p><p>So fans of method chaining, time to switch to Rust :)
+</p>

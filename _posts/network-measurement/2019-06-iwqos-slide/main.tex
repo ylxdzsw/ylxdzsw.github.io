@@ -1,0 +1,73 @@
+\documentclass[12pt,aspectratio=169]{beamer}
+
+% \usepackage{hyperref}
+% \hypersetup{pdfpagemode=FullScreen}
+
+\renewcommand*{\thefootnote}{\fnsymbol{footnote}}
+
+\mode<presentation>
+\useoutertheme[subsection=false]{miniframes}
+
+\title{An Empirical Study of Mobile Network Behavior and Application Performance in the Wild}
+\author{\underline{\textbf{Shiwei Zhang}}\inst{1,2} \and %
+        Weichao Li\inst{1,2} \and %
+        Daoyuan Wu\inst{3} \and %
+        Bo Jin\inst{1,2} \and \\%
+        Rocky Chang\inst{4} \and %
+        Debin Gao\inst{3} \and %
+        Yi Wang\inst{1,2} \and %
+        Ricky Mok\inst{5}}
+% \institute{Southern University of Science and Technology, China}
+\institute[SUSTech, PCL, SMU, PolyU, UCSD]{
+    \inst{1} Southern University of Science and Technology, China \\ %
+    \inst{2} Peng Cheng Laboratory, China \\
+    \inst{3} Singapore Management University, Singapore \\
+    \inst{4} The Hong Kong Polytechnic University, Hong Kong \\
+    \inst{5} CAIDA / University of California, San Diego, USA}
+\date{ACM/IEEE IWQoS, June 24, 2019}
+
+% \AtBeginSection[]{
+%   \begin{frame}
+%   \vfill
+%   \centering
+%   \begin{beamercolorbox}[sep=8pt,center,shadow=true,rounded=true]{title}
+%     \usebeamerfont{title}\insertsectionhead\par%
+%   \end{beamercolorbox}
+%   \vfill
+%   \end{frame}
+% }
+
+\begin{document}
+    \beamertemplatenavigationsymbolsempty
+    
+    \begin{frame}
+        \titlepage
+    \end{frame}
+
+    % \begin{frame}
+    %     \frametitle{Outline}
+    %     \tableofcontents
+    % \end{frame}
+
+    \input{introduction.tex}
+    \input{analysis.tex}
+    \input{detection.tex}
+    \input{conclusion.tex}
+
+    \appendix
+
+    % \begin{frame}
+    %     \centering \huge
+    %     Q \& A
+    % \end{frame}
+
+    \begin{frame}
+        \vskip 1.5em
+        
+        \centering \huge
+        Thank you!
+        
+        \vskip 1.5em
+        \small Shiwei Zhang (zhangsw@mail.sustech.edu.cn)
+    \end{frame}
+\end{document}
