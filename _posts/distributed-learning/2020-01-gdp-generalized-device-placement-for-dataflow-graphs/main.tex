@@ -33,10 +33,10 @@
     \begin{frame}
         \frametitle{Introduction}
 
-        Neural networks have demonstrated remarkable scalability–improved performance can usually be achieved by training a
-        larger model on a larger dataset. Training such large models efficiently while meeting device constraints, like
-        memory limitations, necessitate partitioning of the underlying dataflow graphs for the models across multiple
-        devices.
+        Neural networks have demonstrated remarkable scalability – improved performance can usually be achieved by
+        training a larger model on a larger dataset. Training such large models efficiently while meeting device
+        constraints, like memory limitations, necessitate partitioning of the underlying dataflow graphs for the models
+        across multiple devices.
     \end{frame}
 
     \begin{frame}
@@ -48,7 +48,7 @@
                   seq-to-seq model to place each group to a device.
             \item \textbf{Spotlight} (Gao et al., 2018) heuristically groups nodes and generates placements with LSTM.
             \item \textbf{Placeto} (Addanki et al., 2019) uses GNN to encode the graph structure into embeddings, then
-                  use feed forward NN to iteratively generate a placement for one node at each step.
+                  uses feed forward NN to iteratively generate a placement for one node at each step.
             % HDP uses feature of nodes in the first layer, but Spotlight ignores them and only use op name as input.
         \end{itemize}
     \end{frame}
@@ -73,7 +73,7 @@
         \frametitle{Problem Formulation}
 
         Given a dataflow graph $G(V, E)$ where $V$ represents atomic computational operations (ops) and $E$ represents
-        the data dependency. The goal of GDP is to learn a policy $\pi: \mathcal{G} \mapsto \mathcal{D}$ that maximize
+        the data dependency. The goal of GDP is to learn a policy $\pi: \mathcal{G} \mapsto \mathcal{D}$ that maximizes
         reward $r_{G,D}$ defined based on the run time. GDP represents policy $\pi_\theta$ as a nerual network
         parameterized by $\theta$.
 
@@ -108,8 +108,7 @@
         neighbors of $v$, and $h_{\mathcal{N}(v)}$ stands for the aggregated feature from the neighbors of $v$.
 
         \vskip 1em
-        Different from GraphSAGE, which is unsuperised, GDP trains the embeddings jointly with the placement
-        network.
+        Different from GraphSAGE, which is unsuperised, GDP trains the embeddings jointly with the placement network.
     \end{frame}
 
     \begin{frame}
@@ -125,7 +124,7 @@
         \begin{itemize}
             \setlength{\itemsep}{.8em}
             \item Conventional seq-to-seq models usually target short sequences, which requires grouping beforehand.
-            \item LSTM used in previous works are slower and more difficult to train than attention-based models.
+            \item LSTM used in previous works is slower and more difficult to train than attention-based models.
             \item GDP adopts segment-level recurrence introduced in \textit{Transformer-XL} to capture long-term
                   dependencies. The key is to cache (with gradient flows disabled) and reuse the hidden states of
                   previous segments.
@@ -146,7 +145,7 @@
 
         \begin{itemize}
             \item Naive batch training is challenging because of the divergence of the dataflow graphs.
-            \item GDP use a feature conditioning mechanism similar to \textit{parameter superposition}, implemented by
+            \item GDP uses a feature conditioning mechanism similar to \textit{parameter superposition}, implemented by
                   replacing all dense layers in the placement network with:
         \end{itemize}
         
