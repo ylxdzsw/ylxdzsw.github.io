@@ -44,11 +44,12 @@
 
         \begin{itemize}
             \setlength{\itemsep}{1.4em}
-            \item \textbf{HDP} (Mirhoseini et al., 2018) use feed forward NN to assign each op to a group and use seq-to-seq
-                model to place each group to a device.
-            \item \textbf{Spotlight} (Gao et al., 2018) run LSTM on partially sorted nodes to generate placements.
-            \item \textbf{Placeto} (Addanki et al., 2019) use GNN to encode the graph structure into embeddings, then
-                use feed forward NN to iteratively generate a placement for one node at each step.
+            \item \textbf{HDP} (Mirhoseini et al., 2018) uses feed forward NN to assign each op to a group and runs a
+                  seq-to-seq model to place each group to a device.
+            \item \textbf{Spotlight} (Gao et al., 2018) heuristically groups nodes and generates placements with LSTM.
+            \item \textbf{Placeto} (Addanki et al., 2019) uses GNN to encode the graph structure into embeddings, then
+                  use feed forward NN to iteratively generate a placement for one node at each step.
+            % HDP uses feature of nodes in the first layer, but Spotlight ignores them and only use op name as input.
         \end{itemize}
     \end{frame}
 
@@ -59,9 +60,9 @@
             \setlength{\itemsep}{.8em}
             \item An end-to-end deep RL method for device placement that can generalize to arbitrary and held-out graphs.
             \item The placement network is 15x faster than HDP without the need for explicit grouping.
-            \item A new batch pre-training and fine-tuning strategy based on network superposition, which leads to improved
-                transferability, better placements especially for large graphs, and 10x reduction in policy search time
-                compared to train individual graphs from scratch.
+            \item A new batch pre-training and fine-tuning strategy based on network superposition, which leads to
+                  improved transferability, better placements especially for large graphs, and huge reduction in policy
+                  search time.
             \item Superior performance over a wide set of workloads including graphs with over 50k nodes.
         \end{itemize}
     \end{frame}
@@ -99,11 +100,16 @@
 
         GDP adopts the feature aggregation scheme proposed in \textit{GraphSAGE} as it shows better generalization.
         \begin{align*}
-            h^{(l)}_{\mathcal{N}(v)} &= max(\sigma(W^{(l)}h^{(l)}_u + b^{(l)}), \forall u \in \mathcal{N}(v)) \\
-            h^{(l+1)}_v &= f^{(l+1)}(\text{concat}(h^{(l)}_v, h^{(l)}_{\mathcal{N}(v)}))
+            h^{(l)}_{\mathcal{N}(v)} &= \text{max}(f_a^{(l)}(h^{(l)}_u), \forall u \in \mathcal{N}(v)) \\
+            h^{(l+1)}_v &= f_b^{(l+1)}(\text{concat}(h^{(l)}_v, h^{(l)}_{\mathcal{N}(v)}))
         \end{align*}
 
-        Different from GraphSAGE, which is an unsuperised, GDP train the embeddings jointly with the placement network.
+        where $h_v$ is the hidden feature of $v$, $f_a$ and $f_b$ are dense layers, $\mathcal{N}(v)$ represents the
+        neighbors of $v$, and $h_{\mathcal{N}(v)}$ stands for the aggregated feature from the neighbors of $v$.
+
+        \vskip 1em
+        Different from GraphSAGE, which is unsuperised, GDP trains the embeddings jointly with the placement
+        network.
     \end{frame}
 
     \begin{frame}
@@ -118,7 +124,7 @@
 
         \begin{itemize}
             \setlength{\itemsep}{.8em}
-            \item Conventional seq-to-seq models usually target shot sequence, which requires grouping beforehand.
+            \item Conventional seq-to-seq models usually target short sequences, which requires grouping beforehand.
             \item LSTM used in previous works are slower and more difficult to train than attention-based models.
             \item GDP adopts segment-level recurrence introduced in \textit{Transformer-XL} to capture long-term
                   dependencies. The key is to cache (with gradient flows disabled) and reuse the hidden states of
