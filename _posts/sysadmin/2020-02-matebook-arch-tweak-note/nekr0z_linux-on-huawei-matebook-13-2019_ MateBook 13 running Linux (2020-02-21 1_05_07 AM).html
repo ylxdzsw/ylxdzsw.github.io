@@ -1,0 +1,1011 @@
+<!DOCTYPE html> <html lang=en style><!--
+ Page saved with SingleFile 
+ url: https://github.com/nekr0z/linux-on-huawei-matebook-13-2019#bios-updates 
+ saved date: Sat Feb 22 2020 01:05:07 GMT+0800 (Hong Kong Standard Time)
+--><meta charset=utf-8>
+<style>.octicon{display:inline-block;fill:currentColor}html{font-family:sans-serif;-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%}body{margin:0}article,details,main,nav{display:block}summary{display:list-item}[hidden],template{display:none!important}a{background-color:initial}a:active,a:hover{outline-width:0}h1{margin:.67em 0}img{border-style:none}svg:not(:root){overflow:hidden}button,input{font:inherit;margin:0}button,input{overflow:visible}button{text-transform:none}[type=submit],html [type=button]{-webkit-appearance:button}::-webkit-input-placeholder{color:inherit;opacity:.54}::-webkit-file-upload-button{-webkit-appearance:button;font:inherit}*{box-sizing:border-box}button,input{font-family:inherit;font-size:inherit;line-height:inherit}body{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji;font-size:14px;line-height:1.5;color:#24292e;background-color:#fff}a{color:#0366d6;text-decoration:none}a:hover{text-decoration:underline}strong{font-weight:600}table{border-spacing:0;border-collapse:collapse}th{padding:0}button{cursor:pointer;border-radius:0}[hidden][hidden]{display:none!important}details summary{cursor:pointer}details:not([open])>:not(summary){display:none!important}h3{margin-top:0;margin-bottom:0}blockquote{margin:0}ol,ul{padding-left:0;margin-top:0;margin-bottom:0}code,pre{font-family:SFMono-Regular,Consolas,Liberation Mono,Menlo,monospace}pre{margin-bottom:0}.octicon{vertical-align:text-bottom}.Box{background-color:#fff;border:1px solid #d1d5da;border-radius:3px}.Box--condensed{line-height:1.25}.Box--condensed .Box-body,.Box--condensed .Box-header{padding:8px 16px}.Box-header{padding:16px;margin:-1px -1px 0;background-color:#f6f8fa;border:1px solid #d1d5da;border-top-left-radius:3px;border-top-right-radius:3px}.Box-title{font-size:14px;font-weight:600}.Box-body{border-bottom:1px solid #e1e4e8}.Box-body:last-of-type{margin-bottom:-1px;border-bottom-right-radius:2px;border-bottom-left-radius:2px}.btn{position:relative;display:inline-block;font-weight:600;white-space:nowrap;vertical-align:middle;cursor:pointer;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;background-repeat:repeat-x;background-position:-1px -1px;background-size:110% 110%;border:1px solid rgba(27,31,35,.2);border-radius:.25em;-webkit-appearance:none;-moz-appearance:none}.btn i{font-style:normal;font-weight:500;opacity:.75}.btn .octicon{vertical-align:text-top}.btn:hover{text-decoration:none;background-repeat:repeat-x}.btn:focus{outline:0}.btn.disabled,.btn:disabled,.btn[aria-disabled=true]{cursor:default;background-position:0 0}.btn.selected,.btn:active,.btn[aria-selected=true]{background-image:none}.btn{color:#24292e;background-color:#eff3f6;background-image:linear-gradient(-180deg,#fafbfc,#eff3f6 90%)}.btn.focus,.btn:focus{box-shadow:0 0 0 .2em rgba(3,102,214,.3)}.btn.hover,.btn:hover{background-color:#e6ebf1;background-image:linear-gradient(-180deg,#f0f3f6,#e6ebf1 90%);background-position:-.5em;border-color:rgba(27,31,35,.35)}.btn.selected,.btn:active,.btn[aria-selected=true],[open]>.btn{background-color:#e9ecef;background-image:none;border-color:rgba(27,31,35,.35);box-shadow:inset 0 .15em .3em rgba(27,31,35,.15)}.btn.disabled,.btn:disabled,.btn[aria-disabled=true]{color:rgba(36,41,46,.4);background-color:#eff3f6;background-image:none;border-color:rgba(27,31,35,.2);box-shadow:none}.btn-primary{color:#fff;background-color:#28a745;background-image:linear-gradient(-180deg,#34d058,#28a745 90%)}.btn-primary.focus,.btn-primary:focus{box-shadow:0 0 0 .2em rgba(52,208,88,.4)}.btn-primary.hover,.btn-primary:hover{background-color:#269f42;background-image:linear-gradient(-180deg,#2fcb53,#269f42 90%);background-position:-.5em;border-color:rgba(27,31,35,.5)}.btn-primary.selected,.btn-primary:active,.btn-primary[aria-selected=true],[open]>.btn-primary{background-color:#279f43;background-image:none;border-color:rgba(27,31,35,.5);box-shadow:inset 0 .15em .3em rgba(27,31,35,.15)}.btn-primary.disabled,.btn-primary:disabled,.btn-primary[aria-disabled=true]{color:hsla(0,0%,100%,.75);background-color:#94d3a2;background-image:none;border-color:rgba(27,31,35,.2);box-shadow:none}.btn-with-count{float:left;border-top-right-radius:0;border-bottom-right-radius:0}.btn-sm{padding:3px 10px;font-size:12px;line-height:20px}.BtnGroup{display:inline-block;vertical-align:middle}.BtnGroup:after,.BtnGroup:before{display:table;content:""}.BtnGroup:after{clear:both}.BtnGroup-item{position:relative;float:left;border-right-width:0;border-radius:0}.BtnGroup-item:first-child{border-top-left-radius:3px;border-bottom-left-radius:3px}.BtnGroup-item:last-child{border-right-width:1px;border-top-right-radius:3px;border-bottom-right-radius:3px}.BtnGroup-item.selected,.BtnGroup-item:active,.BtnGroup-item:focus,.BtnGroup-item:hover,.BtnGroup-item[aria-selected=true]{border-right-width:1px}.BtnGroup-item.selected+.BtnGroup-item,.BtnGroup-item.selected+.BtnGroup-parent .BtnGroup-item,.BtnGroup-item:active+.BtnGroup-item,.BtnGroup-item:active+.BtnGroup-parent .BtnGroup-item,.BtnGroup-item:focus+.BtnGroup-item,.BtnGroup-item:focus+.BtnGroup-parent .BtnGroup-item,.BtnGroup-item:hover+.BtnGroup-item,.BtnGroup-item:hover+.BtnGroup-parent .BtnGroup-item,.BtnGroup-item[aria-selected=true]+.BtnGroup-item,.BtnGroup-item[aria-selected=true]+.BtnGroup-parent .BtnGroup-item{border-left-width:0}.BtnGroup-parent{float:left}.BtnGroup-parent:first-child .BtnGroup-item{border-top-left-radius:3px;border-bottom-left-radius:3px}.BtnGroup-parent:last-child .BtnGroup-item{border-right-width:1px;border-top-right-radius:3px;border-bottom-right-radius:3px}.BtnGroup-parent .BtnGroup-item{border-right-width:0;border-radius:0}.BtnGroup-parent.selected .BtnGroup-item,.BtnGroup-parent:active .BtnGroup-item,.BtnGroup-parent:focus .BtnGroup-item,.BtnGroup-parent:hover .BtnGroup-item,.BtnGroup-parent[aria-selected=true] .BtnGroup-item{border-right-width:1px}.BtnGroup-parent.selected+.BtnGroup-item,.BtnGroup-parent.selected+.BtnGroup-parent .BtnGroup-item,.BtnGroup-parent:active+.BtnGroup-item,.BtnGroup-parent:active+.BtnGroup-parent .BtnGroup-item,.BtnGroup-parent:focus+.BtnGroup-item,.BtnGroup-parent:focus+.BtnGroup-parent .BtnGroup-item,.BtnGroup-parent:hover+.BtnGroup-item,.BtnGroup-parent:hover+.BtnGroup-parent .BtnGroup-item,.BtnGroup-parent[aria-selected=true]+.BtnGroup-item,.BtnGroup-parent[aria-selected=true]+.BtnGroup-parent .BtnGroup-item{border-left-width:0}.BtnGroup-item:active,.BtnGroup-item:focus,.BtnGroup-parent:active,.BtnGroup-parent:focus{z-index:1}.hidden-text-expander.inline{position:relative;top:-1px;display:inline-block;margin-left:5px;line-height:0}.ellipsis-expander{display:inline-block;height:12px;padding:0 5px 5px;font-size:12px;font-weight:600;line-height:6px;color:#444d56;text-decoration:none;vertical-align:middle;background:#dfe2e5;border:0;border-radius:1px}.ellipsis-expander:hover,.hidden-text-expander a:hover{text-decoration:none;background-color:#c6cbd1}.ellipsis-expander:active,.hidden-text-expander a:active{color:#fff;background-color:#2188ff}.social-count{float:left;padding:3px 10px;font-size:12px;font-weight:600;line-height:20px;color:#24292e;vertical-align:middle;background-color:#fff;border:1px solid rgba(27,31,35,.2);border-left:0;border-top-right-radius:3px;border-bottom-right-radius:3px}.social-count:active,.social-count:hover{text-decoration:none}.social-count:hover{color:#0366d6;cursor:pointer}.form-control{padding:6px 8px;vertical-align:middle;background-color:#fff;background-repeat:no-repeat;background-position:right 8px center;border-radius:3px;outline:0}.form-control.focus,.form-control:focus,.form-select.focus,.form-select:focus{border-color:#2188ff;outline:0;box-shadow:inset 0 1px 2px rgba(27,31,35,.075),0 0 0 .2em rgba(3,102,214,.3)}@media (min-width:768px){.form-control{font-size:14px}}::placeholder{color:#6a737d}.input-sm{min-height:28px;padding-top:3px;padding-bottom:3px;line-height:20px}input::-webkit-inner-spin-button,input::-webkit-outer-spin-button{margin:0;-webkit-appearance:none;appearance:none}.container-lg{max-width:1012px}.container-lg{margin-right:auto;margin-left:auto}.tooltipped{position:relative}.tooltipped:after{z-index:1000000;padding:.5em .75em;font:normal normal 11px/1.5 -apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji;-webkit-font-smoothing:subpixel-antialiased;color:#fff;text-align:center;text-decoration:none;text-shadow:none;text-transform:none;letter-spacing:normal;word-wrap:break-word;white-space:pre;content:attr(aria-label);background:#1b1f23;border-radius:3px}.tooltipped:after,.tooltipped:before{position:absolute;display:none;pointer-events:none;opacity:0}.tooltipped:before{z-index:1000001;width:0;height:0;color:#1b1f23;content:"";border:6px solid transparent}@keyframes tooltip-appear{0%{opacity:0}to{opacity:1}}.tooltipped:active:after,.tooltipped:active:before,.tooltipped:focus:after,.tooltipped:focus:before,.tooltipped:hover:after,.tooltipped:hover:before{display:inline-block;text-decoration:none;animation-name:tooltip-appear;animation-duration:.1s;animation-fill-mode:forwards;animation-timing-function:ease-in;animation-delay:.4s}.tooltipped-s:after,.tooltipped-se:after,.tooltipped-sw:after{top:100%;right:50%;margin-top:6px}.tooltipped-s:before,.tooltipped-se:before,.tooltipped-sw:before{top:auto;right:50%;bottom:-7px;margin-right:-6px;border-bottom-color:#1b1f23}.tooltipped-sw:after{margin-right:-16px}.tooltipped-n:after,.tooltipped-s:after{transform:translateX(50%)}.css-truncate.css-truncate-target,.css-truncate .css-truncate-target{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.css-truncate.css-truncate-target,.css-truncate .css-truncate-target{display:inline-block;max-width:125px;vertical-align:top}@keyframes fade-in{0%{opacity:0}to{opacity:1}}@keyframes fade-out{0%{opacity:1}to{opacity:0}}@keyframes fade-up{0%{opacity:.8;transform:translateY(100%)}to{opacity:1;transform:translateY(0)}}@keyframes fade-down{0%{opacity:1;transform:translateY(0)}to{opacity:.5;transform:translateY(100%)}}@keyframes grow-x{to{width:100%}}@keyframes shrink-x{to{width:0}}@keyframes scale-in{0%{opacity:0;transform:scale(.5)}to{opacity:1;transform:scale(1)}}@keyframes pulse{0%{opacity:.3}10%{opacity:1}to{opacity:.3}}@keyframes pulse-in{0%{transform:scaleX(1)}50%{transform:scale3d(1.1,1.1,1.1)}to{transform:scaleX(1)}}.border-top{border-top:1px solid #e1e4e8!important}.rounded-top-1{border-top-left-radius:3px!important;border-top-right-radius:3px!important}.border-gray-light{border-color:#eaecef!important}.box-shadow-large{box-shadow:0 1px 15px rgba(27,31,35,.15)!important}.bg-blue{background-color:#0366d6!important}.bg-gray-light{background-color:#fafbfc!important}.text-gray-light{color:#6a737d!important}.text-gray{color:#586069!important}.text-gray-dark{color:#24292e!important}.text-white{color:#fff!important}.text-inherit{color:inherit!important}.link-gray{color:#586069!important}.link-gray:hover{color:#0366d6!important}.details-reset>summary{list-style:none}.details-reset>summary:before{display:none}.details-reset>summary::-webkit-details-marker{display:none}.flex-wrap{flex-wrap:wrap!important}.flex-justify-center{justify-content:center!important}.flex-justify-between{justify-content:space-between!important}.flex-items-start{align-items:flex-start!important}.flex-items-center{align-items:center!important}.flex-items-baseline{align-items:baseline!important}.flex-auto{flex:auto!important}.flex-shrink-0{flex-shrink:0!important}.flex-self-start{align-self:flex-start!important}.flex-self-center{align-self:center!important}.flex-self-stretch{align-self:stretch!important}.position-relative{position:relative!important}.position-absolute{position:absolute!important}.position-fixed{position:fixed!important}.top-0{top:0!important}.left-0{left:0!important}.v-align-middle{vertical-align:middle!important}.v-align-text-bottom{vertical-align:text-bottom!important}.overflow-auto{overflow:auto!important}.clearfix:after,.clearfix:before{display:table;content:""}.clearfix:after{clear:both}.float-left{float:left!important}.float-right{float:right!important}.float-none{float:none!important}.width-fit{max-width:100%!important}.width-full{width:100%!important}.min-width-0{min-width:0!important}.m-0{margin:0!important}.mr-0{margin-right:0!important}.mt-1{margin-top:4px!important}.mr-1{margin-right:4px!important}.ml-1{margin-left:4px!important}.mt-2{margin-top:8px!important}.mr-2{margin-right:8px!important}.ml-2{margin-left:8px!important}.mr-3{margin-right:16px!important}.mb-3{margin-bottom:16px!important}.mb-4{margin-bottom:24px!important}.mt-6{margin-top:40px!important}.mx-auto{margin-right:auto!important;margin-left:auto!important}@media (min-width:1012px){.mx-lg-4{margin-right:24px!important;margin-left:24px!important}}.p-0{padding:0!important}.pb-0{padding-bottom:0!important}.pb-1{padding-bottom:4px!important}.pb-2{padding-bottom:8px!important}.px-2{padding-left:8px!important}.px-2{padding-right:8px!important}.p-3{padding:16px!important}.pt-3{padding-top:16px!important}.pr-3{padding-right:16px!important}.pl-3,.px-3{padding-left:16px!important}.px-3{padding-right:16px!important}.p-5{padding:32px!important}.pt-6{padding-top:40px!important}.pb-6{padding-bottom:40px!important}.f4{font-size:16px!important}@media (min-width:768px){.f4{font-size:16px!important}}.f6{font-size:12px!important}.text-small{font-size:12px!important}.text-center{text-align:center!important}.no-wrap{white-space:nowrap!important}.break-word{word-break:break-word!important;word-wrap:break-word!important;overflow-wrap:break-word!important}.text-emphasized{font-weight:600;color:#24292e}.list-style-none{list-style:none!important}.d-flex{display:flex!important}.d-inline{display:inline!important}.d-inline-block{display:inline-block!important}.d-none{display:none!important}@media (min-width:1012px){.d-lg-block{display:block!important}}@media (max-width:543px){.hide-sm{display:none!important}}@media (min-width:544px) and (max-width:767px){.hide-md{display:none!important}}.sr-only{padding:0;clip:rect(0,0,0,0);word-wrap:normal;border:0}.show-on-focus,.sr-only{position:absolute;width:1px;height:1px;overflow:hidden}.show-on-focus{margin:0;clip:rect(1px,1px,1px,1px)}.show-on-focus:focus{z-index:20;width:auto;height:auto;clip:auto}@keyframes blink{50%{background-color:initial}}body.intent-mouse [role=button]:focus,body.intent-mouse [role=tabpanel][tabindex="0"]:focus,body.intent-mouse button:focus,body.intent-mouse summary:focus{outline:0;box-shadow:none}g-emoji{font-family:Apple Color Emoji,Segoe UI,Segoe UI Emoji,Segoe UI Symbol;font-size:1.2em;font-style:normal!important;font-weight:400;line-height:20px;vertical-align:middle}g-emoji img{width:1em;height:1em}@keyframes dropdown-display{0%{opacity:0;transform:scale(.98) translateY(-.6em)}to{opacity:1;transform:scale(1) translateY(0)}}.header-nav-current-user{padding-bottom:0;font-size:inherit}.header-search-wrapper{width:100%;max-width:100%;padding:0;font-size:inherit;font-weight:400;color:#fff;vertical-align:middle;background-color:hsla(0,0%,100%,.125);border:0;box-shadow:none}.header-search-input{display:table-cell;width:100%;padding-top:0;padding-bottom:0;font-size:inherit;color:inherit;background:0;border:0;box-shadow:none}.header-search-input::placeholder{color:hsla(0,0%,100%,.75)}.header-search-input:focus{border:0;box-shadow:none}.header-search-input:focus~.header-search-key-slash{display:none!important}.scoped-search .header-search-wrapper{display:flex}.header-search{min-width:300px;transition:.2s ease-in-out;transition-property:min-width,padding-bottom,padding-top}@media (min-width:768px){.header-search:focus-within{min-width:470px}}.flash-close{float:right;padding:16px;margin:-16px;color:inherit;text-align:center;cursor:pointer;background:0;border:0;-webkit-appearance:none;-moz-appearance:none;opacity:.6}.flash-close:hover{opacity:1}.avatar{display:inline-block;overflow:hidden;line-height:1;vertical-align:middle;border-radius:3px}.AvatarStack{position:relative;min-width:26px;height:20px}.AvatarStack .AvatarStack-body{position:absolute}.AvatarStack-body{display:flex}.AvatarStack-body .avatar{position:relative;z-index:2;display:flex;width:20px;height:20px;box-sizing:initial;margin-right:-11px;background-color:#fff;border-right:1px solid #fff;border-radius:2px;transition:margin .1s ease-in-out}.AvatarStack-body .avatar:first-child{z-index:3}.AvatarStack-body .avatar:last-child{z-index:1;border-right:0}.AvatarStack-body .avatar img{border-radius:2px}.AvatarStack-body .avatar:nth-child(n+4){display:none;opacity:0}.AvatarStack-body:hover .avatar{margin-right:3px}.AvatarStack-body:hover .avatar:nth-child(n+4){display:flex;opacity:1}.dropdown-caret{display:inline-block;width:0;height:0;vertical-align:middle;content:"";border-top-style:solid;border-top-width:4px;border-right:4px solid transparent;border-bottom:0 solid transparent;border-left:4px solid transparent}.dropdown-menu{position:absolute;z-index:100;padding-top:4px;padding-bottom:4px;margin-top:2px;list-style:none;background-color:#fff;background-clip:padding-box;border:1px solid rgba(27,31,35,.15);border-radius:4px;box-shadow:0 1px 15px rgba(27,31,35,.15)}.dropdown-menu:after,.dropdown-menu:before{position:absolute;display:inline-block;content:""}.dropdown-menu:before{border:8px solid transparent;border-bottom-color:rgba(27,31,35,.15)}.dropdown-menu:after{border:7px solid transparent;border-bottom-color:#fff}.dropdown-item{display:block;padding:4px 8px 4px 16px;overflow:hidden;color:#24292e;text-overflow:ellipsis;white-space:nowrap}.dropdown-item:focus,.dropdown-item:hover{color:#fff;text-decoration:none;background-color:#0366d6;outline:0}.dropdown-divider{display:block;height:0;margin:8px 0;border-top:1px solid #e1e4e8}.dropdown-header{padding:4px 16px;font-size:12px;color:#586069}.dropdown-menu-sw{right:0;left:auto}.dropdown-menu-sw:before{top:-16px;right:9px;left:auto}.dropdown-menu-sw:after{top:-14px;right:10px;left:auto}.Header{z-index:32;padding:16px;font-size:14px;line-height:1.5;color:hsla(0,0%,100%,.7);background-color:#24292e}.Header,.Header-item{display:flex;align-items:center;flex-wrap:nowrap}.Header-item{margin-right:16px;align-self:stretch}.Header-item--full{flex:auto}.Header-link{font-weight:600;color:#fff;white-space:nowrap}.Header-link:focus,.Header-link:hover{color:hsla(0,0%,100%,.7);text-decoration:none}.Counter{display:inline-block;font-size:12px;font-weight:600;line-height:1;background-color:rgba(27,31,35,.08);border-radius:20px}.Counter:empty{visibility:hidden}@keyframes AnimatedEllipsis-keyframes{0%{transform:translateX(-100%)}}.markdown-body{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji;font-size:16px;line-height:1.5;word-wrap:break-word}.markdown-body:after,.markdown-body:before{display:table;content:""}.markdown-body:after{clear:both}.markdown-body>:first-child{margin-top:0!important}.markdown-body>:last-child{margin-bottom:0!important}.markdown-body a:not([href]){color:inherit;text-decoration:none}.markdown-body .anchor{float:left;padding-right:4px;margin-left:-20px;line-height:1}.markdown-body .anchor:focus{outline:0}.markdown-body blockquote,.markdown-body ol,.markdown-body p,.markdown-body pre,.markdown-body table{margin-top:0;margin-bottom:16px}.markdown-body blockquote{padding:0 1em;color:#6a737d;border-left:.25em solid #dfe2e5}.markdown-body blockquote>:first-child{margin-top:0}.markdown-body blockquote>:last-child{margin-bottom:0}.markdown-body h1,.markdown-body h2,.markdown-body h3{margin-top:24px;margin-bottom:16px;font-weight:600;line-height:1.25}.markdown-body h1 .octicon-link,.markdown-body h2 .octicon-link,.markdown-body h3 .octicon-link{color:#1b1f23;vertical-align:middle;visibility:hidden}.markdown-body h1:hover .anchor,.markdown-body h2:hover .anchor,.markdown-body h3:hover .anchor,.markdown-body h4:hover .anchor,.markdown-body h5:hover .anchor,.markdown-body h6:hover .anchor{text-decoration:none}.markdown-body h1:hover .anchor .octicon-link,.markdown-body h2:hover .anchor .octicon-link,.markdown-body h3:hover .anchor .octicon-link,.markdown-body h4:hover .anchor .octicon-link,.markdown-body h5:hover .anchor .octicon-link,.markdown-body h6:hover .anchor .octicon-link{visibility:visible}.markdown-body h1{font-size:2em}.markdown-body h1,.markdown-body h2{padding-bottom:.3em;border-bottom:1px solid #eaecef}.markdown-body h2{font-size:1.5em}.markdown-body h3{font-size:1.25em}.markdown-body ol{padding-left:2em}.markdown-body li>p{margin-top:16px}.markdown-body li+li{margin-top:.25em}.markdown-body table{display:block;width:100%;overflow:auto}.markdown-body table th{font-weight:600}.markdown-body table td,.markdown-body table th{padding:6px 13px;border:1px solid #dfe2e5}.markdown-body table tr{background-color:#fff;border-top:1px solid #c6cbd1}.markdown-body table tr:nth-child(2n){background-color:#f6f8fa}.markdown-body img{box-sizing:initial}.markdown-body .emoji{max-width:none;vertical-align:text-top;background-color:initial}.markdown-body code{padding:.2em .4em;margin:0;font-size:85%;background-color:rgba(27,31,35,.05);border-radius:3px}.markdown-body pre{word-wrap:normal}.markdown-body pre>code{font-size:100%;word-break:normal;white-space:pre;background:transparent}.markdown-body pre{padding:16px;overflow:auto;font-size:85%;line-height:1.45;background-color:#f6f8fa;border-radius:3px}.markdown-body pre code{display:inline;padding:0;margin:0;overflow:visible;line-height:inherit;word-wrap:normal;background-color:initial;border:0}.Popover{position:absolute;z-index:100}.Popover-message{position:relative;margin-right:auto}.Popover-message:after,.Popover-message:before{position:absolute;left:50%;display:inline-block;content:""}.Popover-message:before{top:-16px;margin-left:-9px;border:8px solid transparent;border-bottom-color:rgba(27,31,35,.15)}.Popover-message:after{top:-14px;margin-left:-8px;border:7px solid transparent;border-bottom-color:#fff}.Popover-message--bottom-left:after,.Popover-message--bottom-left:before,.Popover-message--bottom-right:after,.Popover-message--bottom-right:before,.Popover-message--bottom:after,.Popover-message--bottom:before{top:auto;border-bottom-color:transparent}.Popover-message--bottom-left:before,.Popover-message--bottom-right:before,.Popover-message--bottom:before{bottom:-16px;border-top-color:rgba(27,31,35,.15)}.Popover-message--bottom-left:after,.Popover-message--bottom-right:after,.Popover-message--bottom:after{bottom:-14px;border-top-color:#fff}.Popover-message--bottom-left,.Popover-message--top-left{left:-9px;margin-left:0}.Popover-message--bottom-left:after,.Popover-message--bottom-left:before,.Popover-message--top-left:after,.Popover-message--top-left:before{left:24px;margin-left:0}.Popover-message--bottom-left:after,.Popover-message--top-left:after{left:25px}@media (min-width:544px){.Popover-message--large{min-width:320px}}.Progress{display:flex;overflow:hidden;background-color:#e1e4e8;border-radius:3px}.SelectMenu-modal{position:relative;z-index:99;display:flex;margin:auto 0;overflow:hidden;pointer-events:auto;flex-direction:column;background-color:#f6f8fa;border-radius:6px;box-shadow:0 0 18px rgba(0,0,0,.4);animation:SelectMenu-modal-animation .12s cubic-bezier(0,.1,.1,1) backwards}@keyframes SelectMenu-modal-animation{0%{opacity:0;transform:scale(.9)}}@keyframes SelectMenu-modal-animation--sm{0%{opacity:0;transform:translateY(-16px)}}@media (min-width:544px){.SelectMenu-modal{width:300px;height:auto;max-height:480px;margin:4px 0 16px;font-size:12px;border:1px solid #d1d5da;border-radius:3px;box-shadow:0 1px 5px rgba(27,31,35,.15);animation-name:SelectMenu-modal-animation--sm}}.SelectMenu--hasFilter .SelectMenu-modal{height:80%;max-height:none;margin-top:0}@media (min-width:544px){.SelectMenu--hasFilter .SelectMenu-modal{height:auto;max-height:480px;margin-top:4px}}@keyframes toast--animateIn{0%{opacity:0;transform:translateY(100%)}}@keyframes toast--animateOut{to{pointer-events:none;opacity:0;transform:translateY(100%)}}.ajax-error-message>.octicon-alert{vertical-align:text-top}.Box--overlay .Box-header{margin:0;border-width:0 0 1px;border-top-left-radius:2px;border-top-right-radius:2px}.breadcrumb{color:#586069}.commit-desc pre{max-width:700px;margin-top:10px;font-family:SFMono-Regular,Consolas,Liberation Mono,Menlo,monospace;font-size:11px;line-height:1.45;color:#444d56;white-space:pre-wrap}.commit-tease{position:relative;padding:10px;margin-bottom:-1px;font-size:13px;line-height:20px;color:#586069;background-color:#f1f8ff;border:1px solid #c8e1ff}.commit-tease .avatar{margin-top:-1px}.commit-tease-sha{display:inline-block;font-family:SFMono-Regular,Consolas,Liberation Mono,Menlo,monospace;font-size:90%;color:#444d56}.footer-octicon{color:#c6cbd1}.footer-octicon:hover{color:#959da5}@keyframes konami-color{0%{background:#c1fa9c;border-bottom:2px solid #a2f76b}50%{background:#40e37a;border-bottom:2px solid #00cc4c}to{background:#40c4d7;border-bottom:2px solid #1eb4c9}}@keyframes konami-enter-link{0%{background:#c1fa9c}50%{background:#40e37a}to{background:#40c4d7}}.user-mention{font-weight:600;color:#24292e;white-space:nowrap}.pagehead{position:relative;padding-top:24px;padding-bottom:24px;margin-bottom:24px;border-bottom:1px solid #e1e4e8}.pagehead ul.pagehead-actions{position:relative;z-index:31;float:right;margin:0}.pagehead .path-divider{margin:0 .25em}.pagehead h1{margin-top:0;margin-bottom:0;font-weight:400}.pagehead-actions>li{float:left;margin:0 10px 0 0;font-size:11px;color:#24292e;list-style-type:none}.pagehead-actions>li:last-child{margin-right:0}.pagehead-actions .select-menu{position:relative}.pagehead-actions .select-menu:before{display:table;content:""}.pagehead-actions .select-menu:after{display:table;clear:both;content:""}.repohead h1{position:relative;min-height:32px;font-size:18px;color:#586069}.repohead h1 .octicon{color:#959da5}.reponav{position:relative;top:1px;margin-top:-5px}.reponav:after,.reponav:before{display:table;content:""}.reponav:after{clear:both}.reponav-item{float:left;color:#586069;white-space:nowrap;border:1px solid transparent;border-top:3px solid transparent;border-radius:3px 3px 0 0}.reponav-item .octicon{color:rgba(27,31,35,.3)}.reponav-item .Counter{color:#444d56}.reponav-item:focus,.reponav-item:hover{color:#24292e;text-decoration:none}.reponav-item.selected{color:#24292e;background-color:#fff;border-color:#e36209 #e1e4e8 transparent}.reponav-item.selected .octicon{color:inherit}.select-menu-button:after{display:inline-block;width:0;height:0;vertical-align:-2px;content:"";border:4px solid transparent;border-top-color:currentcolor}.select-menu-header{padding:8px 10px;line-height:16px;background:#f6f8fa;border-bottom:1px solid #e1e4e8}.select-menu-header:focus{outline:0}.select-menu-list{position:relative;max-height:400px;overflow:auto}.commit-tease .AvatarStack-body{background:#f1f8ff}[hidden]{display:none!important}body{word-wrap:break-word}@keyframes lightbulb{0%,8%,14%{opacity:.1}0%,10%,25%{opacity:.25}5%,30%,50%,70%{opacity:.5}16%,60%,80%{opacity:.75}90%{opacity:.8}94%{opacity:.5}to{opacity:1;stddeviation:0}}@keyframes pull-string{50%{transform:translate3d(0,12px,0)}75%{opacity:1;transform:none}to{opacity:0}}.TagsearchPopover{width:inherit;max-width:600px}@keyframes broadCastMaskFade{0%{opacity:0}30%{opacity:1}70%{opacity:1}to{opacity:0}}@keyframes fadeOut{0%{opacity:1}to{opacity:0}}@keyframes dropBox{0%{opacity:1;transform:translateY(-110%)}7%{opacity:1;transform:translateY(20%);transform:translateX(0)}80%{opacity:1}to{opacity:0;transform:translateX(-250%)}}.topic-tag{display:inline-block;padding:.3em .9em;margin:0 .5em .5em 0;white-space:nowrap;background-color:#f1f8ff;border-radius:3px}.topic-tag-link:hover{text-decoration:none;background-color:#def}.repository-topics-container .list-topics-container{display:inline-flex;flex-wrap:wrap;align-items:baseline}.repository-lang-stats-graph{width:100%;overflow:hidden;white-space:nowrap;cursor:pointer;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;border:1px solid #ddd;border-top:0;border-bottom-right-radius:3px;border-bottom-left-radius:3px}.repository-lang-stats-graph .language-color{line-height:8px;text-indent:-9999px}.repository-lang-stats-graph .language-color:first-child{border-bottom-left-radius:2px}.repository-lang-stats-graph .language-color:last-child{border-bottom-right-radius:2px}.repository-lang-stats-graph .language-color:not(:first-child){border-left:1px solid #fff}@keyframes blinkingText{0%{color:#e1e4e8}50%{color:hsla(0,0%,100%,.15)}33%{color:#e1e4e8}to{color:#e1e4e8}}.progress-pjax-loader{z-index:99999;height:2px;background:transparent;opacity:0;transition:opacity .4s linear .4s}.progress-pjax-loader>.progress-pjax-loader-bar{background-color:#79b8ff;box-shadow:0 0 10px rgba(121,184,255,.7);transition:width .4s ease}@keyframes show-pane{0%{transform:translateX(390px)}to{transform:translateX(0)}}.overall-summary{position:relative;border:1px solid #dfe2e5}.overall-summary-bottomless{margin-bottom:0;border-bottom:0;border-radius:3px 3px 0 0}.numbers-summary{display:table;width:100%;table-layout:fixed}.numbers-summary li{display:table-cell;padding:0;text-align:center;white-space:nowrap}.numbers-summary li>a{display:block;padding:10px 0;color:#586069;text-decoration:none}.numbers-summary li>a:hover{color:#0366d6}.numbers-summary li>a:hover .num{color:inherit}.numbers-summary .octicon{color:#6a737d}.file-navigation:after,.file-navigation:before{display:table;content:""}.file-navigation:after{clear:both}.file-navigation.in-mid-page{margin-top:16px}.file-navigation .branch-select-menu{margin-right:6px;margin-bottom:10px}.file-navigation .new-pull-request-btn{float:left}.file-navigation .breadcrumb{float:left;margin-top:0;margin-left:5px;font-size:16px;line-height:26px}.file-navigation .BtnGroup{margin-bottom:10px;margin-left:10px}.file-navigation .get-repo-modal{top:6px;width:352px}.file-wrap{margin-bottom:10px;border:1px solid #dfe2e5;border-top:0;border-bottom-right-radius:3px;border-bottom-left-radius:3px}table.files{width:100%;background:#fff;border-radius:2px}table.files tr.navigation-focus td{background:#f6f8fa}table.files td{padding:6px 3px;line-height:20px;border-top:1px solid #eaecef}table.files td.icon{width:17px;padding-right:2px;padding-left:10px;color:rgba(3,47,98,.55)}table.files td .css-truncate{max-width:100%}table.files td.content{max-width:180px}table.files td.message{max-width:442px;padding-left:10px;overflow:hidden;color:#6a737d}table.files td.message a{color:#6a737d}table.files td.message a:hover{color:#0366d6}table.files td.age{width:125px;padding-right:10px;color:#6a737d;text-align:right;white-space:nowrap}table.files tbody tr:first-child td{border-top:0}@keyframes toggle-color{0%{background-color:initial}50%{color:#4c4a42;background-color:#fff9ea;border-color:#dfd8c2}to{background-color:initial}}.user-status-container{white-space:normal}.user-status-container{word-break:break-word;word-wrap:break-word}@keyframes rotate{to{transform:rotate(1turn)}}@keyframes hx_code-search-anim-pulse{0%{opacity:1}30%{opacity:.3}to{opacity:1}}.hx_reponav .reponav-item{padding:7px 12px 8px!important}.hx_reponav .reponav-item .Counter{padding:2px 4px!important}@media (max-width:543px){@keyframes dropdown-menu-animation{0%{opacity:0;transform:scale(.9)}}}@media (max-width:767px){@keyframes hx_rsm-trigger-animation{0%{opacity:0}}@keyframes hx_rsm-modal-animation{0%{opacity:0;transform:scale(.9)}}}@media (hover:none){.tooltipped:hover:after,.tooltipped:hover:before{display:none}}@media (hover:none){.markdown-body h1 .octicon-link,.markdown-body h2 .octicon-link,.markdown-body h3 .octicon-link{visibility:visible!important}}.min-width-lg{min-width:1012px}@keyframes toast--spinner{0%{transform:rotate(0deg)}to{transform:rotate(1turn)}}.starring-container.on .starred{display:block}</style>
+<meta name=viewport content="width=device-width">
+<title>nekr0z/linux-on-huawei-matebook-13-2019: MateBook 13 running Linux</title>
+<meta name=description content="MateBook 13 running Linux. Contribute to nekr0z/linux-on-huawei-matebook-13-2019 development by creating an account on GitHub.">
+<link rel=search type=application/opensearchdescription+xml href=https://github.com/opensearch.xml title=GitHub>
+<meta property=fb:app_id content=1401488693436528>
+<meta name=twitter:image:src content="https://avatars3.githubusercontent.com/u/1515080?s=400&amp;v=4"><meta name=twitter:site content=@github><meta name=twitter:card content=summary><meta name=twitter:title content=nekr0z/linux-on-huawei-matebook-13-2019><meta name=twitter:description content="MateBook 13 running Linux. Contribute to nekr0z/linux-on-huawei-matebook-13-2019 development by creating an account on GitHub.">
+<meta property=og:image content="https://avatars3.githubusercontent.com/u/1515080?s=400&amp;v=4"><meta property=og:site_name content=GitHub><meta property=og:type content=object><meta property=og:title content=nekr0z/linux-on-huawei-matebook-13-2019><meta property=og:url content=https://github.com/nekr0z/linux-on-huawei-matebook-13-2019><meta property=og:description content="MateBook 13 running Linux. Contribute to nekr0z/linux-on-huawei-matebook-13-2019 development by creating an account on GitHub.">
+<link rel=assets href=https://github.githubassets.com/>
+<link rel=web-socket href="wss://live.github.com/_sockets/VjI6NDg4MjI1ODMwOmNiNjZkNzY3YTkyMmIwM2I1YjE1NGNhN2Q5NWY3Nzc5Zjc2Nzc3YzhkYzcyMDRmNWM4NTcyZjhlNjFjYjNkNGM=--d10e7c8c963a4386dccb817ce4feb9989190de5e">
+<link rel=sudo-modal href=https://github.com/sessions/sudo_modal>
+<meta name=request-id content=A90A:69CD:3DE0AF:67B233:5E500D81 data-pjax-transient=true><meta name=html-safe-nonce content=7dff82c354edc790b7eb77a048db039b4cdb066a data-pjax-transient=true><meta name=visitor-payload content="eyJyZWZlcnJlciI6Imh0dHBzOi8vZ2l0aHViLmNvbS9oZzgvYXJjaC1tYXRlYm9vay14LXByby0yMDE5L2Jsb2IvbWFzdGVyL2Jpb3MtdXBkYXRlLW9uLWxpbnV4Lm1kIiwicmVxdWVzdF9pZCI6IkE5MEE6NjlDRDozREUwQUY6NjdCMjMzOjVFNTAwRDgxIiwidmlzaXRvcl9pZCI6IjUxODM4Mzg3NTI2MDgxODA2MDYiLCJyZWdpb25fZWRnZSI6ImlhZCIsInJlZ2lvbl9yZW5kZXIiOiJpYWQifQ==" data-pjax-transient=true><meta name=visitor-hmac content=86ea1631176e15cdb3d55e5748291f68d8a2903570f880bd5a6827abc5f7c97b data-pjax-transient=true>
+<meta name=github-keyboard-shortcuts content=repository data-pjax-transient=true>
+<meta name=selected-link value=repo_source data-pjax-transient>
+<meta name=google-site-verification content=KT5gs8h0wvaagLKAVWq8bbeNwnZZK1r1XQysX3xurLU>
+<meta name=google-site-verification content=ZzhVyEFwb7w3e0-uOTltm8Jsck2F5StVihD0exw2fsA>
+<meta name=google-site-verification content=GXs5KoUUkNCoaAZn7wPN-t01Pywp9M3sEjnt_3_ZWPc>
+<meta name=octolytics-host content=collector.githubapp.com><meta name=octolytics-app-id content=github><meta name=octolytics-event-url content=https://collector.githubapp.com/github-external/browser_event><meta name=octolytics-dimension-ga_id content=681671442.1578981760 class=js-octo-ga-id><meta name=octolytics-actor-id content=7145046><meta name=octolytics-actor-login content=ylxdzsw><meta name=octolytics-actor-hash content=824daee16a6f40f31c72b16a5e3b83e6ea76adf2f75d774329c8b9098ace2ed4>
+<meta name=analytics-location content="/<user-name>/<repo-name>" data-pjax-transient=true>
+<meta name=google-analytics content=UA-3769691-2>
+<meta class=js-ga-set name=userId content=498cc935a4d1dc115d62e4c2a35a09b6>
+<meta class=js-ga-set name=dimension1 content="Logged In">
+<meta name=hostname content=github.com>
+<meta name=user-login content=ylxdzsw>
+<meta name=expected-hostname content=github.com>
+<meta name=js-proxy-site-detection-payload content=ZjczZWJjNTY0Njk1ZGE3NjcyMmQ3OWJmNmE3NDIyNGUyM2FlNjcxNTkwMWM0MmFiNDhkZTQ3MjIyZDVhOTU2YXx7InJlbW90ZV9hZGRyZXNzIjoiMjE4LjEwMy4yMDIuMjA2IiwicmVxdWVzdF9pZCI6IkE5MEE6NjlDRDozREUwQUY6NjdCMjMzOjVFNTAwRDgxIiwidGltZXN0YW1wIjoxNTgyMzA0Njg4LCJob3N0IjoiZ2l0aHViLmNvbSJ9>
+<meta name=enabled-features content=MARKETPLACE_FEATURED_BLOG_POSTS,MARKETPLACE_INVOICED_BILLING,MARKETPLACE_SOCIAL_PROOF_CUSTOMERS,MARKETPLACE_TRENDING_SOCIAL_PROOF,MARKETPLACE_RECOMMENDATIONS,MARKETPLACE_PENDING_INSTALLATIONS,RELATED_ISSUES,GHE_CLOUD_TRIAL>
+<meta http-equiv=x-pjax-version content=899d7e4a31207323cf7819447107ff01>
+<link href=https://github.com/nekr0z/linux-on-huawei-matebook-13-2019/commits/master.atom rel=alternate title="Recent Commits to linux-on-huawei-matebook-13-2019:master" type=application/atom+xml>
+<meta name=go-import content="github.com/nekr0z/linux-on-huawei-matebook-13-2019 git https://github.com/nekr0z/linux-on-huawei-matebook-13-2019.git">
+<meta name=octolytics-dimension-user_id content=1515080><meta name=octolytics-dimension-user_login content=nekr0z><meta name=octolytics-dimension-repository_id content=179570132><meta name=octolytics-dimension-repository_nwo content=nekr0z/linux-on-huawei-matebook-13-2019><meta name=octolytics-dimension-repository_public content=true><meta name=octolytics-dimension-repository_is_fork content=false><meta name=octolytics-dimension-repository_network_root_id content=179570132><meta name=octolytics-dimension-repository_network_root_nwo content=nekr0z/linux-on-huawei-matebook-13-2019><meta name=octolytics-dimension-repository_explore_github_marketplace_ci_cta_shown content=false>
+<link rel=canonical href=https://github.com/nekr0z/linux-on-huawei-matebook-13-2019 data-pjax-transient>
+<meta name=browser-stats-url content=https://api.github.com/_private/browser/stats>
+<meta name=browser-errors-url content=https://api.github.com/_private/browser/errors>
+<meta name=theme-color content=#1e2327>
+<link rel=manifest href=https://github.com/manifest.json crossorigin=use-credentials>
+<meta itemprop=position content=1><meta itemprop=position content=2><meta itemprop=position content=4><link rel=icon type=image/x-icon class=js-site-favicon href="data:image/vnd.microsoft.icon;base64,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AAAAAAAAKysrBhYWGUcWFhiVFRUYvxUVGNkWFhfzFhYX8xUVGNkVFRi/FhYYlRYWGUcrKysGAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA="><style>.sf-hidden{display:none!important}</style></head>
+ <body class="logged-in env-production min-width-lg intent-mouse">
+ 
+ <div class="position-relative js-header-wrapper">
+ <a href=#start-of-content tabindex=1 class="p-3 bg-blue text-white show-on-focus js-skip-to-content">Skip to content</a>
+ <span class="Progress progress-pjax-loader position-fixed width-full js-pjax-loader-bar">
+ <span class="progress-pjax-loader-bar top-0 left-0" style=width:0%></span>
+ </span>
+ 
+ 
+ <header class=Header role=banner>
+ <div class=Header-item>
+ <a class=Header-link href=https://github.com/ data-hotkey="g d" aria-label=Homepage data-ga-click="Header, go to dashboard, icon:logo">
+ <svg class="octicon octicon-mark-github v-align-middle" height=32 viewBox="0 0 16 16" version=1.1 width=32 aria-hidden=true><path fill-rule=evenodd d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"></path></svg>
+</a>
+ </div>
+ <div class="Header-item Header-item--full">
+ <div class="header-search mr-3 scoped-search site-scoped-search js-site-search position-relative js-jump-to" role=combobox aria-owns=jump-to-results aria-label="Search or jump to" aria-haspopup=listbox aria-expanded=false>
+ <div class=position-relative>
+ <form class=js-site-search-form role=search aria-label=Site data-scope-type=Repository data-scope-id=179570132 data-scoped-search-url=/nekr0z/linux-on-huawei-matebook-13-2019/search data-unscoped-search-url=/search action=/nekr0z/linux-on-huawei-matebook-13-2019/search accept-charset=UTF-8>
+ <label class="form-control input-sm header-search-wrapper p-0 header-search-wrapper-jump-to position-relative d-flex flex-justify-between flex-items-center js-chromeless-input-container">
+ <input type=text class="form-control input-sm header-search-input jump-to-field js-jump-to-field js-site-search-focus js-site-search-field is-clearable" data-hotkey=s,/ name=q value placeholder="Search or jump to…" data-unscoped-placeholder="Search or jump to…" data-scoped-placeholder="Search or jump to…" autocapitalize=off aria-autocomplete=list aria-controls=jump-to-results aria-label="Search or jump to…" data-jump-to-suggestions-path=/_graphql/GetSuggestedNavigationDestinations spellcheck=false autocomplete=off>
+ 
+ 
+ <img src=data:image/svg+xml;base64,PHN2ZyB2ZXJzaW9uPSIxLjEiIGlkPSJMYXllcl8xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB4PSIwcHgiIHk9IjBweCIKCSB3aWR0aD0iMTlweCIgaGVpZ2h0PSIyMHB4IiB2aWV3Qm94PSIwIDAgMTkgMjAiIHN0eWxlPSJlbmFibGUtYmFja2dyb3VuZDpuZXcgMCAwIDE5IDIwOyIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSI+CgkgPHBhdGggZmlsbD0ibm9uZSIgc3Ryb2tlPSIjOTc5QTlDIiBvcGFjaXR5PSIwLjQiIGQ9Ik0zLjUsMC41aDEyYzEuNywwLDMsMS4zLDMsM3YxM2MwLDEuNy0xLjMsMy0zLDNoLTEyYy0xLjcsMC0zLTEuMy0zLTN2LTEzQzAuNSwxLjgsMS44LDAuNSwzLjUsMC41eiIvPgoJIDxwYXRoIGZpbGw9IiM5NzlBOUMiIGQ9Ik0xMS44LDZMOCwxNS4xSDcuMUwxMC44LDZMMTEuOCw2eiIvPgo8L3N2Zz4K alt class="mr-2 header-search-key-slash">
+ <div class="Box position-absolute overflow-hidden d-none jump-to-suggestions js-jump-to-suggestions-container sf-hidden">
+ 
+<ul class="d-none js-jump-to-suggestions-template-container">
+ 
+</ul>
+<ul class="d-none js-jump-to-no-results-template-container">
+ 
+</ul>
+<ul id=jump-to-results role=listbox class="p-0 m-0 js-navigation-container jump-to-suggestions-results-container js-jump-to-suggestions-results-container">
+ 
+ 
+ 
+</ul>
+ </div>
+ </label>
+</form> </div>
+</div>
+ <nav class=d-flex aria-label=Global>
+ <a class="js-selected-navigation-item Header-link mr-3" data-hotkey="g p" data-ga-click="Header, click, Nav menu - item:pulls context:user" aria-label="Pull requests you created" data-selected-links="/pulls /pulls/assigned /pulls/mentioned /pulls" href=https://github.com/pulls>
+ Pull requests
+</a>
+ <a class="js-selected-navigation-item Header-link mr-3" data-hotkey="g i" data-ga-click="Header, click, Nav menu - item:issues context:user" aria-label="Issues you created" data-selected-links="/issues /issues/assigned /issues/mentioned /issues" href=https://github.com/issues>
+ Issues
+</a>
+ <div class=mr-3>
+ <a class="js-selected-navigation-item Header-link" data-ga-click="Header, click, Nav menu - item:marketplace context:user" data-octo-click=marketplace_click data-octo-dimensions=location:nav_bar data-selected-links=" /marketplace" href=https://github.com/marketplace>
+ Marketplace
+</a> 
+ </div>
+ <a class="js-selected-navigation-item Header-link mr-3" data-ga-click="Header, click, Nav menu - item:explore" data-selected-links="/explore /trending /trending/developers /integrations /integrations/feature/code /integrations/feature/collaborate /integrations/feature/ship showcases showcases_search showcases_landing /explore" href=https://github.com/explore>
+ Explore
+</a>
+</nav>
+ </div>
+ <div class=Header-item>
+ 
+ <a aria-label="You have no unread notifications" class="Header-link notification-indicator position-relative tooltipped tooltipped-sw js-socket-channel js-notification-indicator" data-hotkey="g n" data-ga-click="Header, go to notifications, icon:read" data-channel=notification-changed:7145046 href=https://github.com/notifications/beta>
+ <span class="js-indicator-modifier mail-status sf-hidden"></span>
+ <svg class="octicon octicon-bell" viewBox="0 0 14 16" version=1.1 width=14 height=16 aria-hidden=true><path fill-rule=evenodd d="M14 12v1H0v-1l.73-.58c.77-.77.81-2.55 1.19-4.42C2.69 3.23 6 2 6 2c0-.55.45-1 1-1s1 .45 1 1c0 0 3.39 1.23 4.16 5 .38 1.88.42 3.66 1.19 4.42l.66.58H14zm-7 4c1.11 0 2-.89 2-2H5c0 1.11.89 2 2 2z"></path></svg>
+</a>
+ </div>
+ <div class="Header-item position-relative">
+ <details class="details-overlay details-reset">
+ <summary class=Header-link aria-label="Create new…" data-ga-click="Header, create new, icon:add" aria-haspopup=menu role=button>
+ <svg class="octicon octicon-plus" viewBox="0 0 12 16" version=1.1 width=12 height=16 aria-hidden=true><path fill-rule=evenodd d="M12 9H7v5H5V9H0V7h5V2h2v5h5v2z"></path></svg> <span class=dropdown-caret></span>
+ </summary>
+ <details-menu class="dropdown-menu dropdown-menu-sw sf-hidden" role=menu>
+ 
+<a role=menuitem class=dropdown-item href=https://github.com/new data-ga-click="Header, create new repository">
+ New repository
+</a>
+ <a role=menuitem class=dropdown-item href=https://github.com/new/import data-ga-click="Header, import a repository">
+ Import repository
+ </a>
+<a role=menuitem class=dropdown-item href=https://gist.github.com/ data-ga-click="Header, create new gist">
+ New gist
+</a>
+ <a role=menuitem class=dropdown-item href=https://github.com/organizations/new data-ga-click="Header, create new organization">
+ New organization
+ </a>
+ <div role=none class=dropdown-divider></div>
+ <div class=dropdown-header>
+ 
+ </div>
+ <a role=menuitem class=dropdown-item href=https://github.com/nekr0z/linux-on-huawei-matebook-13-2019/issues/new data-ga-click="Header, create new issue" data-skip-pjax>
+ New issue
+ </a>
+ </details-menu>
+</details>
+ </div>
+ <div class="Header-item position-relative mr-0">
+ 
+ <details class="details-overlay details-reset js-feature-preview-indicator-container" data-feature-preview-indicator-src=/users/ylxdzsw/feature_preview/indicator_check.json>
+ <summary class=Header-link aria-label="View profile and more" data-ga-click="Header, show menu, icon:avatar" aria-haspopup=menu role=button>
+ <img alt=@ylxdzsw class=avatar src="data:image/jpeg;base64,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" height=20 width=20>
+ <span class="feature-preview-indicator js-feature-preview-indicator sf-hidden" hidden></span>
+ <span class=dropdown-caret></span>
+ </summary>
+ <details-menu class="dropdown-menu dropdown-menu-sw mt-2 sf-hidden" style=width:180px role=menu>
+ <div class="header-nav-current-user css-truncate"></div>
+ <div role=none class=dropdown-divider></div>
+ <div class="pl-3 pr-3 f6 user-status-container js-user-status-context pb-1" data-url="/users/status?compact=1&amp;link_mentions=0&amp;truncate=1">
+ 
+ </div>
+ <div role=none class=dropdown-divider></div>
+ <a role=menuitem class=dropdown-item href=https://github.com/ylxdzsw data-ga-click="Header, go to profile, text:your profile">Your profile</a>
+ <a role=menuitem class=dropdown-item href="https://github.com/ylxdzsw?tab=repositories" data-ga-click="Header, go to repositories, text:your repositories">Your repositories</a>
+ <a role=menuitem class=dropdown-item href="https://github.com/ylxdzsw?tab=projects" data-ga-click="Header, go to projects, text:your projects">Your projects</a>
+ <a role=menuitem class=dropdown-item href="https://github.com/ylxdzsw?tab=stars" data-ga-click="Header, go to starred repos, text:your stars">Your stars</a>
+ <a role=menuitem class=dropdown-item href=https://gist.github.com/mine data-ga-click="Header, your gists, text:your gists">Your gists</a>
+ <div role=none class=dropdown-divider></div>
+ 
+<div id=feature-enrollment-toggle class="hide-sm hide-md feature-preview-details position-relative">
+ 
+ 
+</div>
+ <a role=menuitem class=dropdown-item href=https://help.github.com/ data-ga-click="Header, go to help, text:help">Help</a>
+ <a role=menuitem class=dropdown-item href=https://github.com/settings/profile data-ga-click="Header, go to settings, icon:settings">Settings</a>
+ <form class=logout-form action=/logout accept-charset=UTF-8 method=post>
+ 
+ 
+ 
+</form> </details-menu>
+</details>
+ </div>
+ </header>
+ 
+ </div>
+ <div id=start-of-content class=show-on-focus></div>
+ <div id=js-flash-container>
+</div>
+ 
+ <div class=application-main data-commit-hovercards-enabled>
+ <div itemscope itemtype=http://schema.org/SoftwareSourceCode>
+ <main id=js-repo-pjax-container data-pjax-container>
+ 
+ 
+ <div class="pagehead repohead hx_repohead readability-menu bg-gray-light pb-0 pt-3">
+ <div class="container-lg mb-4 px-3 d-flex">
+ <div class="flex-auto min-width-0 width-fit mr-3">
+ <h1 class="public d-flex flex-wrap flex-items-center break-word float-none">
+ <svg class="octicon octicon-repo" viewBox="0 0 12 16" version=1.1 width=12 height=16 aria-hidden=true><path fill-rule=evenodd d="M4 9H3V8h1v1zm0-3H3v1h1V6zm0-2H3v1h1V4zm0-2H3v1h1V2zm8-1v12c0 .55-.45 1-1 1H6v2l-1.5-1.5L3 16v-2H1c-.55 0-1-.45-1-1V1c0-.55.45-1 1-1h10c.55 0 1 .45 1 1zm-1 10H1v2h2v-1h3v1h5v-2zm0-10H2v9h9V1z"></path></svg>
+ <span class="author ml-1 flex-self-stretch" itemprop=author>
+ <a class="url fn" rel=author data-hovercard-type=user data-hovercard-url=/users/nekr0z/hovercard data-octo-click=hovercard-link-click data-octo-dimensions=link_type:self href=https://github.com/nekr0z>nekr0z</a>
+ </span>
+ <span class="path-divider flex-self-stretch">/</span>
+ <strong itemprop=name class="mr-2 flex-self-stretch">
+ <a data-pjax=#js-repo-pjax-container href=https://github.com/nekr0z/linux-on-huawei-matebook-13-2019>linux-on-huawei-matebook-13-2019</a>
+ </strong>
+ 
+</h1>
+ </div>
+ <ul class="pagehead-actions flex-shrink-0">
+ <li hidden class=sf-hidden>
+ 
+ </li>
+ <li>
+ 
+ <form data-remote=true class="clearfix js-social-form js-social-container" action=/notifications/subscribe accept-charset=UTF-8 method=post> 
+ <details class="details-reset details-overlay select-menu float-left">
+ <summary class="select-menu-button float-left btn btn-sm btn-with-count" data-hydro-click='{"event_type":"repository.click","payload":{"target":"WATCH_BUTTON","repository_id":179570132,"originating_url":"https://github.com/nekr0z/linux-on-huawei-matebook-13-2019","user_id":7145046}}' data-hydro-click-hmac=d31ecc34734e6c4ac88218d5c7ac42f5efac46d474db1d8efa18db977f4b6819 data-ga-click="Repository, click Watch settings, action:files#disambiguate" aria-haspopup=menu role=button> <span data-menu-button>
+ <svg class="octicon octicon-eye v-align-text-bottom" viewBox="0 0 16 16" version=1.1 width=16 height=16 aria-hidden=true><path fill-rule=evenodd d="M8.06 2C3 2 0 8 0 8s3 6 8.06 6C13 14 16 8 16 8s-3-6-7.94-6zM8 12c-2.2 0-4-1.78-4-4 0-2.2 1.8-4 4-4 2.22 0 4 1.8 4 4 0 2.22-1.78 4-4 4zm2-4c0 1.11-.89 2-2 2-1.11 0-2-.89-2-2 0-1.11.89-2 2-2 1.11 0 2 .89 2 2z"></path></svg>
+ Watch
+ </span>
+</summary> <details-menu class="select-menu-modal position-absolute mt-5 sf-hidden" style=z-index:99 role=menu>
+ <div class=select-menu-header>
+ 
+ </div>
+ <div class=select-menu-list>
+ 
+ 
+ 
+ 
+ </div>
+ </details-menu>
+ </details>
+ <a class="social-count js-social-count" href=https://github.com/nekr0z/linux-on-huawei-matebook-13-2019/watchers aria-label="13 users are watching this repository">
+ 13
+ </a>
+</form>
+ </li>
+ <li>
+ <div class="js-toggler-container js-social-container starring-container on">
+ <form class="starred js-social-form" action=/nekr0z/linux-on-huawei-matebook-13-2019/unstar accept-charset=UTF-8 method=post>
+ 
+ <button type=submit class="btn btn-sm btn-with-count js-toggler-target" aria-label="Unstar this repository" title="Unstar nekr0z/linux-on-huawei-matebook-13-2019" data-hydro-click='{"event_type":"repository.click","payload":{"target":"UNSTAR_BUTTON","repository_id":179570132,"originating_url":"https://github.com/nekr0z/linux-on-huawei-matebook-13-2019","user_id":7145046}}' data-hydro-click-hmac=b09dbc74c05824031518deda5a057cd488b1a9266b073d9a10d3eb2322f3794b data-ga-click="Repository, click unstar button, action:files#disambiguate; text:Unstar"> <svg aria-label=star height=16 class="octicon octicon-star v-align-text-bottom" viewBox="0 0 14 16" version=1.1 width=14 role=img><path fill-rule=evenodd d="M14 6l-4.9-.64L7 1 4.9 5.36 0 6l3.6 3.26L2.67 14 7 11.67 11.33 14l-.93-4.74L14 6z"></path></svg>
+ Unstar
+</button> <a class="social-count js-social-count" href=https://github.com/nekr0z/linux-on-huawei-matebook-13-2019/stargazers aria-label="113 users starred this repository">
+ 113
+ </a>
+</form>
+ <form class="unstarred js-social-form sf-hidden" action=/nekr0z/linux-on-huawei-matebook-13-2019/star accept-charset=UTF-8 method=post>
+ 
+ <button type=submit class="btn btn-sm btn-with-count js-toggler-target" aria-label="Unstar this repository" title="Star nekr0z/linux-on-huawei-matebook-13-2019" data-hydro-click='{"event_type":"repository.click","payload":{"target":"STAR_BUTTON","repository_id":179570132,"originating_url":"https://github.com/nekr0z/linux-on-huawei-matebook-13-2019","user_id":7145046}}' data-hydro-click-hmac=1a9351bd806cb4981ea5fd116e40c7f6a4810e200b38678ed431096c7a8c0cc1 data-ga-click="Repository, click star button, action:files#disambiguate; text:Star"> <svg aria-label=star height=16 class="octicon octicon-star v-align-text-bottom" viewBox="0 0 14 16" version=1.1 width=14 role=img><path fill-rule=evenodd d="M14 6l-4.9-.64L7 1 4.9 5.36 0 6l3.6 3.26L2.67 14 7 11.67 11.33 14l-.93-4.74L14 6z"></path></svg>
+ Star
+</button> <a class="social-count js-social-count" href=https://github.com/nekr0z/linux-on-huawei-matebook-13-2019/stargazers aria-label="113 users starred this repository">
+ 113
+ </a>
+</form> </div>
+ </li>
+ <li>
+ <details class="details-reset details-overlay details-overlay-dark d-inline-block float-left">
+ <summary class="btn btn-sm btn-with-count" data-hydro-click='{"event_type":"repository.click","payload":{"target":"FORK_BUTTON","repository_id":179570132,"originating_url":"https://github.com/nekr0z/linux-on-huawei-matebook-13-2019","user_id":7145046}}' data-hydro-click-hmac=907230cd6ebc1bfc44eb8e2c4f73de7cc4b6b8c180f9111ac281238b3fc71da8 data-ga-click="Repository, show fork modal, action:files#disambiguate; text:Fork" title="Fork your own copy of nekr0z/linux-on-huawei-matebook-13-2019 to your account" role=button> <svg class="octicon octicon-repo-forked v-align-text-bottom" viewBox="0 0 10 16" version=1.1 width=10 height=16 aria-hidden=true><path fill-rule=evenodd d="M8 1a1.993 1.993 0 00-1 3.72V6L5 8 3 6V4.72A1.993 1.993 0 002 1a1.993 1.993 0 00-1 3.72V6.5l3 3v1.78A1.993 1.993 0 005 15a1.993 1.993 0 001-3.72V9.5l3-3V4.72A1.993 1.993 0 008 1zM2 4.2C1.34 4.2.8 3.65.8 3c0-.65.55-1.2 1.2-1.2.65 0 1.2.55 1.2 1.2 0 .65-.55 1.2-1.2 1.2zm3 10c-.66 0-1.2-.55-1.2-1.2 0-.65.55-1.2 1.2-1.2.65 0 1.2.55 1.2 1.2 0 .65-.55 1.2-1.2 1.2zm3-10c-.66 0-1.2-.55-1.2-1.2 0-.65.55-1.2 1.2-1.2.65 0 1.2.55 1.2 1.2 0 .65-.55 1.2-1.2 1.2z"></path></svg>
+ Fork
+</summary> <details-dialog class="anim-fade-in fast Box Box--overlay d-flex flex-column sf-hidden" src="/nekr0z/linux-on-huawei-matebook-13-2019/fork?fragment=1" preload role=dialog aria-modal=true>
+ <div class=Box-header>
+ 
+ 
+ </div>
+ <div class="overflow-auto text-center">
+ 
+ </div>
+ </details-dialog>
+ </details>
+ <a href=https://github.com/nekr0z/linux-on-huawei-matebook-13-2019/network/members class=social-count aria-label="6 users forked this repository">
+ 6
+ </a>
+ </li>
+</ul>
+ </div>
+ 
+<nav class="hx_reponav reponav js-repo-nav js-sidenav-container-pjax clearfix container-lg px-3" itemscope itemtype=http://schema.org/BreadcrumbList aria-label=Repository data-pjax=#js-repo-pjax-container>
+ <span itemscope itemtype=http://schema.org/ListItem itemprop=itemListElement>
+ <a class="js-selected-navigation-item selected reponav-item" itemprop=url data-hotkey="g c" aria-current=page data-selected-links="repo_source repo_downloads repo_commits repo_releases repo_tags repo_branches repo_packages /nekr0z/linux-on-huawei-matebook-13-2019" href=https://github.com/nekr0z/linux-on-huawei-matebook-13-2019>
+ <div class=d-inline><svg class="octicon octicon-code" viewBox="0 0 14 16" version=1.1 width=14 height=16 aria-hidden=true><path fill-rule=evenodd d="M9.5 3L8 4.5 11.5 8 8 11.5 9.5 13 14 8 9.5 3zm-5 0L0 8l4.5 5L6 11.5 2.5 8 6 4.5 4.5 3z"></path></svg></div>
+ <span itemprop=name>Code</span>
+ 
+</a> </span>
+ <span itemscope itemtype=http://schema.org/ListItem itemprop=itemListElement>
+ <a itemprop=url data-hotkey="g i" class="js-selected-navigation-item reponav-item" data-selected-links="repo_issues repo_labels repo_milestones /nekr0z/linux-on-huawei-matebook-13-2019/issues" href=https://github.com/nekr0z/linux-on-huawei-matebook-13-2019/issues>
+ <div class=d-inline><svg class="octicon octicon-issue-opened" viewBox="0 0 14 16" version=1.1 width=14 height=16 aria-hidden=true><path fill-rule=evenodd d="M7 2.3c3.14 0 5.7 2.56 5.7 5.7s-2.56 5.7-5.7 5.7A5.71 5.71 0 011.3 8c0-3.14 2.56-5.7 5.7-5.7zM7 1C3.14 1 0 4.14 0 8s3.14 7 7 7 7-3.14 7-7-3.14-7-7-7zm1 3H6v5h2V4zm0 6H6v2h2v-2z"></path></svg></div>
+ <span itemprop=name>Issues</span>
+ <span class=Counter>9</span>
+ 
+</a> </span>
+ <span itemscope itemtype=http://schema.org/ListItem itemprop=itemListElement>
+ <a data-hotkey="g p" data-skip-pjax=true itemprop=url class="js-selected-navigation-item reponav-item" data-selected-links="repo_pulls checks /nekr0z/linux-on-huawei-matebook-13-2019/pulls" href=https://github.com/nekr0z/linux-on-huawei-matebook-13-2019/pulls>
+ <div class=d-inline><svg class="octicon octicon-git-pull-request" viewBox="0 0 12 16" version=1.1 width=12 height=16 aria-hidden=true><path fill-rule=evenodd d="M11 11.28V5c-.03-.78-.34-1.47-.94-2.06C9.46 2.35 8.78 2.03 8 2H7V0L4 3l3 3V4h1c.27.02.48.11.69.31.21.2.3.42.31.69v6.28A1.993 1.993 0 0010 15a1.993 1.993 0 001-3.72zm-1 2.92c-.66 0-1.2-.55-1.2-1.2 0-.65.55-1.2 1.2-1.2.65 0 1.2.55 1.2 1.2 0 .65-.55 1.2-1.2 1.2zM4 3c0-1.11-.89-2-2-2a1.993 1.993 0 00-1 3.72v6.56A1.993 1.993 0 002 15a1.993 1.993 0 001-3.72V4.72c.59-.34 1-.98 1-1.72zm-.8 10c0 .66-.55 1.2-1.2 1.2-.65 0-1.2-.55-1.2-1.2 0-.65.55-1.2 1.2-1.2.65 0 1.2.55 1.2 1.2zM2 4.2C1.34 4.2.8 3.65.8 3c0-.65.55-1.2 1.2-1.2.65 0 1.2.55 1.2 1.2 0 .65-.55 1.2-1.2 1.2z"></path></svg></div>
+ <span itemprop=name>Pull requests</span>
+ <span class=Counter>0</span>
+ 
+</a> </span>
+ <span itemscope itemtype=http://schema.org/ListItem itemprop=itemListElement class="position-relative float-left">
+ <a data-hotkey="g w" data-skip-pjax=true class="js-selected-navigation-item reponav-item" data-selected-links="repo_actions /nekr0z/linux-on-huawei-matebook-13-2019/actions" href=https://github.com/nekr0z/linux-on-huawei-matebook-13-2019/actions>
+ <div class=d-inline><svg class="octicon octicon-play" viewBox="0 0 14 16" version=1.1 width=14 height=16 aria-hidden=true><path fill-rule=evenodd d="M14 8A7 7 0 110 8a7 7 0 0114 0zm-8.223 3.482l4.599-3.066a.5.5 0 000-.832L5.777 4.518A.5.5 0 005 4.934v6.132a.5.5 0 00.777.416z"></path></svg></div>
+ Actions
+</a>
+ </span>
+ <a data-hotkey="g b" class="js-selected-navigation-item reponav-item" data-selected-links="repo_projects new_repo_project repo_project /nekr0z/linux-on-huawei-matebook-13-2019/projects" href=https://github.com/nekr0z/linux-on-huawei-matebook-13-2019/projects>
+ <div class=d-inline><svg class="octicon octicon-project" viewBox="0 0 15 16" version=1.1 width=15 height=16 aria-hidden=true><path fill-rule=evenodd d="M10 12h3V2h-3v10zm-4-2h3V2H6v8zm-4 4h3V2H2v12zm-1 1h13V1H1v14zM14 0H1a1 1 0 00-1 1v14a1 1 0 001 1h13a1 1 0 001-1V1a1 1 0 00-1-1z"></path></svg></div>
+ Projects
+ <span class=Counter>0</span>
+</a>
+ <a class="js-selected-navigation-item reponav-item" data-hotkey="g w" data-selected-links="repo_wiki /nekr0z/linux-on-huawei-matebook-13-2019/wiki" href=https://github.com/nekr0z/linux-on-huawei-matebook-13-2019/wiki>
+ <div class=d-inline><svg class="octicon octicon-book" viewBox="0 0 16 16" version=1.1 width=16 height=16 aria-hidden=true><path fill-rule=evenodd d="M3 5h4v1H3V5zm0 3h4V7H3v1zm0 2h4V9H3v1zm11-5h-4v1h4V5zm0 2h-4v1h4V7zm0 2h-4v1h4V9zm2-6v9c0 .55-.45 1-1 1H9.5l-1 1-1-1H2c-.55 0-1-.45-1-1V3c0-.55.45-1 1-1h5.5l1 1 1-1H15c.55 0 1 .45 1 1zm-8 .5L7.5 3H2v9h6V3.5zm7-.5H9.5l-.5.5V12h6V3z"></path></svg></div>
+ Wiki
+</a>
+ <a data-skip-pjax=true class="js-selected-navigation-item reponav-item" data-selected-links="security alerts policy token_scanning code_scanning /nekr0z/linux-on-huawei-matebook-13-2019/security/advisories" href=https://github.com/nekr0z/linux-on-huawei-matebook-13-2019/security/advisories>
+ <div class=d-inline><svg class="octicon octicon-shield" viewBox="0 0 14 16" version=1.1 width=14 height=16 aria-hidden=true><path fill-rule=evenodd d="M0 2l7-2 7 2v6.02C14 12.69 8.69 16 7 16c-1.69 0-7-3.31-7-7.98V2zm1 .75L7 1l6 1.75v5.268C13 12.104 8.449 15 7 15c-1.449 0-6-2.896-6-6.982V2.75zm1 .75L7 2v12c-1.207 0-5-2.482-5-5.985V3.5z"></path></svg></div>
+ Security
+</a>
+ <a class="js-selected-navigation-item reponav-item" data-selected-links="repo_graphs repo_contributors dependency_graph pulse people /nekr0z/linux-on-huawei-matebook-13-2019/pulse" href=https://github.com/nekr0z/linux-on-huawei-matebook-13-2019/pulse>
+ <div class=d-inline><svg class="octicon octicon-graph" viewBox="0 0 16 16" version=1.1 width=16 height=16 aria-hidden=true><path fill-rule=evenodd d="M16 14v1H0V0h1v14h15zM5 13H3V8h2v5zm4 0H7V3h2v10zm4 0h-2V6h2v7z"></path></svg></div>
+ Insights
+</a>
+</nav>
+ </div>
+<div class="container-lg clearfix new-discussion-timeline px-3">
+ <div class=repository-content>
+ 
+ 
+ 
+ <div> <div class=f4>
+ <span class="text-gray-dark mr-2" itemprop=about>
+ MateBook 13 running Linux
+ </span>
+ </div>
+</div>
+ <div class="repository-topics-container mt-2 mb-3 js-topics-list-container"> <div class="list-topics-container f6">
+ <a class="topic-tag topic-tag-link" href=https://github.com/topics/hardware title="Topic: hardware" data-ga-click="Topic, repository page" data-octo-click=topic_click data-octo-dimensions=topic:hardware>
+ hardware
+</a>
+ <a class="topic-tag topic-tag-link" href=https://github.com/topics/linux title="Topic: linux" data-ga-click="Topic, repository page" data-octo-click=topic_click data-octo-dimensions=topic:linux>
+ linux
+</a>
+ <a class="topic-tag topic-tag-link" href=https://github.com/topics/matebook title="Topic: matebook" data-ga-click="Topic, repository page" data-octo-click=topic_click data-octo-dimensions=topic:matebook>
+ matebook
+</a>
+ <a class="topic-tag topic-tag-link" href=https://github.com/topics/matebook-13 title="Topic: matebook-13" data-ga-click="Topic, repository page" data-octo-click=topic_click data-octo-dimensions=topic:matebook-13>
+ matebook-13
+</a>
+ <a class="topic-tag topic-tag-link" href=https://github.com/topics/debian title="Topic: debian" data-ga-click="Topic, repository page" data-octo-click=topic_click data-octo-dimensions=topic:debian>
+ debian
+</a>
+ </div>
+</div>
+ <div class="overall-summary overall-summary-bottomless">
+ <ul class=numbers-summary>
+ <li class=commits>
+ <a data-pjax href=https://github.com/nekr0z/linux-on-huawei-matebook-13-2019/commits/master>
+ <svg class="octicon octicon-history" viewBox="0 0 14 16" version=1.1 width=14 height=16 aria-hidden=true><path fill-rule=evenodd d="M8 13H6V6h5v2H8v5zM7 1C4.81 1 2.87 2.02 1.59 3.59L0 2v4h4L2.5 4.5C3.55 3.17 5.17 2.3 7 2.3c3.14 0 5.7 2.56 5.7 5.7s-2.56 5.7-5.7 5.7A5.71 5.71 0 011.3 8c0-.34.03-.67.09-1H.08C.03 7.33 0 7.66 0 8c0 3.86 3.14 7 7 7s7-3.14 7-7-3.14-7-7-7z"></path></svg>
+ <span class="num text-emphasized">
+ 55
+ </span>
+ commits
+ </a>
+ </li>
+ <li>
+ <a data-pjax href=https://github.com/nekr0z/linux-on-huawei-matebook-13-2019/branches>
+ <svg class="octicon octicon-git-branch" viewBox="0 0 10 16" version=1.1 width=10 height=16 aria-hidden=true><path fill-rule=evenodd d="M10 5c0-1.11-.89-2-2-2a1.993 1.993 0 00-1 3.72v.3c-.02.52-.23.98-.63 1.38-.4.4-.86.61-1.38.63-.83.02-1.48.16-2 .45V4.72a1.993 1.993 0 00-1-3.72C.88 1 0 1.89 0 3a2 2 0 001 1.72v6.56c-.59.35-1 .99-1 1.72 0 1.11.89 2 2 2 1.11 0 2-.89 2-2 0-.53-.2-1-.53-1.36.09-.06.48-.41.59-.47.25-.11.56-.17.94-.17 1.05-.05 1.95-.45 2.75-1.25S8.95 7.77 9 6.73h-.02C9.59 6.37 10 5.73 10 5zM2 1.8c.66 0 1.2.55 1.2 1.2 0 .65-.55 1.2-1.2 1.2C1.35 4.2.8 3.65.8 3c0-.65.55-1.2 1.2-1.2zm0 12.41c-.66 0-1.2-.55-1.2-1.2 0-.65.55-1.2 1.2-1.2.65 0 1.2.55 1.2 1.2 0 .65-.55 1.2-1.2 1.2zm6-8c-.66 0-1.2-.55-1.2-1.2 0-.65.55-1.2 1.2-1.2.65 0 1.2.55 1.2 1.2 0 .65-.55 1.2-1.2 1.2z"></path></svg>
+ <span class="num text-emphasized">
+ 1
+ </span>
+ branch
+ </a>
+ </li>
+ <li>
+ <a data-pjax href=https://github.com/nekr0z/linux-on-huawei-matebook-13-2019/packages data-ga-click="Repository, packages click, location:repo overview">
+ <svg class="octicon octicon-package" viewBox="0 0 16 16" version=1.1 width=16 height=16 aria-hidden=true><path fill-rule=evenodd d="M1 4.27v7.47c0 .45.3.84.75.97l6.5 1.73c.16.05.34.05.5 0l6.5-1.73c.45-.13.75-.52.75-.97V4.27c0-.45-.3-.84-.75-.97l-6.5-1.74a1.4 1.4 0 00-.5 0L1.75 3.3c-.45.13-.75.52-.75.97zm7 9.09l-6-1.59V5l6 1.61v6.75zM2 4l2.5-.67L11 5.06l-2.5.67L2 4zm13 7.77l-6 1.59V6.61l2-.55V8.5l2-.53V5.53L15 5v6.77zm-2-7.24L6.5 2.8l2-.53L15 4l-2 .53z"></path></svg>
+ <span class="num text-emphasized">
+ 0
+ </span>
+ packages
+ </a>
+ </li>
+ <li>
+ <a href=https://github.com/nekr0z/linux-on-huawei-matebook-13-2019/releases>
+ <svg class="octicon octicon-tag" viewBox="0 0 14 16" version=1.1 width=14 height=16 aria-hidden=true><path fill-rule=evenodd d="M7.73 1.73C7.26 1.26 6.62 1 5.96 1H3.5C2.13 1 1 2.13 1 3.5v2.47c0 .66.27 1.3.73 1.77l6.06 6.06c.39.39 1.02.39 1.41 0l4.59-4.59a.996.996 0 000-1.41L7.73 1.73zM2.38 7.09c-.31-.3-.47-.7-.47-1.13V3.5c0-.88.72-1.59 1.59-1.59h2.47c.42 0 .83.16 1.13.47l6.14 6.13-4.73 4.73-6.13-6.15zM3.01 3h2v2H3V3h.01z"></path></svg>
+ <span class="num text-emphasized">
+ 1
+ </span>
+ release
+ </a>
+ </li>
+ <li data-contributors-hovercards-enabled>
+ <a href=https://github.com/nekr0z/linux-on-huawei-matebook-13-2019/graphs/contributors data-hovercard-type=contributors data-hovercard-url=/nekr0z/linux-on-huawei-matebook-13-2019/community_contributors/hovercard>
+ <svg class="octicon octicon-organization" viewBox="0 0 16 16" version=1.1 width=16 height=16 aria-hidden=true><path fill-rule=evenodd d="M16 12.999c0 .439-.45 1-1 1H7.995c-.539 0-.994-.447-.995-.999H1c-.54 0-1-.561-1-1 0-2.634 3-4 3-4s.229-.409 0-1c-.841-.621-1.058-.59-1-3 .058-2.419 1.367-3 2.5-3s2.442.58 2.5 3c.058 2.41-.159 2.379-1 3-.229.59 0 1 0 1s1.549.711 2.42 2.088C9.196 9.369 10 8.999 10 8.999s.229-.409 0-1c-.841-.62-1.058-.59-1-3 .058-2.419 1.367-3 2.5-3s2.437.581 2.495 3c.059 2.41-.158 2.38-1 3-.229.59 0 1 0 1s3.005 1.366 3.005 4z"></path></svg>
+ <span class="num text-emphasized">
+ 2
+ </span>
+ contributors
+</a> </li>
+ </ul>
+</div>
+ <details class=details-reset>
+ <summary title="Click for language details" data-ga-click="Repository, language bar stats toggle, location:repo overview">
+ <div class="d-flex repository-lang-stats-graph">
+ <span class=language-color aria-label="Shell 100.0%" style=width:100%;background-color:#89e051 itemprop=keywords>Shell</span>
+ </div>
+ </summary>
+ <div class="repository-lang-stats sf-hidden">
+ <ol class=repository-lang-stats-numbers>
+ 
+ </ol>
+ </div>
+ </details>
+ <div class=mt-2>
+ 
+ </div>
+<div class="file-navigation in-mid-page d-flex flex-items-start">
+ 
+<details class="details-reset details-overlay branch-select-menu" id=branch-select-menu>
+ <summary class="btn btn-sm css-truncate" data-hotkey=w title="Switch branches or tags" aria-haspopup=menu role=button>
+ <i>Branch:</i>
+ <span class=css-truncate-target data-menu-button>master</span>
+ <span class=dropdown-caret></span>
+ </summary>
+ <details-menu class="SelectMenu SelectMenu--hasFilter sf-hidden" src="/nekr0z/linux-on-huawei-matebook-13-2019/refs/master?source_action=disambiguate&amp;source_controller=files" preload role=menu>
+ <div class=SelectMenu-modal>
+ 
+ </div>
+ </details-menu>
+</details>
+ <a class="btn btn-sm new-pull-request-btn" data-hydro-click='{"event_type":"repository.click","payload":{"target":"NEW_PULL_REQUEST_BUTTON","repository_id":179570132,"originating_url":"https://github.com/nekr0z/linux-on-huawei-matebook-13-2019","user_id":7145046}}' data-hydro-click-hmac=a9a786e0b5dfe2337fc4aa44e458fe0820ad17af9fb2373e023df85d2369083a data-ga-click="Repository, new pull request, location:repo overview" data-pjax=true href=https://github.com/nekr0z/linux-on-huawei-matebook-13-2019/pull/new/master>New pull request</a>
+ <div class="breadcrumb flex-auto">
+ 
+ </div>
+ <div class=BtnGroup>
+ 
+ <form class=BtnGroup-parent action=/nekr0z/linux-on-huawei-matebook-13-2019/new/master accept-charset=UTF-8 method=post>
+ <button class="btn btn-sm BtnGroup-item" type=submit data-disable-with="Creating file…">
+ Create new file
+ </button>
+</form>
+ 
+ <a href=https://github.com/nekr0z/linux-on-huawei-matebook-13-2019/upload/master class="btn btn-sm BtnGroup-item">
+ Upload files
+ </a>
+ <a class="btn btn-sm empty-icon float-right BtnGroup-item" data-hydro-click='{"event_type":"repository.click","payload":{"target":"FIND_FILE_BUTTON","repository_id":179570132,"originating_url":"https://github.com/nekr0z/linux-on-huawei-matebook-13-2019","user_id":7145046}}' data-hydro-click-hmac=034775c09c427465087d25a9488b9a07e986698b3a11d7378243bf1662ec65f9 data-ga-click="Repository, find file, location:repo overview" data-hotkey=t data-pjax=true href=https://github.com/nekr0z/linux-on-huawei-matebook-13-2019/find/master>Find file</a>
+ </div>
+ 
+ 
+ <details class="get-repo-select-menu js-get-repo-select-menu position-relative details-overlay details-reset">
+ <summary class="btn btn-sm ml-2 btn-primary" data-hydro-click='{"event_type":"repository.click","payload":{"repository_id":179570132,"target":"CLONE_OR_DOWNLOAD_BUTTON","originating_url":"https://github.com/nekr0z/linux-on-huawei-matebook-13-2019","user_id":7145046}}' data-hydro-click-hmac=3da964f95cc98f76f85ead8458056f9393d6fe6c702c9891facb757c5c3a4c0e>
+ Clone or download
+ <span class=dropdown-caret></span>
+</summary> <div class="position-relative sf-hidden">
+ <div class="get-repo-modal dropdown-menu dropdown-menu-sw pb-0 js-toggler-container on js-get-repo-modal">
+ 
+ 
+ 
+ 
+ 
+ </div>
+ </div>
+</details>
+ 
+</div>
+ <div class="commit-tease js-details-container Details d-flex rounded-top-1" data-issue-and-pr-hovercards-enabled>
+ 
+<div class="AvatarStack flex-self-start">
+ <div class=AvatarStack-body aria-label=nekr0z>
+ <a class=avatar data-skip-pjax=true data-hovercard-type=user data-hovercard-url=/users/nekr0z/hovercard data-octo-click=hovercard-link-click data-octo-dimensions=link_type:self href=https://github.com/nekr0z>
+ <img height=20 width=20 alt=@nekr0z src=data:image/jpeg;base64,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>
+</a> </div>
+</div>
+ <div class="flex-auto f6 mr-3">
+ 
+ <a href="https://github.com/nekr0z/linux-on-huawei-matebook-13-2019/commits?author=nekr0z" class="commit-author tooltipped tooltipped-s user-mention" aria-label="View all commits by nekr0z">nekr0z</a>
+ 
+ <a data-pjax=true title="move matebook-applet mention up
+
+People who want it simple shouldn't have to read the whole story,
+especially since Huawei-WMI driver is part of kernel >5.5" class="message text-inherit" href=https://github.com/nekr0z/linux-on-huawei-matebook-13-2019/commit/0692363b426cd70275114c67410d2059854ee9e4>move matebook-applet mention up</a>
+ <span class="hidden-text-expander inline">
+ <button type=button class="ellipsis-expander js-details-target" aria-expanded=false>…</button>
+ </span>
+ <div class="commit-desc sf-hidden"><pre class=text-small>People who want it simple shouldn't have to read the whole story,
+especially since Huawei-WMI driver is part of kernel &gt;5.5</pre></div>
+ </div>
+ <div class="no-wrap d-flex flex-self-start flex-items-baseline">
+ <span class="mr-2 flex-self-center">
+ 
+ </span>
+ <span class=mr-1>Latest commit</span>
+ <a class="commit-tease-sha mr-1" href=https://github.com/nekr0z/linux-on-huawei-matebook-13-2019/commit/0692363b426cd70275114c67410d2059854ee9e4 data-pjax>
+ 0692363
+ </a>
+ <span itemprop=dateModified><relative-time datetime=2020-02-21T10:13:37Z class=no-wrap title="Feb 21, 2020, 6:13 PM GMT+8">7 hours ago</relative-time></span>
+ </div>
+ </div>
+<div class=file-wrap>
+ <a class="d-none js-permalink-shortcut sf-hidden" data-hotkey=y href=https://github.com/nekr0z/linux-on-huawei-matebook-13-2019/tree/0692363b426cd70275114c67410d2059854ee9e4>Permalink</a>
+ <table class="files js-navigation-container js-active-navigation-container" data-pjax>
+ <thead>
+ <tr>
+ <th><span class=sr-only>Type</span></th>
+ <th><span class=sr-only>Name</span></th>
+ <th><span class=sr-only>Latest commit message</span></th>
+ <th><span class=sr-only>Commit time</span></th>
+ </tr>
+ </thead>
+ <tbody>
+ <tr class="warning include-fragment-error sf-hidden">
+ <td class=icon><svg class="octicon octicon-alert" viewBox="0 0 16 16" version=1.1 width=16 height=16 aria-hidden=true><path fill-rule=evenodd d="M8.893 1.5c-.183-.31-.52-.5-.887-.5s-.703.19-.886.5L.138 13.499a.98.98 0 000 1.001c.193.31.53.501.886.501h13.964c.367 0 .704-.19.877-.5a1.03 1.03 0 00.01-1.002L8.893 1.5zm.133 11.497H6.987v-2.003h2.039v2.003zm0-3.004H6.987V5.987h2.039v4.006z"></path></svg></td>
+ <td class=content colspan=3>Failed to load latest commit information.</td>
+ </tr>
+ <tr class=js-navigation-item>
+ <td class=icon>
+ <svg aria-label=file class="octicon octicon-file" viewBox="0 0 12 16" version=1.1 width=12 height=16 role=img><path fill-rule=evenodd d="M6 5H2V4h4v1zM2 8h7V7H2v1zm0 2h7V9H2v1zm0 2h7v-1H2v1zm10-7.5V14c0 .55-.45 1-1 1H1c-.55 0-1-.45-1-1V2c0-.55.45-1 1-1h7.5L12 4.5zM11 5L8 2H1v12h10V5z"></path></svg>
+ <img width=16 height=16 class="spinner sf-hidden" alt src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==">
+ </td>
+ <td class=content>
+ <span class="css-truncate css-truncate-target"><a class=js-navigation-open title=.gitignore id=a084b794bc0759e7a6b77810e01874f2-d56397c2e92b4ff9367ff9d133527d47404fefda href=https://github.com/nekr0z/linux-on-huawei-matebook-13-2019/blob/master/.gitignore>.gitignore</a></span>
+ </td>
+ <td class=message>
+ <span class="css-truncate css-truncate-target">
+ <a data-pjax=true title="add a mini-howto on kernel patching" class=link-gray href=https://github.com/nekr0z/linux-on-huawei-matebook-13-2019/commit/a6bf4799187150d2fe367303bdfbfc1794170123>add a mini-howto on kernel patching</a>
+ </span>
+ </td>
+ <td class=age>
+ <span class="css-truncate css-truncate-target"><time-ago datetime=2019-04-28T18:38:16Z class=no-wrap title="Apr 29, 2019, 2:38 AM GMT+8">10 months ago</time-ago></span>
+ </td>
+ </tr>
+ <tr class=js-navigation-item>
+ <td class=icon>
+ <svg aria-label=file class="octicon octicon-file" viewBox="0 0 12 16" version=1.1 width=12 height=16 role=img><path fill-rule=evenodd d="M6 5H2V4h4v1zM2 8h7V7H2v1zm0 2h7V9H2v1zm0 2h7v-1H2v1zm10-7.5V14c0 .55-.45 1-1 1H1c-.55 0-1-.45-1-1V2c0-.55.45-1 1-1h7.5L12 4.5zM11 5L8 2H1v12h10V5z"></path></svg>
+ <img width=16 height=16 class="spinner sf-hidden" alt src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==">
+ </td>
+ <td class=content>
+ <span class="css-truncate css-truncate-target"><a class=js-navigation-open title=10-monitor.conf id=2fbf28a420fd8d43fe3f8787a0cd870c-dab1b3abd772a752ff6393ed4e1fbb26c444355a href=https://github.com/nekr0z/linux-on-huawei-matebook-13-2019/blob/master/10-monitor.conf>10-monitor.conf</a></span>
+ </td>
+ <td class=message>
+ <span class="css-truncate css-truncate-target">
+ <a data-pjax=true title="add fractional scaling related info" class=link-gray href=https://github.com/nekr0z/linux-on-huawei-matebook-13-2019/commit/841c4d8e78ba40158b9478da44e4d6ee2311c2b8>add fractional scaling related info</a>
+ </span>
+ </td>
+ <td class=age>
+ <span class="css-truncate css-truncate-target"><time-ago datetime=2019-12-27T16:02:02Z class=no-wrap title="Dec 28, 2019, 12:02 AM GMT+8">2 months ago</time-ago></span>
+ </td>
+ </tr>
+ <tr class=js-navigation-item>
+ <td class=icon>
+ <svg aria-label=file class="octicon octicon-file" viewBox="0 0 12 16" version=1.1 width=12 height=16 role=img><path fill-rule=evenodd d="M6 5H2V4h4v1zM2 8h7V7H2v1zm0 2h7V9H2v1zm0 2h7v-1H2v1zm10-7.5V14c0 .55-.45 1-1 1H1c-.55 0-1-.45-1-1V2c0-.55.45-1 1-1h7.5L12 4.5zM11 5L8 2H1v12h10V5z"></path></svg>
+ <img width=16 height=16 class="spinner sf-hidden" alt src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==">
+ </td>
+ <td class=content>
+ <span class="css-truncate css-truncate-target"><a class=js-navigation-open title=20-intel.conf id=9301dc5385844ea343ee95cc5542323d-f9768dd95472e1cff090d1739e970399356e1d31 href=https://github.com/nekr0z/linux-on-huawei-matebook-13-2019/blob/master/20-intel.conf>20-intel.conf</a></span>
+ </td>
+ <td class=message>
+ <span class="css-truncate css-truncate-target">
+ <a data-pjax=true title="add fractional scaling related info" class=link-gray href=https://github.com/nekr0z/linux-on-huawei-matebook-13-2019/commit/841c4d8e78ba40158b9478da44e4d6ee2311c2b8>add fractional scaling related info</a>
+ </span>
+ </td>
+ <td class=age>
+ <span class="css-truncate css-truncate-target"><time-ago datetime=2019-12-27T16:02:02Z class=no-wrap title="Dec 28, 2019, 12:02 AM GMT+8">2 months ago</time-ago></span>
+ </td>
+ </tr>
+ <tr class="js-navigation-item navigation-focus">
+ <td class=icon>
+ <svg aria-label=file class="octicon octicon-file" viewBox="0 0 12 16" version=1.1 width=12 height=16 role=img><path fill-rule=evenodd d="M6 5H2V4h4v1zM2 8h7V7H2v1zm0 2h7V9H2v1zm0 2h7v-1H2v1zm10-7.5V14c0 .55-.45 1-1 1H1c-.55 0-1-.45-1-1V2c0-.55.45-1 1-1h7.5L12 4.5zM11 5L8 2H1v12h10V5z"></path></svg>
+ <img width=16 height=16 class="spinner sf-hidden" alt src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==">
+ </td>
+ <td class=content>
+ <span class="css-truncate css-truncate-target"><a class=js-navigation-open title=README.md id=04c6e90faac2675aa89e2176d2eec7d8-b9257be094f44cfbc051ca0b451a0c9a8d706ab7 href=https://github.com/nekr0z/linux-on-huawei-matebook-13-2019/blob/master/README.md>README.md</a></span>
+ </td>
+ <td class=message>
+ <span class="css-truncate css-truncate-target">
+ <a data-pjax=true title="move matebook-applet mention up
+
+People who want it simple shouldn't have to read the whole story,
+especially since Huawei-WMI driver is part of kernel >5.5" class=link-gray href=https://github.com/nekr0z/linux-on-huawei-matebook-13-2019/commit/0692363b426cd70275114c67410d2059854ee9e4>move matebook-applet mention up</a>
+ </span>
+ </td>
+ <td class=age>
+ <span class="css-truncate css-truncate-target"><time-ago datetime=2020-02-21T10:13:37Z class=no-wrap title="Feb 21, 2020, 6:13 PM GMT+8">7 hours ago</time-ago></span>
+ </td>
+ </tr>
+ <tr class=js-navigation-item>
+ <td class=icon>
+ <svg aria-label=file class="octicon octicon-file" viewBox="0 0 12 16" version=1.1 width=12 height=16 role=img><path fill-rule=evenodd d="M6 5H2V4h4v1zM2 8h7V7H2v1zm0 2h7V9H2v1zm0 2h7v-1H2v1zm10-7.5V14c0 .55-.45 1-1 1H1c-.55 0-1-.45-1-1V2c0-.55.45-1 1-1h7.5L12 4.5zM11 5L8 2H1v12h10V5z"></path></svg>
+ <img width=16 height=16 class="spinner sf-hidden" alt src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==">
+ </td>
+ <td class=content>
+ <span class="css-truncate css-truncate-target"><a class=js-navigation-open title=batpro id=3f919a668b4756af57d33955b0b7ade9-83b3ba42edf0423923105b4302ef8ffad10a8781 href=https://github.com/nekr0z/linux-on-huawei-matebook-13-2019/blob/master/batpro>batpro</a></span>
+ </td>
+ <td class=message>
+ <span class="css-truncate css-truncate-target">
+ <a data-pjax=true title="add battery protection script and info" class=link-gray href=https://github.com/nekr0z/linux-on-huawei-matebook-13-2019/commit/a82e4a471b5fb4859ce6773610a89b624d8119c9>add battery protection script and info</a>
+ </span>
+ </td>
+ <td class=age>
+ <span class="css-truncate css-truncate-target"><time-ago datetime=2019-04-17T09:08:02Z class=no-wrap title="Apr 17, 2019, 5:08 PM GMT+8">10 months ago</time-ago></span>
+ </td>
+ </tr>
+ <tr class=js-navigation-item>
+ <td class=icon>
+ <svg aria-label=file class="octicon octicon-file" viewBox="0 0 12 16" version=1.1 width=12 height=16 role=img><path fill-rule=evenodd d="M6 5H2V4h4v1zM2 8h7V7H2v1zm0 2h7V9H2v1zm0 2h7v-1H2v1zm10-7.5V14c0 .55-.45 1-1 1H1c-.55 0-1-.45-1-1V2c0-.55.45-1 1-1h7.5L12 4.5zM11 5L8 2H1v12h10V5z"></path></svg>
+ <img width=16 height=16 class="spinner sf-hidden" alt src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==">
+ </td>
+ <td class=content>
+ <span class="css-truncate css-truncate-target"><a class=js-navigation-open title=elan-touchpad-5.0.2.patch id=77d03e88457ae8e69222e7f604e835ad-820dead7b859409666c5168c4a73e052df5d724d href=https://github.com/nekr0z/linux-on-huawei-matebook-13-2019/blob/master/elan-touchpad-5.0.2.patch>elan-touchpad-5.0.2.patch</a></span>
+ </td>
+ <td class=message>
+ <span class="css-truncate css-truncate-target">
+ <a data-pjax=true title="add touchpad patch for kernel 5.0.2" class=link-gray href=https://github.com/nekr0z/linux-on-huawei-matebook-13-2019/commit/7330a4e0b161cfc788b3daa8b15187fa0bfe81da>add touchpad patch for kernel 5.0.2</a>
+ </span>
+ </td>
+ <td class=age>
+ <span class="css-truncate css-truncate-target"><time-ago datetime=2019-04-23T14:48:41Z class=no-wrap title="Apr 23, 2019, 10:48 PM GMT+8">10 months ago</time-ago></span>
+ </td>
+ </tr>
+ <tr class=js-navigation-item>
+ <td class=icon>
+ <svg aria-label=file class="octicon octicon-file" viewBox="0 0 12 16" version=1.1 width=12 height=16 role=img><path fill-rule=evenodd d="M6 5H2V4h4v1zM2 8h7V7H2v1zm0 2h7V9H2v1zm0 2h7v-1H2v1zm10-7.5V14c0 .55-.45 1-1 1H1c-.55 0-1-.45-1-1V2c0-.55.45-1 1-1h7.5L12 4.5zM11 5L8 2H1v12h10V5z"></path></svg>
+ <img width=16 height=16 class="spinner sf-hidden" alt src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==">
+ </td>
+ <td class=content>
+ <span class="css-truncate css-truncate-target"><a class=js-navigation-open title=elan-touchpad-oldkernel.patch id=4d51f5e74d2eaad1e4a829822bf2f396-72c502f15160f6b88626abc9dc911765bc37e362 href=https://github.com/nekr0z/linux-on-huawei-matebook-13-2019/blob/master/elan-touchpad-oldkernel.patch>elan-touchpad-oldkernel.patch</a></span>
+ </td>
+ <td class=message>
+ <span class="css-truncate css-truncate-target">
+ <a data-pjax=true title="added touchpad flood log patch and info" class=link-gray href=https://github.com/nekr0z/linux-on-huawei-matebook-13-2019/commit/b588c7e5c13b8959a3601b1665f15c2dd8b0cad5>added touchpad flood log patch and info</a>
+ </span>
+ </td>
+ <td class=age>
+ <span class="css-truncate css-truncate-target"><time-ago datetime=2019-04-06T07:47:20Z class=no-wrap title="Apr 6, 2019, 3:47 PM GMT+8">11 months ago</time-ago></span>
+ </td>
+ </tr>
+ <tr class=js-navigation-item>
+ <td class=icon>
+ <svg aria-label=file class="octicon octicon-file" viewBox="0 0 12 16" version=1.1 width=12 height=16 role=img><path fill-rule=evenodd d="M6 5H2V4h4v1zM2 8h7V7H2v1zm0 2h7V9H2v1zm0 2h7v-1H2v1zm10-7.5V14c0 .55-.45 1-1 1H1c-.55 0-1-.45-1-1V2c0-.55.45-1 1-1h7.5L12 4.5zM11 5L8 2H1v12h10V5z"></path></svg>
+ <img width=16 height=16 class="spinner sf-hidden" alt src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==">
+ </td>
+ <td class=content>
+ <span class="css-truncate css-truncate-target"><a class=js-navigation-open title=fnlock id=7d5c975a7f3c605d2d5e1a14107eec01-b5fd1a81364d5da3a768d8779890720809a28449 href=https://github.com/nekr0z/linux-on-huawei-matebook-13-2019/blob/master/fnlock>fnlock</a></span>
+ </td>
+ <td class=message>
+ <span class="css-truncate css-truncate-target">
+ <a data-pjax=true title="add Fn-Lock script and info" class=link-gray href=https://github.com/nekr0z/linux-on-huawei-matebook-13-2019/commit/830caf609f325d7cf8dd7ef307c23fa47761065d>add Fn-Lock script and info</a>
+ </span>
+ </td>
+ <td class=age>
+ <span class="css-truncate css-truncate-target"><time-ago datetime=2019-04-15T21:40:46Z class=no-wrap title="Apr 16, 2019, 5:40 AM GMT+8">10 months ago</time-ago></span>
+ </td>
+ </tr>
+ </tbody>
+ </table>
+</div>
+ <div id=readme class="Box Box--condensed md js-code-block-container">
+ <div class="Box-header d-flex flex-items-center flex-justify-between px-2">
+ <h3 class="Box-title pr-3">
+ <svg class="octicon octicon-book" viewBox="0 0 16 16" version=1.1 width=16 height=16 aria-hidden=true><path fill-rule=evenodd d="M3 5h4v1H3V5zm0 3h4V7H3v1zm0 2h4V9H3v1zm11-5h-4v1h4V5zm0 2h-4v1h4V7zm0 2h-4v1h4V9zm2-6v9c0 .55-.45 1-1 1H9.5l-1 1-1-1H2c-.55 0-1-.45-1-1V3c0-.55.45-1 1-1h5.5l1 1 1-1H15c.55 0 1 .45 1 1zm-8 .5L7.5 3H2v9h6V3.5zm7-.5H9.5l-.5.5V12h6V3z"></path></svg>
+ README.md
+ </h3>
+ </div>
+ <div class="Popover anim-scale-in js-tagsearch-popover sf-hidden" hidden data-tagsearch-url=/nekr0z/linux-on-huawei-matebook-13-2019/find-symbols data-tagsearch-ref=master data-tagsearch-path=README.md data-tagsearch-lang=Markdown data-hydro-click='{"event_type":"code_navigation.click_on_symbol","payload":{"action":"click_on_symbol","repository_id":179570132,"ref":"master","language":"Markdown","originating_url":"https://github.com/nekr0z/linux-on-huawei-matebook-13-2019","user_id":7145046}}' data-hydro-click-hmac=91b581b8ae5dc45d1b767cb98e89236b7b52b6dbf32df49e0a95368bc520b26d>
+ <div class="Popover-message Popover-message--large Popover-message--top-left TagsearchPopover mt-1 mb-4 mx-auto Box box-shadow-large">
+ 
+ </div>
+</div>
+ <div class=Box-body>
+ <article class="markdown-body entry-content p-5" itemprop=text><h1><a id=user-content-linux-on-huawei-matebook-13-2019 class=anchor aria-hidden=true href=#linux-on-huawei-matebook-13-2019><svg class="octicon octicon-link" viewBox="0 0 16 16" version=1.1 width=16 height=16 aria-hidden=true><path fill-rule=evenodd d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Linux on Huawei MateBook 13 (2019)</h1>
+<blockquote>
+<p>Brain dump: MateBook 13 (Wright-W19) running Debian heavily inspired by <a href=https://github.com/lidel/linux-on-huawei-matebook-x-2017>lidel's documentation of running Linux on MateBook X</a>.</p>
+</blockquote>
+<h2><a id=user-content-background class=anchor aria-hidden=true href=#background><svg class="octicon octicon-link" viewBox="0 0 16 16" version=1.1 width=16 height=16 aria-hidden=true><path fill-rule=evenodd d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Background</h2>
+<p>Huawei MateBook 13, released in 2019, has at least two modifications (different CPUs, integrated vs. dedicated graphics). Both come with Microsoft Windows 10 and there initially was no information at all concerning Linux support.</p>
+<p>I am running Debian on the more simple MateBook 13 variant, model Wright-W19. This repository documents what works and what does not.</p>
+<p>If you like this page and want it to get even better and more useful, feel free to contribute issues and pull requests, or just <a href=https://www.buymeacoffee.com/nekr0z rel=nofollow>buy me a coffee</a>.</p>
+<h2><a id=user-content-linux-support-matrix class=anchor aria-hidden=true href=#linux-support-matrix><svg class="octicon octicon-link" viewBox="0 0 16 16" version=1.1 width=16 height=16 aria-hidden=true><path fill-rule=evenodd d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Linux Support Matrix</h2>
+<table>
+<thead>
+<tr>
+<th>Device</th>
+<th>Model</th>
+<th align=center>Works</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Processor</td>
+<td>Intel Core i5-8265U</td>
+<td align=center>✔ Yes</td>
+<td>8 cores, power states etc seem to work out of the box</td>
+</tr>
+<tr>
+<td>Graphics</td>
+<td>Intel UHD Graphics 620</td>
+<td align=center>✔ Yes</td>
+<td>via standard kernel driver</td>
+</tr>
+<tr>
+<td>Memory</td>
+<td>8192 MB</td>
+<td align=center>✔ Yes</td>
+<td></td>
+</tr>
+<tr>
+<td>Display</td>
+<td>13 inch 2:3, 2160x1440 (2K)</td>
+<td align=center>✔ Yes</td>
+<td>resolution is correctly detected by <code>xrandr</code>, backlight control works via native function keys and can be controlled by KDE settings, see <a href=#display>below</a> for details on scaling issues</td>
+</tr>
+<tr>
+<td>Storage</td>
+<td>Samsung SSD, 256 GB</td>
+<td align=center>✔ Yes</td>
+<td>via standard kernel driver</td>
+</tr>
+<tr>
+<td>Wifi</td>
+<td>Intel Cannon Point Wireless-AC 8265 (a/b/g/n/ac)</td>
+<td align=center>✔ Yes</td>
+<td>requires kernel 4.14 and firmware (<code>firmware-iwlwifi</code> non-free package)</td>
+</tr>
+<tr>
+<td>Bluetooth</td>
+<td>Intel Bluetooth 5.0</td>
+<td align=center>✔ Yes</td>
+<td>works as expected</td>
+</tr>
+<tr>
+<td>Soundcard</td>
+<td>Intel Cannon Point-LP High Definition Audio</td>
+<td align=center>✔ Yes</td>
+<td>see <a href=#soundcard>below</a> for details</td>
+</tr>
+<tr>
+<td>Speakers</td>
+<td></td>
+<td align=center>✔ Yes</td>
+<td></td>
+</tr>
+<tr>
+<td>Microphone</td>
+<td></td>
+<td align=center>✔ Yes</td>
+<td>out of the box</td>
+</tr>
+<tr>
+<td>Webcam</td>
+<td>HD Camera (13D3:56C6)</td>
+<td align=center>✔ Yes</td>
+<td>works out of the box, indicating light too</td>
+</tr>
+<tr>
+<td>Ports</td>
+<td>2 × USB-C</td>
+<td align=center>✔ Yes</td>
+<td>charging works only via left port, external display only via right one, but it is a known hardware limitation of the laptop</td>
+</tr>
+<tr>
+<td>Power button</td>
+<td></td>
+<td align=center>✔ Yes</td>
+<td>needs to be pressed for at least a second to generate event</td>
+</tr>
+<tr>
+<td>Fingerprint Reader</td>
+<td>Goodix GXFP5187</td>
+<td align=center><g-emoji class=g-emoji alias=x fallback-src=https://github.githubassets.com/images/icons/emoji/unicode/274c.png><img class=emoji alt=x height=20 width=20 src=data:image/png;base64,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></g-emoji> No</td>
+<td>located on the power button, see <a href=#fingerprint-reader>below</a> for details</td>
+</tr>
+<tr>
+<td>Battery</td>
+<td>Dynapack HB4593J6ECW (42 Wh)</td>
+<td align=center>✔ Yes</td>
+<td>see <a href=#battery>below</a> for details</td>
+</tr>
+<tr>
+<td>Lid</td>
+<td>ACPI-compliant</td>
+<td align=center>✔ Yes</td>
+<td>works as expected, though ACPI complains in logs</td>
+</tr>
+<tr>
+<td>Power management</td>
+<td></td>
+<td align=center>✔ Yes</td>
+<td>works, see <a href=#power-management>below</a> for details</td>
+</tr>
+<tr>
+<td>Keyboard</td>
+<td></td>
+<td align=center>✔ Yes</td>
+<td><a href=#keyboard>see below</a> for details</td>
+</tr>
+<tr>
+<td>Touchpad</td>
+<td>ELAN962C:00 04F3:30D0</td>
+<td align=center>✔ Yes</td>
+<td>touchpad is detected and works in KDE (though not in Debian installer), <a href=#touchpad>see below</a> for details</td>
+</tr>
+<tr>
+<td>Port Extender</td>
+<td>MateDock 2 dongle included with the laptop</td>
+<td align=center>✔ Yes</td>
+<td>D-SUB, full-size HDMI, USB-C and USB-A work as expected</td>
+</tr>
+</tbody>
+</table>
+<h2><a id=user-content-bios-updates class=anchor aria-hidden=true href=#bios-updates><svg class="octicon octicon-link" viewBox="0 0 16 16" version=1.1 width=16 height=16 aria-hidden=true><path fill-rule=evenodd d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>BIOS updates</h2>
+<p>Huawei <a href=https://consumer.huawei.com/en/support/laptops/matebook-13/ rel=nofollow>provides</a> downloadable BIOS updates packaged for Windows. With some effort, these can be installed from Linux.</p>
+<p>To update BIOS, make sure <code>fwupd</code> is installed. You'll also need <a href=https://github.com/hughsie/fwupd/tree/master/contrib/firmware-packager>firmware-packager</a> script and <code>gcab</code> that it depends on. I strongly advice having a bootable USB drive for bootloader recovery close at hand, too. Laptop should be on AC power for firmware updater to work.</p>
+<p><strong>PLEASE read through all the steps before you start and make sure you have at least a vague understanding of the process! Don't hold me responsible if you trash your system or brick your BIOS!!!</strong></p>
+<ol>
+<li>
+<p>Download BIOS from Huawei website. Version 1.0.5 (we'll use it as an example) comes in a <code>.zip</code> file that contains a signature and another <code>.zip</code> file with the same name. You need that second <code>.zip</code> file, so extract it to the directory you have <code>firmware-packager</code> script in.</p>
+</li>
+<li>
+<pre><code> ./firmware-packager --firmware-name HuaweiBIOS --device-guid 4ab52f4e-04c0-47ec-af33-a4f5c28ce0b7 --developer-name Huawei --release-version 0.1.0.5 --exe ./MateBook_13_BIOS_1.05.zip --bin ./MateBook_13_BIOS_1.05/WRIWU105.bin --out bios.cab
+</code></pre>
+</li>
+<li>
+<pre><code> fwupdmgr install bios.cab
+</code></pre>
+</li>
+<li>
+<p>Reboot (or hibernate) and hold F12 upon boot to select updater from list of devices. It reboots again during the process, so make sure to press F12 during the second reboot, too, for the process to continue.</p>
+</li>
+<li>
+<p>Now your new BIOS is installed and you may check its version holding F2 during the next reboot. However, your UEFI boot record is likely messed up as the result of Step 4, so your system won't boot from SSD any longer.</p>
+</li>
+<li>
+<p>Fix your bootloader using the bootable USB drive. I used a Debian Live image with persistence that had <code>grub-efi-amd64</code> and its dependencies pre-installed, so it was only a matter of mounting <code>/boot</code> and <code>/boot/efi</code> to <code>/mnt/system/</code> and issuing</p>
+<pre><code> sudo grub-install --boot-directory=/mnt/system/boot --bootloader-id=debian --target=x86_64-efi --efi-directory=/mnt/system/boot/efi
+</code></pre>
+</li>
+</ol>
+<p>Your mileage may vary.</p>
+<h2><a id=user-content-temperature class=anchor aria-hidden=true href=#temperature><svg class="octicon octicon-link" viewBox="0 0 16 16" version=1.1 width=16 height=16 aria-hidden=true><path fill-rule=evenodd d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Temperature</h2>
+<p>Out of the box fan control is very much acceptable, with fans starting up as processor heats up under load and shutting down when not required. In general, under "office workload" the laptop remains cool and fans remain switched off.</p>
+<p>If you want correct CPU temperature displayed in <code>byobu</code> status notifications, add the following line to your <code>.byobu/statusrc</code>:</p>
+<pre><code>MONITORED_TEMP=/sys/class/hwmon/hwmon1/temp1_input
+</code></pre>
+<h2><a id=user-content-display class=anchor aria-hidden=true href=#display><svg class="octicon octicon-link" viewBox="0 0 16 16" version=1.1 width=16 height=16 aria-hidden=true><path fill-rule=evenodd d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Display</h2>
+<h3><a id=user-content-fractional-scaling class=anchor aria-hidden=true href=#fractional-scaling><svg class="octicon octicon-link" viewBox="0 0 16 16" version=1.1 width=16 height=16 aria-hidden=true><path fill-rule=evenodd d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Fractional Scaling</h3>
+<p>On KDE, Deepin and other Qt-based desktop environments, fractional scaling is supported without any hassle but this is not the case for GTK-based desktop environments such as GNOME and XFCE. Using Wayland can be an option, but the apps that don't support Wayland natively will still have issues such fuzziness all over the window. A workaround for Xorg allows for 150% scaling without any tear at the cost of a little performance drop:
+Copy <code>20-intel.conf</code> and <code>10-monitor.conf</code> to <code>/etc/X11/xorg.conf.d/</code> and reboot.
+It is worth noticing that kernels between 5.0 and 5.5 have known issues with desktop scaling, fixed in 5.5. Ubuntu users can use Ubuntu-18.04-HWE kernel that contains the fix and also is free of the <a href=#touchpad>log flooding issue</a>.</p>
+<h2><a id=user-content-soundcard class=anchor aria-hidden=true href=#soundcard><svg class="octicon octicon-link" viewBox="0 0 16 16" version=1.1 width=16 height=16 aria-hidden=true><path fill-rule=evenodd d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Soundcard</h2>
+<p>Sound generally works OK out of the box, the only thing not working is headphones autodetection (i.e. it is necessary to manually switch from speakers to headphones and back). This can be fixed, as <a href=https://github.com/nekr0z/linux-on-huawei-matebook-13-2019/issues/3>pointed out</a> by <a href=https://github.com/ffftwo>ffftwo</a>:</p>
+<pre><code>sudo echo "options snd_hda_intel model=dell-headset-multi" &gt;&gt; /etc/modprobe.d/sound.conf
+</code></pre>
+<h2><a id=user-content-fingerprint-reader class=anchor aria-hidden=true href=#fingerprint-reader><svg class="octicon octicon-link" viewBox="0 0 16 16" version=1.1 width=16 height=16 aria-hidden=true><path fill-rule=evenodd d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Fingerprint Reader</h2>
+<p>There's currently no way to make this model work in Linux, however, there's <a href=https://gitlab.freedesktop.org/libfprint/libfprint/issues/112 rel=nofollow>work in progress</a> to make this happen.</p>
+<h2><a id=user-content-battery class=anchor aria-hidden=true href=#battery><svg class="octicon octicon-link" viewBox="0 0 16 16" version=1.1 width=16 height=16 aria-hidden=true><path fill-rule=evenodd d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Battery</h2>
+<p>Main battery features, such as current status, charging/discharging rate and remaining time estimates work out of the box.</p>
+<h3><a id=user-content-battery-protection class=anchor aria-hidden=true href=#battery-protection><svg class="octicon octicon-link" viewBox="0 0 16 16" version=1.1 width=16 height=16 aria-hidden=true><path fill-rule=evenodd d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Battery protection</h3>
+<p>Huawei's proprietary PC Manager allows to switch on battery protection with several modes for charge/discharge threshold while connected to AC power. For instance, it is possible to make the laptop maintain the battery charge between 40% and 70%, which is supposed to greatly reduce battery wear (batteries are known to lose capacity when constantly sitting at close to 100% charged). The problem is that Huawei PC Manager is a Windows-only piece of software.</p>
+<p>You can use <a href=https://github.com/nekr0z/matebook-applet>matebook-applet</a> to have GUI on Linux for this functionality. Under the hood it utilizes <a href=https://github.com/aymanbagabas/Huawei-WMI>Huawei-WMI</a> device driver that fully supports Matebook 13, including settings for battery protection, since version 3.0. The driver only works with Linux kernel 5.0 and newer (you can install 5.2 from Debian Backports). Kernels 5.5 and newer have the sufficient version of the driver already included.</p>
+<p>For those running older kernels I developed a <a href=https://github.com/nekr0z/linux-on-huawei-matebook-13-2019/blob/master/batpro>script</a> (you can download archive with this and the other script from <a href=https://github.com/nekr0z/linux-on-huawei-matebook-13-2019/releases>releases</a> page). The script depends on <code>ioport</code> (available as package in Debian) and needs to be run as root:</p>
+<pre><code>sudo batpro [help|status|off|home|office|travel]
+</code></pre>
+<p>The first three options are self-explanatory. <code>home</code> sets thresholds to 40% and 70%, <code>office</code> to 70% and 90%, <code>travel</code> to 95% and 100% (these are the three modes Huawei PC Manager makes available). You can also do</p>
+<pre><code>sudo batpro custom [1-100] [1-100]
+</code></pre>
+<p>to set the thresholds to any percentages you like. This <a href=https://github.com/nekr0z/linux-on-huawei-matebook-13-2019/blob/master/batpro>batpro script</a> is really a modification of a more general <a href=https://github.com/aymanbagabas/huawei_ec>script by aymanbagabas</a>, so you can use that one instead if you like. Both are based on a dirty hack, and the proper solution is using <a href=https://github.com/aymanbagabas/Huawei-WMI>Huawei-WMI</a> driver.</p>
+<blockquote>
+<p>Battery protection works by not charging the laptop if battery is already above the minimal threshold when plugged into AC, and stopping the charging as soon as the battery charge reaches the maximum threshold. The battery controller is known to restore the thresholds to defaults after time: on MateBook X it is <a href=http://disq.us/p/20z3s00 rel=nofollow>known to happen</a> after a reboot or three, and Angry Ameba <a href="https://4pda.ru/forum/index.php?showtopic=945809&amp;view=findpost&amp;p=84391501" rel=nofollow>demonstrated</a> (source in Russian) that battery controller settings get reset after several hours on a switched off MateBook 13. Obviously, Huawei PC Manager monitors this and restores these settings as required. Huawei-WMI driver and my script don't.</p>
+<p>This behaviour may be really annoying: you hibernate your laptop, wake it up next Monday, work for several hours, plug it in for a night and go to bed, only to find out in the morning that battery protection is off and the battery stayed on 100% for good six hours. If you're using Huawei-WMI driver, this situation can easily be fixed using a <a href=https://github.com/qu1x/huawei-wmi>solution</a> provided by <a href=https://github.com/n3vu0r>Rouven Spreckels</a> (these pieces get installed automatically if you use <code>matebook-applet</code>'s Debian repository):</p>
+<pre><code>$ git clone https://github.com/qu1x/huawei-wmi.git
+$ cd huawei-wmi
+$ sudo make install
+</code></pre>
+<p>You may then use the same Makefile to set thresholds so that they are reinstated after wakeups and reboots:</p>
+<pre><code>$ sudo make [off|home|office|travel]
+</code></pre>
+<p>You can also add your user to the <code>huawei-wmi</code> group:</p>
+<pre><code>$ sudo usermod -a -G huawei-wmi YOUR_USERNAME
+</code></pre>
+<p>(naturally, you need to put your actual username instead of <code>YOUR_USERNAME</code>). In this case you don't need <code>sudo</code> to set thresholds.</p>
+<p>Beware, though, that if you plug the laptop in <em>before</em> waking it up, the magic won't work (knowing that Windows' behaviour is exactly the same may provide some consolation).</p>
+</blockquote>
+<h2><a id=user-content-power-management class=anchor aria-hidden=true href=#power-management><svg class="octicon octicon-link" viewBox="0 0 16 16" version=1.1 width=16 height=16 aria-hidden=true><path fill-rule=evenodd d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Power Management</h2>
+<p>Suspend to S3 state works out of the box. For hibernation to work <code>Secure boot</code> must be disabled in BIOS. Laptop seems to wake up without any issues.</p>
+<h2><a id=user-content-keyboard class=anchor aria-hidden=true href=#keyboard><svg class="octicon octicon-link" viewBox="0 0 16 16" version=1.1 width=16 height=16 aria-hidden=true><path fill-rule=evenodd d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Keyboard</h2>
+<p>Keyboard mostly works out of the box, including the not-so-documented hotkeys (Fn+Left for Home, Fn+Right for End, Fn+Up for PgUp, Fn+Down for PgDn). However, Microphone Mute, WiFi Switch and Huawei keys don't work out of the box.</p>
+<p>To have them working there's <a href=https://github.com/aymanbagabas/Huawei-WMI>a driver</a> that is already incorporated in Linux kernel, just not yet in Debian. It can be installed (v1.0) using DKMS .deb package that the author <a href=https://github.com/aymanbagabas/Huawei-WMI/releases>provides</a>.</p>
+<p>Version 2.0 of the same driver allows for the Microphone LED to work, too. This requires running kernel 5.0 or later (5.2 is avalable from Debian Backports).</p>
+<h3><a id=user-content-fn-lock class=anchor aria-hidden=true href=#fn-lock><svg class="octicon octicon-link" viewBox="0 0 16 16" version=1.1 width=16 height=16 aria-hidden=true><path fill-rule=evenodd d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Fn-Lock</h3>
+<p>Behaviour of the top row of keys on MateBook 13 is somewhat complex. By default, they behave as special keys (brightness, volume, etc.), but if you press them simultaneously with <code>Fn</code> or any modifier (<code>Ctrl</code>, <code>Alt</code>, <code>Shift</code>) they behave as F-keys (<code>F1</code> through <code>F12</code>). You can press <code>Fn</code> once so that an LED on it lights up, then the top row of keys starts behaving as F-keys, with or without any modifier (including <code>Fn</code> itself). This behaviour can be lived with, but you can't do things like <code>Ctrl</code>+<code>Ins</code> or <code>Alt</code>+<code>Shift</code>+<code>PrtSc</code> (because <code>Ins</code> and <code>PrtSc</code> are <code>F11</code> and <code>F12</code>, respectively, and pressing them with modifier forces them to be F-keys).</p>
+<blockquote>
+<p>Since BIOS v1.05 this behaviour was changed slightly for <code>PrtSc</code> and <code>Ins</code> keys (<code>F11</code> and <code>F12</code>). Without <code>Fn</code> key, the keys work as follows:</p>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Shift</th>
+<th>Ctrl</th>
+<th>Alt</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>F10</code></td>
+<td>Shift+F10</td>
+<td>Ctrl+F10</td>
+<td>Alt+F10</td>
+</tr>
+<tr>
+<td><code>F11</code></td>
+<td>Shift+PrtSc</td>
+<td>Ctrl+PrtSc</td>
+<td>no keypress</td>
+</tr>
+<tr>
+<td><code>F12</code></td>
+<td>Shift+Ins</td>
+<td>Ctrl+Ins</td>
+<td>Alt+Ins</td>
+</tr>
+</tbody>
+</table>
+<p>Still no way to do <code>Alt</code>+<code>PrtSc</code>.</p>
+</blockquote>
+<p>Fortunately, Huawei's PC Manager has an option to invert this behaviour. If an option is activated (we call this option <code>Fn-Lock</code>), the upper row of keys become F-keys, and act like special keys only when <code>Fn</code> is pressed or switched on. In this mode other modifiers don't change behaviour, so it becomes possible to do <code>Alt</code>+<code>PrtSc</code>. Unfortunately, PC Manager is Windows-only.</p>
+<p><a href=https://github.com/aymanbagabas/Huawei-WMI>Huawei-WMI</a> driver since version 2.0 makes it possible to use Fn-Lock on Linux. For those running Linux kernel older than 5.0 there's a <a href=https://github.com/nekr0z/linux-on-huawei-matebook-13-2019/blob/master/fnlock>simple script</a> (you can download archive with this and the other script from <a href=https://github.com/nekr0z/linux-on-huawei-matebook-13-2019/releases>releases</a> page).</p>
+<p>The script depends on <code>ioport</code> (available as package in Debian) and needs to be run as root:</p>
+<pre><code>sudo fnlock [on|off|toggle|status]
+</code></pre>
+<p>GUI for this functionality is also included in <a href=https://github.com/nekr0z/matebook-applet>matebook-applet</a>.</p>
+<h2><a id=user-content-touchpad class=anchor aria-hidden=true href=#touchpad><svg class="octicon octicon-link" viewBox="0 0 16 16" version=1.1 width=16 height=16 aria-hidden=true><path fill-rule=evenodd d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Touchpad</h2>
+<p>General features like two-finger scrolling and three-finger touch work out of the box, more options can be made available by installing <code>xserver-xorg-input-synaptics</code>. No pressure sensitivity or palm detection, though.</p>
+<h3><a id=user-content-log-flooding-issue class=anchor aria-hidden=true href=#log-flooding-issue><svg class="octicon octicon-link" viewBox="0 0 16 16" version=1.1 width=16 height=16 aria-hidden=true><path fill-rule=evenodd d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Log flooding issue</h3>
+<p>Out of the box touchpad floods system logs with error messages <code>incomplete report (14/65535)</code> upon every touch - up to the point where rubbing your finger against touchpad produces 15% CPU usage by syslog. The <a href=https://patchwork.kernel.org/patch/10750063/ rel=nofollow>corresponding patch</a> is available in backported kernel 5.2 in Debian. If you want to use stock kernel instead, patching the kernel with <a href=https://github.com/nekr0z/linux-on-huawei-matebook-13-2019/blob/master/elan-touchpad-oldkernel.patch>adapted patch</a> fixes this issue.</p>
+<p>A quick (and, admittedly, dirty) way to patch a Debian kernel:</p>
+<pre><code>$ apt source linux
+$ cd linux-4.19.28 		&lt;&lt;&lt; or whatever version is current
+$ bash debian/bin/test-patches ../elan-touchpad-oldkernel.patch 	&lt;&lt;&lt; or whichever one you're applying, and you can apply more than one here
+
+&lt;&lt;&lt; have a beer or three, this is going to take quite some time
+
+$ cd ..
+$ sudo dpkg -i linux-image-4.19.0-4-amd64-unsigned_4.19.28-2a~test_amd64.deb	&lt;&lt;&lt; or whichever you've just compiled
+</code></pre>
+<h2><a id=user-content-credits class=anchor aria-hidden=true href=#credits><svg class="octicon octicon-link" viewBox="0 0 16 16" version=1.1 width=16 height=16 aria-hidden=true><path fill-rule=evenodd d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Credits</h2>
+<p>Thanks to <a href="http://4pda.ru/forum/index.php?showuser=5416449" rel=nofollow>Angry Ameba</a> for kindly supplying the information necessary to make battery protection and Fn-Lock work.</p>
+<p>Eternal gratiude and enormous thanks to <a href=https://github.com/aymanbagabas>Ayman Bagabas</a> for single-handedly developing Huawei-WMI driver and sharing tons of useful information.</p>
+<p>Also thanks to <a href=https://github.com/validatedev>Mert Demir</a> for giving information about fractional scaling and adding the related info.</p>
+</article>
+ </div>
+ </div>
+ </div>
+</div>
+ </main>
+ </div>
+ 
+ </div>
+ 
+<div class="footer container-lg width-full px-3" role=contentinfo>
+ <div class="position-relative d-flex flex-justify-between pt-6 pb-2 mt-6 f6 text-gray border-top border-gray-light">
+ <ul class="list-style-none d-flex flex-wrap">
+ <li class=mr-3>© 2020 GitHub, Inc.</li>
+ <li class=mr-3><a data-ga-click="Footer, go to terms, text:terms" href=https://github.com/site/terms>Terms</a></li>
+ <li class=mr-3><a data-ga-click="Footer, go to privacy, text:privacy" href=https://github.com/site/privacy>Privacy</a></li>
+ <li class=mr-3><a data-ga-click="Footer, go to security, text:security" href=https://github.com/security>Security</a></li>
+ <li class=mr-3><a href=https://githubstatus.com/ data-ga-click="Footer, go to status, text:status">Status</a></li>
+ <li><a data-ga-click="Footer, go to help, text:help" href=https://help.github.com/>Help</a></li>
+ </ul>
+ <a aria-label=Homepage title=GitHub class="footer-octicon d-none d-lg-block mx-lg-4" href=https://github.com/>
+ <svg height=24 class="octicon octicon-mark-github" viewBox="0 0 16 16" version=1.1 width=24 aria-hidden=true><path fill-rule=evenodd d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"></path></svg>
+</a>
+ <ul class="list-style-none d-flex flex-wrap">
+ <li class=mr-3><a data-ga-click="Footer, go to contact, text:contact" href=https://github.com/contact>Contact GitHub</a></li>
+ <li class=mr-3><a href=https://github.com/pricing data-ga-click="Footer, go to Pricing, text:Pricing">Pricing</a></li>
+ <li class=mr-3><a href=https://developer.github.com/ data-ga-click="Footer, go to api, text:api">API</a></li>
+ <li class=mr-3><a href=https://training.github.com/ data-ga-click="Footer, go to training, text:training">Training</a></li>
+ <li class=mr-3><a href=https://github.blog/ data-ga-click="Footer, go to blog, text:blog">Blog</a></li>
+ <li><a data-ga-click="Footer, go to about, text:about" href=https://github.com/about>About</a></li>
+ </ul>
+ </div>
+ <div class="d-flex flex-justify-center pb-6">
+ <span class="f6 text-gray-light"></span>
+ </div>
+</div>
+ <div id=ajax-error-message class="ajax-error-message flash flash-error sf-hidden">
+ <svg class="octicon octicon-alert" viewBox="0 0 16 16" version=1.1 width=16 height=16 aria-hidden=true><path fill-rule=evenodd d="M8.893 1.5c-.183-.31-.52-.5-.887-.5s-.703.19-.886.5L.138 13.499a.98.98 0 000 1.001c.193.31.53.501.886.501h13.964c.367 0 .704-.19.877-.5a1.03 1.03 0 00.01-1.002L8.893 1.5zm.133 11.497H6.987v-2.003h2.039v2.003zm0-3.004H6.987V5.987h2.039v4.006z"></path></svg>
+ <button type=button class="flash-close js-ajax-error-dismiss" aria-label="Dismiss error">
+ <svg class="octicon octicon-x" viewBox="0 0 12 16" version=1.1 width=12 height=16 aria-hidden=true><path fill-rule=evenodd d="M7.48 8l3.75 3.75-1.48 1.48L6 9.48l-3.75 3.75-1.48-1.48L4.52 8 .77 4.25l1.48-1.48L6 6.52l3.75-3.75 1.48 1.48L7.48 8z"></path></svg>
+ </button>
+ You can’t perform that action at this time.
+ </div>
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ <div class="js-stale-session-flash flash flash-warn flash-banner sf-hidden" hidden>
+ <svg class="octicon octicon-alert" viewBox="0 0 16 16" version=1.1 width=16 height=16 aria-hidden=true><path fill-rule=evenodd d="M8.893 1.5c-.183-.31-.52-.5-.887-.5s-.703.19-.886.5L.138 13.499a.98.98 0 000 1.001c.193.31.53.501.886.501h13.964c.367 0 .704-.19.877-.5a1.03 1.03 0 00.01-1.002L8.893 1.5zm.133 11.497H6.987v-2.003h2.039v2.003zm0-3.004H6.987V5.987h2.039v4.006z"></path></svg>
+ <span class=js-stale-session-flash-signed-in hidden>You signed in with another tab or window. to refresh your session.</span>
+ <span class=js-stale-session-flash-signed-out hidden>You signed out in another tab or window. to refresh your session.</span>
+ </div>
+ <template id=site-details-dialog>
+  <details class="details-reset details-overlay details-overlay-dark lh-default text-gray-dark hx_rsm" open="">
+    <summary role="button" aria-label="Close dialog"></summary>
+    <details-dialog class="Box Box--overlay d-flex flex-column anim-fade-in fast hx_rsm-dialog hx_rsm-modal">
+      <button class="Box-btn-octicon m-0 btn-octicon position-absolute right-0 top-0" type="button" aria-label="Close dialog" data-close-dialog="">
+        <svg class="octicon octicon-x" viewBox="0 0 12 16" version="1.1" width="12" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M7.48 8l3.75 3.75-1.48 1.48L6 9.48l-3.75 3.75-1.48-1.48L4.52 8 .77 4.25l1.48-1.48L6 6.52l3.75-3.75 1.48 1.48L7.48 8z"></path></svg>
+      </button>
+      <div class="octocat-spinner my-6 js-details-dialog-spinner"></div>
+    </details-dialog>
+  </details>
+</template>
+ <div class="Popover js-hovercard-content position-absolute" style=display:none;outline:0 tabindex=0>
+ <div class="Popover-message Popover-message--bottom-left Popover-message--large Box box-shadow-large" style=width:360px>
+ </div>
+</div>
+ <div aria-live=polite class="js-global-screen-reader-notice sr-only"></div>
+ 
+<iframe frameborder=0 scrolling=no style=background-color:transparent;border:0px;display:none data-single-file-win-id=0.0></iframe><div id=GOOGLE_INPUT_CHEXT_FLAG input input_stat='{"tlang":true,"tsbc":true,"pun":true,"mk":true,"ss":true}' style=display:none></div>
