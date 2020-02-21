@@ -1,6 +1,8 @@
+[mixin] @std/ppt
+
 [title]: Fuck
 
-[section] Hellow World!
+[section].banner Hello World!
 
 [section] Lorem Ipsum
 

@@ -1,7 +1,7 @@
-#### this is a markdown example
+#### This is a markdown example
 
-> they can be assigned to variables, and called using the standard function
-> call syntax from the variable they have been assigned to
+They can be assigned to variables, and called using the standard function
+call syntax from the variable they have been assigned to
 
 ```julia
 julia> x -> x^2 + 2x - 1

@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 /*
-Copyright (c) 2018-2019: Zhang Shiwei (ylxdzsw@gmail.com)
+Copyright (c) 2018-2020: Zhang Shiwei (ylxdzsw@gmail.com)
 
 This script build the blog by:
 1. get a list of posts by find main.* in `_posts` folder recursively
@@ -65,7 +65,7 @@ class YMDPost extends Post {
     compile() {
         const result = path.join(__dirname, this.link)
         return new Promise((resolve, reject) => {
-            const cmd = `bash -c "nattoppet ${this.path.replace(/\\/g, '/')}/main.*.ymd > ${result.replace(/\\/g, '/')}"`
+            const cmd = `bash -c "npx nattoppet ${this.path.replace(/\\/g, '/')}/main.ymd > ${result.replace(/\\/g, '/')}"`
             cp.exec(cmd, (err) => err ? reject(err) : resolve())
         })
     }
@@ -136,14 +136,11 @@ const posts = []
 const walk = dir => {
     const list = fs.readdirSync(dir)
 
-    if (list.some(x => /^main\.([^\.]+)\.ymd$/.test(x))) {
-        return posts.push(new YMDPost(dir))
-    } else if (list.includes("main.html")) {
-        return posts.push(new HTMLPost(dir))
-    } else if (list.includes("main.tex")) {
-        return posts.push(new TeXPost(dir))
-    } else if (list.includes("main.pdf")) {
-        return posts.push(new PDFPost(dir))
+    switch (false) {
+        case !list.includes("main.ymd"): return posts.push(new YMDPost(dir))
+        case !list.includes("main.html"): return posts.push(new HTMLPost(dir))
+        case !list.includes("main.tex"): return posts.push(new TeXPost(dir))
+        case !list.includes("main.pdf"): return posts.push(new PDFPost(dir))
     }
 
     for (const item of list) {

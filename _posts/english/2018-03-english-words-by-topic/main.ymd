@@ -1,3 +1,5 @@
+[mixin] @std/koa
+
 [title]: Words By Topic
 
 <script>
@@ -61,6 +63,6 @@ cursor: pointer;
 
 [word]=
 const word = capture_until(':')
-const meaning = capture_line()
+const meaning = capture_until('\n')
 ;`<li><span class="word" onclick="say(this.textContent)">${word}</span>: ${meaning}</li>`
 

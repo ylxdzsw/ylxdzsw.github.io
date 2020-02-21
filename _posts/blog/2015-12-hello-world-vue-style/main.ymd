@@ -1,6 +1,8 @@
+[mixin] @std/vue
+
 [title]: Hello World
 
-[h2] hello, world!
+[h2] Hello, World!
 
 [quote] Too Young Too Simple
 
@@ -24,7 +26,7 @@ julia> f(2,3)
 julia> g(2,3)
 6
 <<<
-[h3] this is a h3
+[h3] This is an h3
 
   Julia function arguments follow a convention sometimes called “pass-by-sharing”, which means that values are not copied
 when they are passed to functions. Function arguments themselves act as new variable bindings (new locations that can
@@ -32,6 +34,12 @@ refer to values), but the values they refer to are identical to the passed value
 as Arrays) made within a function will be visible to the caller. This is the same behavior found in Scheme, most Lisps,
 Python, Ruby and Perl, among other dynamic languages.
 
-[h2] try markdown
+[h2] Another Section
 
-[require](main.md)
+[quote].warn>>
+  Be careful
+Those things are bad
+
+  this is another paragraph
+<<
+

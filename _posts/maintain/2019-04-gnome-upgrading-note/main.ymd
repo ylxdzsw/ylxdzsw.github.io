@@ -1,3 +1,5 @@
+[mixin] @std/vue
+
 [title]: Gnome 3.32 Upgrading notes
 
 [require](main.md)

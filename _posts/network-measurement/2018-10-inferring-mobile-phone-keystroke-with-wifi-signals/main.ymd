@@ -1,6 +1,8 @@
+[mixin] @std/ppt
+
 [title]: Inferring Mobile Phone Keystroke with WiFi Signals
 
-[section] Inferring Mobile Phone Keystroke with WiFi Signals
+[section].banner Inferring Mobile Phone Keystroke with WiFi Signals
 
 [section] History
 

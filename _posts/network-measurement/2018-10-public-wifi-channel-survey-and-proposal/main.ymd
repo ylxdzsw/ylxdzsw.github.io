@@ -1,6 +1,8 @@
+[mixin] @std/ppt
+
 [title]: Wifi Channel Survey and Proposal
 
-[section] Wifi Channel Survey and Proposal
+[section].banner Wifi Channel Survey and Proposal
 
 [section] Table of Contents
 
@@ -34,7 +36,7 @@
 [-] WPS PIN is not secure. It can be cracked within one day.
 [-] WPA and TKIP are not considered secure, but still often enabled for compatibility.
 
-[section] Related Works
+[section].banner Related Works
 
 [section]
 

@@ -1,8 +1,8 @@
+[mixin] @std/koa
+
 [title]: Hello World
 
 [section] Lorem Ipsum
-
-[quote] Too Young Too Simple
 
   Julia function arguments follow a convention sometimes called “pass-by-sharing”,
 which means that values are not copied when they are passed to functions. Function arguments themselves act as new
@@ -10,6 +10,6 @@ variable bindings (new locations that can refer to values), but the values they 
 values. Modifications to mutable values (such as Arrays) made within a function will be visible to the caller. This is
 the same behavior found in Scheme, most Lisps, Python, Ruby and Perl, among other dynamic languages.
 
-[section] markdown
+[section] Markdown
 
 [require](main.md)
