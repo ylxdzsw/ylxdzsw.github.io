@@ -78,7 +78,7 @@ My image is shared on Google Drive and served by CloudFlare, it includes
 To install the container, just run
 
 ```
-sudo machinectl pull-tar --verify=no https://gdrive.ylxdzsw.com/container%20images/jupyter.tar.xz
+sudo machinectl pull-tar --verify=no https://gdrive.ylxdzsw.com/container-images/jupyter.tar.xz
 ```
 
 Then start the jupyter service with
@@ -99,7 +99,7 @@ feature called namespace. With it we can run our container without root access.
 To run the container, just download and untar, then use `unshare` to simulate `chroot`:
 
 ```
-wget https://gdrive.ylxdzsw.com/container%20images/jupyter.tar.xz
+wget https://gdrive.ylxdzsw.com/container-images/jupyter.tar.xz
 tar -Jxvf jupyter.tar.xz
 unshare -r -m --propagation slave bash -c "mount -R /proc proc; mount -R /dev dev; chroot . /bin/sh -l"
 ```
