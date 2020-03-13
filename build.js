@@ -13,6 +13,8 @@ This script build the blog by:
 7. generate the RSS feed
 */
 
+// TODO: LinkPost instead of the links.txt
+
 "don't use strict"
 
 const now = Date.now()
