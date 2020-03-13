@@ -225,7 +225,7 @@ const index_head = `<!DOCTYPE HTML><meta charset="UTF-8"><meta name=viewport con
 const index_foot = `<hr><p>Copyright © 2015-${new Date().getFullYear()}: root@ylxdzsw.com</p>`
 const index_body = posts.filter(x => x.name)
                         .sort((a, b) => a.name < b.name ? 1 : -1)
-                        .map(x => `<li style="border-left:solid ${stale_color(x.timestamp)}"><a target="_blank" href="${x.link}">${x.name}</a> <span class="detail" style="color:gray;font-size:0.85em">(last update at ${new Date(x.timestamp).toLocaleString()})</span></li>\n`)
+                        .map(x => `<li style="border-left:solid ${stale_color(x.timestamp)}"><a target="_blank" href="${x.link}">${x.name}</a> <span class="detail" style="color:gray;font-size:0.85em">(last update at ${new Date(x.timestamp).toLocaleString('en-HK')})</span></li>\n`)
                         .join('')
 
 fs.writeFileSync(path.join(__dirname, 'index.html'), index_head + index_body + index_foot)
