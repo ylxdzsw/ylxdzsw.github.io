@@ -112,6 +112,8 @@ detach jupyter from host without systemd is:
 setsid unshare -r -m --propagation slave bash -c 'mount -R /proc proc; mount -R /dev dev; chroot . /bin/sh -l -c "HOME=/root jupyter lab --allow-root --ip=0.0.0.0 --port=8848"' > /dev/null 2>&1
 ```
 
+To access the Internet inside the container, an additional `mount -R /etc/resolv.conf etc/resolv.conf` maybe needed.
+
 <!--https://wiki.archlinux.org/index.php/Chroot#Using_chroot-->
 
 ### Troubleshooting
