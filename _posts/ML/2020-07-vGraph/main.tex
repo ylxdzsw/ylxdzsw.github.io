@@ -25,7 +25,7 @@
 
 \begin{document}
     \beamertemplatenavigationsymbolsempty
-    
+
     \makeatletter
     \def\beamer@andinst{\\[.1em]}
     \makeatother
@@ -68,7 +68,7 @@
             \item Generative model with Variational Inference to solve community detection and node representation learning jointly.
             \item Scalable: $O(d * |E| * K)$.
             \setbeamertemplate{itemize items}[circle]
-                \begin{itemize} 
+                \begin{itemize}
                     \item $d$: embedding dimension
                     \item $|E|$: number of edges in the graph
                     \item $K$: number of communities
@@ -156,7 +156,7 @@
         It refactors the sampling operation into a deterministic function.
 
         $$ z = \mathop{argmax}_i\{{G_i + log(\pi_i)}\} $$
-        
+
         where $G_i \sim Gumbel(0, 1)$. To pass gradients back, Straight-through estimator is used, which is basically using
         softmax to approximate the argmax operation during back propagation.
     \end{frame}
@@ -167,7 +167,7 @@
         vGraph add the following regularization term to ensure that connected nodes tend to be in the same community:
 
         $$ \mathcal{L}_{reg} = \lambda\sum_{(w,c)\in E}\alpha_{w,c}\cdot d(p(z|c),p(z|w)) $$
-    
+
         where $\lambda$ is a tunable hyperparameter, $d(\cdot,\cdot)$ is the distance measure (squared difference in the
         experiment). $\alpha_{w,c}$ is given by:
 
@@ -216,7 +216,7 @@
         \centering
         \includegraphics[page=8,trim=2.5cm 18.5cm 2.5cm 2cm,clip,scale=.8]{vGraph.pdf}
     \end{frame}
-    
+
     \appendix
 
     \begin{frame}
