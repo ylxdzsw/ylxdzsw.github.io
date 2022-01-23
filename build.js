@@ -1,10 +1,10 @@
 #!/usr/bin/env node
 
 /*
-Copyright (c) 2018-2020: Zhang Shiwei (ylxdzsw@gmail.com)
+Copyright (c) 2018-2022: Zhang Shiwei (ylxdzsw@gmail.com)
 
-This script build the blog by:
-1. get a list of posts by find main.* in `_posts` folder recursively
+This script builds the blog by:
+1. get a list of posts by find main.* in `posts` folder recursively
 2. compare the hashs of posts with those in `info.json` and set update timestamps
 3. recompile posts that hashes do not match, then update `info.json`
 4. handle links in `links.txt`
@@ -31,21 +31,20 @@ class Post {
         this.path = p
         this.hash = this.getHash()
         this.link = this.getLink()
-        if (!this.link.startsWith('_')) {
+        if (!this.link.startsWith('_'))
             this.name = path.parse(this.link).name
-        }
     }
 
     getHash() {
         const hasher = crypto.createHash('md5')
 
-        function hash(p) {
+        function hash(p, init_dir=false) {
             const stat = fs.statSync(p)
             if (stat.isFile()) {
                 hasher.update(path.basename(p))
                 hasher.update(fs.readFileSync(p))
             } else if (stat.isDirectory()) {
-                hasher.update(path.basename(p))
+                !init_dir && hasher.update(path.basename(p))
                 for (const name of fs.readdirSync(p).sort())
                     hash(path.join(p, name))
             } else {
@@ -53,7 +52,7 @@ class Post {
             }
         }
 
-        hash(this.path)
+        hash(this.path, true)
 
         return hasher.digest('hex')
     }
@@ -67,7 +66,7 @@ class YMDPost extends Post {
     compile() {
         const result = path.join(__dirname, this.link)
         return new Promise((resolve, reject) => {
-            const cmd = `bash -c "npx nattoppet ${this.path.replace(/\\/g, '/')}/main.ymd > ${result.replace(/\\/g, '/')}"`
+            const cmd = `bash -c "npm exec nattoppet ${this.path.replace(/\\/g, '/')}/main.ymd > ${result.replace(/\\/g, '/')}"`
             cp.exec(cmd, (err) => err ? reject(err) : resolve())
         })
     }
@@ -151,9 +150,9 @@ const walk = dir => {
     }
 }
 
-walk(path.join(__dirname, "_posts"))
+walk(path.join(__dirname, "posts"))
 
-// step 2. compare the hashs of posts with those in `info.json` and set update timestamps
+// step 2. compare the hashes of posts with those in `info.json` and set update timestamps
 
 const hashdict = Object.create(null)
 
@@ -165,7 +164,7 @@ for (const p of JSON.parse(fs.readFileSync(path.join(__dirname, 'info.json'), { 
     if (x) x.timestamp = p.timestamp
 }
 
-// step 3. recompile posts that hashes do not match, then update `info.json`
+// step 3. recompile posts whose hashes do not match, then update `info.json`
 
 const tasks = []
 let infostr = '[\n'
@@ -203,29 +202,26 @@ for (const link of links) {
 // step 5. delete compiled posts that do not appear in the source
 
 for (const p of fs.readdirSync(__dirname)
-                  .filter(x=>x.endsWith('.html') || x.endsWith('.pdf'))
-                  .filter(x=>!x.startsWith('google') && !x.startsWith('index'))) {
+                  .filter(x=>x.endsWith('.html') || x.endsWith('.pdf'))) {
     posts.some(x => x.link == p) || fs.unlink(path.join(__dirname, p), ()=>0)
 }
 
 // step 6. generate the index page
 
 const stale_color = time => {
-    const diff = now - time
-    return diff < 604800000 ? 'lime' : // 7 days
-           diff < 2592000000 ? 'greenyellow' : // 30 days
-           diff < 8640000000 ? 'yellow' : // 100 days
-           diff < 31536000000 ? 'orange' : // 365 days
-           diff < 86400000000 ? 'tomato' : 'red' // 1000 days
+    const this_year = new Date(now).getFullYear()
+    const compile_year = new Date(time).getFullYear()
+    const color_list = ['lime', 'greenyellow', 'yellow', 'orange', 'tomato']
+    return color_list[this_year - compile_year] || 'red'
 }
 
 const RSS_icon = `<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="1rem" height="1rem" id="RSSicon" viewBox="0 0 256 256"><defs><linearGradient x1="0.085" y1="0.085" x2="0.915" y2="0.915" id="RSSg"><stop offset="0.0" stop-color="#E3702D"/><stop offset="0.1071" stop-color="#EA7D31"/><stop offset="0.3503" stop-color="#F69537"/><stop offset="0.5" stop-color="#FB9E3A"/><stop offset="0.7016" stop-color="#EA7C31"/><stop offset="0.8866" stop-color="#DE642B"/><stop offset="1.0" stop-color="#D95B29"/></linearGradient></defs><rect width="256" height="256" rx="55" ry="55" x="0" y="0" fill="#CC5D15"/><rect width="246" height="246" rx="50" ry="50" x="5" y="5" fill="#F49C52"/><rect width="236" height="236" rx="47" ry="47" x="10" y="10" fill="url(#RSSg)"/><circle cx="68" cy="189" r="24" fill="#FFF"/><path d="M160 213h-34a82 82 0 0 0 -82 -82v-34a116 116 0 0 1 116 116z" fill="#FFF"/><path d="M184 213A140 140 0 0 0 44 73 V 38a175 175 0 0 1 175 175z" fill="#FFF"/></svg>`
 
 const index_head = `<!DOCTYPE HTML><meta charset="UTF-8"><meta name=viewport content="width=device-width"><title>ylxdzsw's blog</title><style>li{padding-left:0.8em;list-style-type:none}@media(max-width:415px){.detail{display:none}h1{font-size:1.5em}}</style><h1 style="display:inline;margin:0.2em 0.5em 0.2em 0.2em">ylxdzsw's blog</h1><a target="_blank" href="feed.xml" style="margin-right:1em">${RSS_icon}</a><a target="_blank" href="_about.html">About me</a><hr>\n`
-const index_foot = `<hr><p>Copyright © 2015-${new Date().getFullYear()}: root@ylxdzsw.com</p>`
+const index_foot = `<hr><p>Copyright © 2015-${new Date(now).getFullYear()}: root@ylxdzsw.com</p>`
 const index_body = posts.filter(x => x.name)
                         .sort((a, b) => a.name < b.name ? 1 : -1)
-                        .map(x => `<li style="border-left:solid ${stale_color(x.timestamp)}"><a target="_blank" href="${x.link}">${x.name}</a> <span class="detail" style="color:gray;font-size:0.85em">(last update at ${new Date(x.timestamp).toLocaleString('en-HK')})</span></li>\n`)
+                        .map(x => `<li style="border-left:solid ${stale_color(x.timestamp)}"><a target="_blank" href="${x.link}">${x.name}</a> <span class="detail" style="color:gray;font-size:0.85em">(last update: ${new Date(x.timestamp).toLocaleString('en-HK')})</span></li>\n`)
                         .join('')
 
 fs.writeFileSync(path.join(__dirname, 'index.html'), index_head + index_body + index_foot)

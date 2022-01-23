@@ -1,2 +1,3 @@
 2017-08-29-gsoc-2017-report.html 2017-08-gsoc-2017-report.html
-2016-05-mo-generator /mo-generator/main.html 1462665600000
+2016-05-mo-generator https://ylxdzsw.github.io/mo-generator/main.html 1462665600000
+2022-01-sopipe-builder https://ylxdzsw.github.io/sopipe 1642947240079
