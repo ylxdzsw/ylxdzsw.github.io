@@ -8,7 +8,7 @@
 
 [h3] 抽奖分析
 
-  <b>设</b>
+  [#] <b>设</b>
 
 [$$]>>
 \newcommand\E{\operatorname E}
@@ -24,7 +24,7 @@ w&:~~\text{物资价值参数}\\
 \end{aligned}
 <<
 
-  <b>根据 [LOTUS]，有</b>
+  [#] <b>根据 [LOTUS]，有</b>
 
 [LOTUS]: [link](https://en.wikipedia.org/wiki/Law_of_the_unconscious_statistician)(Law of the unconscious statistician)
 
@@ -69,12 +69,7 @@ w&:~~\text{物资价值参数}\\
 [$]w_{\text{q5包}}$ = <span id="gacha-result-w-q5-bread">50</span><br>
 [$]w_{\text{q1枪}}$ = <span id="gacha-result-w-q1-gun">1</span><br>
 [$]w_{\text{q1包}}$ = <span id="gacha-result-w-q1-bread">5</span><br>
-[$]{\operatorname E}^\prime(g,p,z;~a,w)$ = <span id="gacha-result-e">0</span><br>
+[$]{\operatorname E}(g,p,z;~a,w)$ = <span id="gacha-result-e">0</span><br>
 </div>
-
-
-[h3] 抽奖模拟器
-
-
 
 [require](main.js)
