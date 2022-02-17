@@ -74,7 +74,7 @@ Haohan Chen\inst{1} Arash Rahnama\inst{1} Luis Quintela\inst{1}}
             \item a single large component in an otherwise small model,
             \item architectures that make extensive use of module/parameter re-use,
             \item scripts with conditional execution flows,
-            \item and non-conventional execution pattern such as mixture-of-experts layers.
+            \item and non-conventional execution patterns such as mixture-of-experts layers.
         \end{itemize}
     \end{frame}
 
@@ -126,8 +126,8 @@ Haohan Chen\inst{1} Arash Rahnama\inst{1} Luis Quintela\inst{1}}
                 The model is viewed as a hierarchy of modules based on PyTorch class definition.
                 \vskip 1em
 
-                Each pipeline stage runs an execution server, which is a Python thread that listen requests from
-                incoming execution requests
+                Each pipeline stage runs an execution server, which is a Python thread that listens for
+                incoming execution requests.
             \end{column}
             \begin{column}{0.5\textwidth}
                 \includegraphics[page=5,trim=11.5cm 12.5cm 2.5cm 8.5cm,clip,scale=0.9]{paper.pdf}
@@ -345,7 +345,7 @@ Haohan Chen\inst{1} Arash Rahnama\inst{1} Luis Quintela\inst{1}}
     \appendix
 
     \begin{frame}
-        \vskip 1.5em
+        \vskip 1em
 
         \centering \huge
         Thank you!
