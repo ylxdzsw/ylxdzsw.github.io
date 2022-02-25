@@ -1,8 +1,8 @@
-[mixin] @std/vue
+[mixin] vue
 
 [title]: An EM view of policy iteration
 
-[require](@std/assets/katex.css)
+[mixin] assets/katex.css
 
 <style>@media (min-width: 625px) { .directive { margin-left: calc(50% - 220px) } }</style>
 

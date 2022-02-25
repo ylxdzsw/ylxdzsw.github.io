@@ -1,4 +1,4 @@
-[mixin] @std/koa
+[mixin] koa
 
 [title]: Hello World
 

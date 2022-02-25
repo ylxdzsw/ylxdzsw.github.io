@@ -1,6 +1,6 @@
-[mixin] @std/vue
+[mixin] vue
 
-[require](@std/assets/katex.css)
+[mixin] assets/katex.css
 
 [h2] [title]
 

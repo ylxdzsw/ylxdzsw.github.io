@@ -1,4 +1,4 @@
-[mixin] @std/vue
+[mixin] vue
 
 [title]: Method Chaining, Destructor, and Rust
 

@@ -1,8 +1,8 @@
-[mixin] @std/vue
+[mixin] vue
 
 [title]: 群sim助手
 
-[require](@std/assets/katex.css)
+[mixin] assets/katex.css
 
 [h2] 群sim助手
 
