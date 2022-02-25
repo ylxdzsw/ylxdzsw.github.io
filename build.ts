@@ -1,51 +1,42 @@
-#!/usr/bin/env node
+import { createHash } from "https://deno.land/std@0.127.0/hash/mod.ts"
+import * as path from "https://deno.land/std@0.127.0/path/mod.ts"
 
-/*
-Copyright (c) 2018-2022: Zhang Shiwei (ylxdzsw@gmail.com)
-
-This script builds the blog by:
-1. get a list of posts by find main.* in `posts` folder recursively
-2. compare the hashs of posts with those in `info.json` and set update timestamps
-3. recompile posts that hashes do not match, then update `info.json`
-4. handle links in `links.txt`
-5. delete compiled posts that do not appear in the source
-6. generate the index page
-7. generate the RSS feed
-*/
-
-// TODO: LinkPost instead of the links.txt
-
-"don't use strict"
+const __dirname = path.dirname(path.fromFileUrl(import.meta.url))
 
 const now = Date.now()
 
-const fs = require('fs')
-const cp = require('child_process')
-const path = require('path')
-const crypto = require('crypto')
+const purge_cache = Deno.args.includes("--purge-cache")
 
-const purge_cache = process.argv.includes("--purge-cache")
+abstract class Post {
+    path: string
+    hash: string
+    link: string
+    name: string | null = null
+    timestamp: number | null = null
 
-class Post {
-    constructor(p) {
+    constructor(p: string) {
         this.path = p
-        this.hash = this.getHash()
-        this.link = this.getLink()
+        this.hash = this.get_hash()
+        this.link = this.get_link()
         if (!this.link.startsWith('_'))
             this.name = path.parse(this.link).name
     }
 
-    getHash() {
-        const hasher = crypto.createHash('md5')
+    abstract get_link(): string
 
-        function hash(p, init_dir=false) {
-            const stat = fs.statSync(p)
-            if (stat.isFile()) {
+    abstract compile(): Promise<void>
+
+    get_hash() {
+        const hasher = createHash('md5')
+
+        function hash(p: string, init_dir = false) {
+            const stat = Deno.statSync(p)
+            if (stat.isFile) {
                 hasher.update(path.basename(p))
-                hasher.update(fs.readFileSync(p))
-            } else if (stat.isDirectory()) {
+                hasher.update(Deno.readFileSync(p))
+            } else if (stat.isDirectory) {
                 !init_dir && hasher.update(path.basename(p))
-                for (const name of fs.readdirSync(p).sort())
+                for (const name of [...Deno.readDirSync(p)].map(x=>x.name).sort())
                     hash(path.join(p, name))
             } else {
                 throw new Error("what the fuck is this? " + p)
@@ -54,88 +45,86 @@ class Post {
 
         hash(this.path, true)
 
-        return hasher.digest('hex')
+        return hasher.toString('hex')
     }
 }
 
 class YMDPost extends Post {
-    getLink() {
+    get_link() {
         return path.basename(this.path) + '.html'
     }
 
-    compile() {
+    async compile() {
         const result = path.join(__dirname, this.link)
-        return new Promise((resolve, reject) => {
-            const cmd = `bash -c "deno run -A --unstable --no-check https://raw.githubusercontent.com/ylxdzsw/nattoppet/master/nattoppet.ts ${this.path.replace(/\\/g, '/')}/main.ymd > ${result.replace(/\\/g, '/')}"`
-            cp.exec(cmd, (err) => err ? reject(err) : resolve())
-        })
+        const nattoppet_url = "https://raw.githubusercontent.com/ylxdzsw/nattoppet/master/nattoppet.ts"
+        const cmd = [
+            "bash",
+            "-c",
+            `deno run -A --unstable --no-check ${nattoppet_url} ${this.path}/main.ymd > ${result}`
+        ]
+        const child = Deno.run({ cmd })
+        await child.status()
     }
 }
 
 class HTMLPost extends Post {
-    getLink() {
+    get_link() {
         return path.basename(this.path) + '.html'
     }
 
-    compile() {
+    async compile() {
         const src = path.join(this.path, "main.html")
         const dst = path.join(__dirname, this.link)
-        return new Promise((resolve, reject) => {
-            fs.copyFile(src, dst, (err) => err ? reject(err) : resolve())
-        })
+        await Deno.copyFile(src, dst)
     }
 }
 
 class TeXPost extends Post {
-    getLink() {
+    get_link() {
         return path.basename(this.path) + '.pdf'
     }
 
-    compile() {
-        const clean_up = () => {
+    async compile() {
+        try {
+            const status = await Deno.run({
+                cmd: ["latexmk", "main.tex", "-interaction=nonstopmode", "-pdf"],
+                cwd: this.path
+            }).status()
+
+            if (status.code != 0)
+                throw "latexmk failed with code: " + status.code
+
+            const src = path.join(this.path, "main.pdf")
+            const dst = path.join(__dirname, this.link)
+            await Deno.copyFile(src, dst)
+        } finally {
             const tasks = []
             for (const postfix of ["aux", "fdb_latexmk", "fls", "log", "pdf", "synctex.gz",
-                                   "synctex(busy)", "bbl", "idx", "out", "blg", "dvi", "nav", "snm", "toc"]) {
-                tasks.push(new Promise((resolve, reject) => {
-                    fs.unlink(path.join(this.path, "main." + postfix), resolve)
-                }))
-            }
-            return Promise.all(tasks)
+                                   "synctex(busy)", "bbl", "idx", "out", "blg", "dvi", "nav", "snm", "toc"])
+                tasks.push(Deno.remove(path.join(this.path, "main." + postfix)))
+            await Promise.allSettled(tasks)
         }
-
-        return new Promise((resolve, reject) => {
-            cp.exec(`latexmk main.tex -interaction=nonstopmode -pdf`, { cwd: this.path }, (err) => {
-                if (err) return reject(err)
-
-                const src = path.join(this.path, "main.pdf")
-                const dst = path.join(__dirname, this.link)
-                fs.copyFile(src, dst, (err) => err ? reject(err) : resolve())
-            })
-        }).then(v => new Promise((resolve, reject) => clean_up().then(x=>resolve(v))),
-                e => new Promise((resolve, reject) => clean_up().then(x=>reject(e))))
     }
 }
 
 class PDFPost extends Post {
-    getLink() {
+    get_link() {
         return path.basename(this.path) + '.pdf'
     }
 
-    compile() {
+    async compile() {
         const src = path.join(this.path, "main.pdf")
         const dst = path.join(__dirname, this.link)
-        return new Promise((resolve, reject) => {
-            fs.copyFile(src, dst, (err) => err ? reject(err) : resolve())
-        })
+        await Deno.copyFile(src, dst)
     }
 }
 
 // step 1. get a list of posts by find main.* in `_posts` folder recursively
 
-const posts = []
+const posts: any[] = []
 
-const walk = dir => {
-    const list = fs.readdirSync(dir)
+const walk = (dir: string) => {
+    const list = [...Deno.readDirSync(dir)].map(x=>x.name)
 
     switch (false) {
         case !list.includes("main.ymd"): return posts.push(new YMDPost(dir))
@@ -146,7 +135,7 @@ const walk = dir => {
 
     for (const item of list) {
         const subdir = path.join(dir, item)
-        fs.statSync(subdir).isDirectory() && walk(subdir)
+        Deno.statSync(subdir).isDirectory && walk(subdir)
     }
 }
 
@@ -154,12 +143,12 @@ walk(path.join(__dirname, "posts"))
 
 // step 2. compare the hashes of posts with those in `info.json` and set update timestamps
 
-const hashdict = Object.create(null)
+const hashdict: Record<string, Post> = Object.create(null)
 
 for (const p of posts)
     hashdict[p.hash] = p
 
-for (const p of JSON.parse(fs.readFileSync(path.join(__dirname, 'info.json'), { encoding: 'utf8' }))) {
+for (const p of JSON.parse(Deno.readTextFileSync(path.join(__dirname, 'info.json')))) {
     const x = hashdict[p.hash]
     if (x) x.timestamp = p.timestamp
 }
@@ -179,11 +168,11 @@ for (const p of posts.sort((a, b) => a.hash > b.hash ? 1 : -1)) {
     infostr += `  { "hash": "${p.hash}", "timestamp": ${p.timestamp} },\n` // manually build the json so ensuring the order so git better diff it.
 }
 
-fs.writeFileSync(path.join(__dirname, 'info.json'), infostr.slice(0, -2) + '\n]')
+Deno.writeTextFileSync(path.join(__dirname, 'info.json'), infostr.slice(0, -2) + '\n]')
 
 // step 4. handle links in `links.txt`
 
-const links = fs.readFileSync(path.join(__dirname, 'links.txt')).toString().split('\n')
+const links = Deno.readTextFileSync(path.join(__dirname, 'links.txt')).split('\n')
 
 for (const link of links) {
     const [src, dest, time] = link.split(' ')
@@ -194,21 +183,21 @@ for (const link of links) {
             timestamp: parseInt(time)
         })
     } else {
-        fs.writeFileSync(path.join(__dirname, src), `<!DOCTYPE HTML><meta charset="UTF-8"><meta http-equiv="refresh" content="0; url=${dest}"><title>Redirection</title>This page has been moved to <a href="${dest}">${dest}</a>`)
+        Deno.writeTextFileSync(path.join(__dirname, src), `<!DOCTYPE HTML><meta charset="UTF-8"><meta http-equiv="refresh" content="0; url=${dest}"><title>Redirection</title>This page has been moved to <a href="${dest}">${dest}</a>`)
         posts.push({ link: src })
     }
 }
 
 // step 5. delete compiled posts that do not appear in the source
 
-for (const p of fs.readdirSync(__dirname)
-                  .filter(x=>x.endsWith('.html') || x.endsWith('.pdf'))) {
-    posts.some(x => x.link == p) || fs.unlink(path.join(__dirname, p), ()=>0)
+for (const p of [...Deno.readDirSync(__dirname)].map(x=>x.name)
+                    .filter(x=>x.endsWith('.html') || x.endsWith('.pdf'))) {
+    posts.some(x => x.link == p) || Deno.remove(path.join(__dirname, p)).catch(_=>0)
 }
 
 // step 6. generate the index page
 
-const stale_color = time => {
+const stale_color = (time: number) => {
     const this_year = new Date(now).getFullYear()
     const compile_year = new Date(time).getFullYear()
     const color_list = ['lime', 'greenyellow', 'yellow', 'orange', 'tomato']
@@ -224,7 +213,7 @@ const index_body = posts.filter(x => x.name)
                         .map(x => `<li style="border-left:solid ${stale_color(x.timestamp)}"><a target="_blank" href="${x.link}">${x.name}</a> <span class="detail" style="color:gray;font-size:0.85em">(last update: ${new Date(x.timestamp).toLocaleString('en-HK')})</span></li>\n`)
                         .join('')
 
-fs.writeFileSync(path.join(__dirname, 'index.html'), index_head + index_body + index_foot)
+Deno.writeTextFileSync(path.join(__dirname, 'index.html'), index_head + index_body + index_foot)
 
 // Step 7. generate the RSS feed
 
@@ -236,11 +225,10 @@ const feed_body = posts.filter(x => x.name)
                        .map(x => `<item><title>${x.name}</title><link>https://blog.ylxdzsw.com/${x.link}</link><guid>${x.hash}</guid><pubDate>${new Date(x.timestamp).toUTCString()}</pubDate></item>\n`)
                        .join('')
 
-fs.writeFileSync(path.join(__dirname, 'feed.xml'), feed_head + feed_body + feed_foot)
+Deno.writeTextFileSync(path.join(__dirname, 'feed.xml'), feed_head + feed_body + feed_foot)
 
 // wait and done
 
 Promise.all(tasks).then(() => {
     console.info(`build finished in ${Date.now() - now}ms, ${tasks.length} post updated`)
-    process.exit(0)
 })
