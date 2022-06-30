@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?><rss version="2.0"><channel><title>ylxdzsw's blog</title><link>https://blog.ylxdzsw.com/</link><description>Works, thoughts, life, and balderdash.</description>
-<lastBuildDate>Fri, 25 Feb 2022 15:48:49 GMT</lastBuildDate>
+<lastBuildDate>Thu, 30 Jun 2022 08:22:20 GMT</lastBuildDate>
+<item><title>2022-06-synthesizing-optimal-parallelism-placement-and-reduction-strategies-on-hierarchical-systems-for-deep-learning</title><link>https://blog.ylxdzsw.com/2022-06-synthesizing-optimal-parallelism-placement-and-reduction-strategies-on-hierarchical-systems-for-deep-learning.pdf</link><guid>c205feba5c6953ea3fb33ef0c817a4a9</guid><pubDate>Thu, 30 Jun 2022 08:22:20 GMT</pubDate></item>
 <item><title>2022-02-amazon-sagemaker-model-parallism</title><link>https://blog.ylxdzsw.com/2022-02-amazon-sagemaker-model-parallism.pdf</link><guid>01bae7d26dfeeea7e34b4a9b263bf825</guid><pubDate>Mon, 21 Feb 2022 13:00:03 GMT</pubDate></item>
 <item><title>2022-01-sopipe-builder</title><link>https://blog.ylxdzsw.com/https://ylxdzsw.github.io/sopipe</link><guid>undefined</guid><pubDate>Sun, 23 Jan 2022 14:14:00 GMT</pubDate></item>
 <item><title>2021-09-ios-inter-operator-scheduler</title><link>https://blog.ylxdzsw.com/2021-09-ios-inter-operator-scheduler.pdf</link><guid>9f3b6ef79258a2ec5f129424406f8e7e</guid><pubDate>Sun, 23 Jan 2022 14:40:07 GMT</pubDate></item>
@@ -14,5 +15,4 @@
 <item><title>2019-04-iwqos-paper-slide-on-aims</title><link>https://blog.ylxdzsw.com/2019-04-iwqos-paper-slide-on-aims.pdf</link><guid>9800ac32f9ecb275040d047a7bacc500</guid><pubDate>Sun, 23 Jan 2022 14:40:07 GMT</pubDate></item>
 <item><title>2018-10-public-wifi-channel-survey-and-proposal</title><link>https://blog.ylxdzsw.com/2018-10-public-wifi-channel-survey-and-proposal.html</link><guid>5221fc620fe643cdcd12d3f378c04df6</guid><pubDate>Fri, 25 Feb 2022 13:13:08 GMT</pubDate></item>
 <item><title>2018-10-inferring-mobile-phone-keystroke-with-wifi-signals</title><link>https://blog.ylxdzsw.com/2018-10-inferring-mobile-phone-keystroke-with-wifi-signals.html</link><guid>80095c6541c7e4ddacb755b209a69adc</guid><pubDate>Fri, 25 Feb 2022 13:13:08 GMT</pubDate></item>
-<item><title>2018-09-hello-world-tml-style</title><link>https://blog.ylxdzsw.com/2018-09-hello-world-tml-style.html</link><guid>e7cb5b9f37420b9fe68f2a3ee3b65c99</guid><pubDate>Fri, 25 Feb 2022 13:13:08 GMT</pubDate></item>
 </channel></rss>
