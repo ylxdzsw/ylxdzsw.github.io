@@ -1,0 +1,7 @@
+[mixin] vue
+
+[title]: 100 Prisoners
+
+<div id="a">
+
+[require](main.js)
