@@ -46,7 +46,7 @@ borders of the sector.
 \begin{aligned}
 g_2(r \mid i, j) &= \begin{cases}
     2, & r \leqslant 0.5 \\
-    0, & otherwise
+    0, & \text{otherwise}
 \end{cases} \\
 g_k(r \mid i, j) &= r \cdot g_{k-1}(r \mid i, j)
 \end{aligned}

@@ -224,7 +224,7 @@ const feed_foot = `</channel></rss>`
 const feed_body = posts.filter(x => x.name)
                        .sort((a, b) => a.name < b.name ? 1 : -1)
                        .slice(0, 15)
-                       .map(x => `<item><title>${x.name}</title><link>https://blog.ylxdzsw.com/${x.link}</link><guid>${x.hash}</guid><pubDate>${new Date(x.timestamp).toUTCString()}</pubDate></item>\n`)
+                       .map(x => `<item><title>${x.name}</title><link>${new URL(x.link, "https://blog.ylxdzsw.com").href}</link><guid>${x.hash}</guid><pubDate>${new Date(x.timestamp).toUTCString()}</pubDate></item>\n`)
                        .join('')
 
 Deno.writeTextFileSync(path.join(__dirname, 'feed.xml'), feed_head + feed_body + feed_foot)
