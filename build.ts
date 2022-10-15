@@ -1,3 +1,5 @@
+#!/usr/bin/env -S deno run -A --unstable
+
 import { createHash } from "https://deno.land/std@0.127.0/hash/mod.ts"
 import * as path from "https://deno.land/std@0.127.0/path/mod.ts"
 

@@ -1,0 +1,91 @@
+[mixin] form
+
+[title]: Ducks
+
+[mixin] assets/katex.css
+
+[h3] Problem
+<p>
+[$]d$ ducks in a pool, the probability of "all [$]d$ ducks are within a half circle".
+</p>
+
+<svg style="display: block; margin: 0 auto; width: 200px" viewBox="0 0 100 100">
+<circle cx="50" cy="50" r="45" stroke="black" fill="transparent"/>
+<circle cx="50" cy="50" r="1.5" fill="black"/>
+
+<circle cx="72" cy="33" r="1.5" fill="black"/>
+<text x="74" y="33" style="font-size: 9px"> x₁ </text>
+
+<circle cx="70" cy="63" r="1.5" fill="black"/>
+<text x="72" y="63" style="font-size: 9px"> x₂ </text>
+
+<circle cx="55" cy="87" r="1.5" fill="black"/>
+<text x="57" y="87" style="font-size: 9px"> x₃ </text>
+
+<circle cx="34" cy="73" r="1.5" fill="black"/>
+<text x="24" y="73" style="font-size: 9px"> x₄ </text>
+
+<line x1="50" x2="72" y1="50" y2="33" stroke="black"/>
+<line x1="50" x2="34" y1="50" y2="73" stroke="black"/>
+<text x="52" y="60" style="font-size: 9px"> r </text>
+</svg>
+
+[h3] Analysis
+<p>
+Label the ducks as [$]x_1, x_2, \dots, x_d$. The probability of "all [$]d$ ducks are within a sector of angle [$]2\pi r$"
+is the integral of the probability density of "[$]d$ ducks forms a sector of exactly [$]2\pi r$", i.e.:
+</p>
+
+[$$] P = \int_0^\frac12 f(r) ~dr
+
+The probability of "[$]d$ ducks forms a sector of exactly [$]2\pi r$" can be calculated as follows: let [$]g_k(r \mid i, j)$
+denote the probability density function [$]f(r)$ when there are [$]k$ ducks and the duck [$]i$ and [$]j$ are on the two
+borders of the sector.
+
+[$$]>>
+\begin{aligned}
+g_2(r \mid i, j) &= \begin{cases}
+    2, & r \leqslant 0.5 \\
+    0, & otherwise
+\end{cases} \\
+g_k(r \mid i, j) &= r \cdot g_{k-1}(r \mid i, j)
+\end{aligned}
+<<
+
+Therefore,
+
+[$$] g_k(r \mid i, j) = 2 \cdot r^{k-2},\quad r \leqslant 0.5
+
+Since the probability of two ducks on the same radius is 0, every pair of [$]i$ and [$]j$ is disjoint from others.
+
+[$$]>>
+\begin{aligned}
+f(r) &= \bigcup_{i,~j} g_d(r \mid i, j) \\
+     &= \sum_{i \neq j} g_d(r \mid i, j) \\
+     &= \frac{d \cdot (d-1)}2 \cdot g_d(r \mid 0, 1) \\
+     &= d \cdot (d-1) \cdot r^{d-2}
+\end{aligned}
+<<
+
+[$$] P = \int_0^\frac12 f(r) ~dr = \int_0^\frac12 d \cdot (d-1) \cdot r^{d-2} ~dr = d \cdot r^{d-1}
+
+<style>
+.katex-display { transform: scale(0.9) }
+</style>
+
+[#]>>
+\begin{aligned}
+x_i &\sim U(0, 1) \\
+r &= \frac12 \\
+{\operatorname P}(\text{``all ducks in $r$''})
+    &= P(\max_i x_i - \min_i x_i \leqslant r \cup 1 - \max_i x_i + \min_i x_i > 1 - r) \\
+    &= P(\max_i x_i - \min_i x_i \leqslant r) + P(\max_i x_i - \min_i x_i < r)
+\end{aligned}
+<<
+
+[h3] Calculator
+
+[number](value="4").d Number of ducks ([$] \geq 2$)
+[number](value="0.5").r Portion of circle ([$]\in [0, 0.5]$)
+
+[require](main.js)
