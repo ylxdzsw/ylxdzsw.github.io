@@ -47,11 +47,11 @@
 
     \begin{frame}
         Deep neural networks (DNN), especially Transformer-based models with \textbf{Mixture-of-Expert (MoE)} layers,
-        have become so large that \textbf{distributed training is necessary}.
+        have become so large that distributed training is necessary.
 
         \vskip 1em
         Communication overhead is a major problem in distributed DNN training. Using \textbf{TPUs} with fast device-to-device
-        links, communication takes up to \textbf{11\%} of training time. On \textbf{GPU clouds} with Ethernet connection,
+        links, communication can take up to \textbf{11\%} of training time. On \textbf{GPU clouds} with Ethernet connection,
         communication can take more than \textbf{60\%} of training time.
 
         \vskip 1em
@@ -173,7 +173,7 @@
             \item \textbf{Accuracy}: Only floating-point arithmetic errors.
             \item \textbf{Memory Usage}: No increase.
             \item \textbf{GPU Utilization}: Slightly reduced due to smaller tensor sizes.
-            \item \textbf{Overheads}: CUDA synchonization, gradient aggragation, memory bus contention, interference between computation and communication.
+            \item \textbf{Overheads}: CUDA synchonization, gradient aggregation, memory bus contention, interference between computation and communication.
             \item \textbf{Speed-up}: Up to 100\% in ideal case.
         \end{itemize}
     \end{frame}
@@ -203,7 +203,7 @@
         \frametitle{Sharding Strategy}
 
         \begin{itemize}
-            \setlength{\itemsep}{.5em}
+            \setlength{\itemsep}{.8em}
             \item \textbf{Objective}: Find the sharding methods for all operators that minimizes the training time with computation-communication overlapping.
             \item \textbf{Basic Idea}: Using dynamic programming to incrementally search for the best strategies of a subgraph.
             \item \textbf{Challenge}: The best strategy of a subgraph may not be optimal for the complete graph due to computation-communication overlapping.
@@ -216,11 +216,12 @@
 
         \begin{columns}
             \begin{column}{0.5\textwidth}
-                More details in the paper.
-
-                \vskip 2em
+                {
                 \centering
                 \includegraphics[page=8,trim=2.2cm 20cm 11.2cm 2.8cm,clip,scale=0.84]{paper.pdf}
+                }
+
+                More details in the paper.
             \end{column}
             \begin{column}{0.54\textwidth}
                 \centering
@@ -262,7 +263,7 @@
         \frametitle{Experimental Setup}
 
         \begin{itemize}
-            \setlength{\itemsep}{.5em}
+            \setlength{\itemsep}{.8em}
             \item \textbf{Testbed}: 8 machines on public cloud, each with 8 V100 GPUs and NVLink, connected by 10Gbps network.
             \item \textbf{Benchmarks}: BERT (language modeling) and ViT (image classification), with two variants of MoE layers, SGMoE and Switch.
             \item \textbf{Baselines}: DeepSpeed, FastMoE, PyTorch DDP, and Horovod.
