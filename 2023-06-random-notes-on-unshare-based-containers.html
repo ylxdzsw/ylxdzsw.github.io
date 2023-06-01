@@ -1,0 +1,61 @@
+<!doctype html><meta name=viewport content="width=device-width,initial-scale=1"><meta name=author content=ylxdzsw@gmail.com><meta charset=utf-8><title>Random Notes on Unshare-based Containers | ylxdzsw's blog</title><style>html{font-family:sans-serif;line-height:1.5;text-align:justify;hyphens:auto;color:#33333d}@media (max-width:625px){html{font-size:15px}}body{max-width:720px;margin:0 auto;padding:0 1rem 1rem}@media (max-width:625px){body{padding:0 .8rem .8rem}}h2,h3{margin:2rem 0 0;position:relative}h2:before,h3:before{content:"#";color:#42b983;position:absolute;left:-1rem;top:0;font-weight:700;opacity:0}@media (min-width:625px){h2:hover:before,h3:hover:before{opacity:1}}h2 a,h3 a{color:#2c3e50}h2{font-family:serif;padding-bottom:.7rem;border-bottom:.5px solid #ddd}h2:before{top:.1em;font-size:.9em}pre{border:1px solid #bcd;background-color:#ebf1f5;padding:.8rem;overflow-x:auto}pre code{font-size:.8rem}code{font-family:monospace;color:#222}ul ol{padding-left:1.5rem;margin:1.2rem 0}a{color:#42b983;text-decoration:none}a:hover{text-decoration:underline}blockquote{margin:1.2rem 0;padding:0 1rem;border-left:4px solid #42b983}blockquote.warn{border-left-color:tomato}blockquote p{margin-left:0}</style><h2 id=random-notes-on-unshare-based-containers>Random Notes on Unshare-based Containers</h2><p><a href=https://man7.org/linux/man-pages/man1/unshare.1.html>unshare(1)</a> is part of <a href=https://github.com/util-linux/util-linux>util-linux</a> that is pre-installed on literally every linux distros and can be utilized to provide <em>&quot;installation-free&quot;</em> lightweight containers. This article includes some notes and code snippets about this usage.<p>This software and the namespace functionalities in the kernel are still under rapid development. Linux kernel 4.17+ and util-linux 2.39+ are required to run the snippets.<h3 id=prepare-an-arch-container>Prepare an Arch container</h3><pre><code class=language-bash>mkdir arch &amp;&amp; cd arch
+pacstrap -KNP . pacman archlinux-keyring
+rm var/cache/pacman/pkg/* # optional, save space
+</code></pre><blockquote><p>The <code>-N</code> option causes <code>pacstrap</code> to run inside a <a href=https://man7.org/linux/man-pages/man7/user_namespaces.7.html>user namespace</a>. If it reports errors like <code>unshare: no line matching user &quot;xxx&quot; in /etc/subuid</code>, run the following commands in the host system as root:<pre><code>echo &quot;$USER:65536:65536&quot; &gt;&gt; /etc/subuid
+echo &quot;$USER:65536:65536&quot; &gt;&gt; /etc/subgid
+</code></pre><p>The <code>$USER</code> variable should be <strong>manually</strong> replaced with the user that are intended to be used to create the container because root privilege is required to edit these files and <code>$USER</code> will be subsequently become <code>root</code>.</blockquote><p>Next, use the following command to edit <code>pacman.conf</code> to comment out the &quot;CheckSpace&quot; option, or <code>pacman</code> will complain that <code>/</code> is not mounted.<pre><code class=language-bash>awk -i inplace &#39;/^CheckSpace/{print &quot;#&quot;$0; next}{print}&#39; etc/pacman.conf
+</code></pre><p>Then add a simple script <code>start.sh</code> for starting the container:<pre><code>&gt; start.sh &lt;&lt;&quot;EOF&quot;
+SCRIPT_DIR=$( cd -- &quot;$( dirname -- &quot;${BASH_SOURCE[0]}&quot; )&quot; &amp;&gt; /dev/null &amp;&amp; pwd )
+
+unshare -rm --map-auto --propagation slave bash -c &quot;\
+    mount -R /proc $SCRIPT_DIR/proc;\
+    mount -R /dev $SCRIPT_DIR/dev;\
+    mount --bind /etc/resolv.conf $SCRIPT_DIR/etc/resolv.conf;\
+    mount -o nodev,nosuid,size=16G -t tmpfs tmpfs $SCRIPT_DIR/tmp;\
+    mount -o nodev,nosuid,size=16G -t tmpfs tmpfs $SCRIPT_DIR/run;\
+    export HOME=/root;\
+    export SHELL=/usr/bin/bash;\
+    export PATH=/usr/bin;\
+    chroot $SCRIPT_DIR $*&quot;
+EOF
+
+chmod +x start.sh
+</code></pre><blockquote><p>The first command actually starts with <code>&gt;</code>. Some may add a <a href=https://en.wikipedia.org/wiki/Cat_(Unix)#Useless_use_of_cat>useless <code>cat</code></a> in front of it to feel better. The double quotes around <code>EOF</code> prevents shell from expanding the variables before writing to the file.</blockquote><p>Now we can enter the container with by running <code>start.sh</code>.<h3 id=prepare-and-run-sshd>Prepare and run sshd</h3><p>Inside container:<pre><code class=language-bash>pacman -S openssh
+ssh-keygen -A
+awk -i inplace &#39;/^#Port 22/{print &quot;Port 3922&quot;; next}{print}&#39; /etc/ssh/sshd_config
+</code></pre><p>Inside host system in the container folder:<pre><code class=language-bash>mkdir root/.ssh
+cp ~/.ssh/id_rsa.pub root/.ssh/authorized_keys
+
+./start.sh /usr/bin/sshd
+</code></pre><blockquote><p>The <code>--map-auto</code> option of <code>unshare</code> in <code>start.sh</code> is important because <code>sshd</code> uses <code>setgid</code> and will fail due to insufficient privilege if the user namespace is not mapped.</blockquote><p>Now the container can be accessed by:<pre><code class=language-bash>ssh root@localhost -p 3922
+</code></pre><h3 id=save-container-into-an-image>Save container into an image</h3><p>Run in the host system inside the container folder. The image file is saved adjacent to the container folder.<pre><code class=language-bash>export XZ_OPT=&quot;-e -T 0&quot;
+tar -cJvf ../image.tar.xz .
+sha256sum ../image.tar.xz
+</code></pre><h3 id=instantiate-an-image-into-a-container>Instantiate an image into a container</h3><pre><code class=language-bash>mkdir container
+tar xf image.tar.xz -C container
+</code></pre><h3 id=prepare-an-alpine-container>Prepare an Alpine container</h3><p>The latest download link can be found at <a href=https://alpinelinux.org/downloads>https://alpinelinux.org/downloads</a>.<pre><code>mkdir alpine &amp;&amp; cd alpine
+wget &#39;https://dl-cdn.alpinelinux.org/alpine/v3.18/releases/x86_64/alpine-minirootfs-3.18.0-x86_64.tar.gz&#39;
+tar xf *.tar.gz &amp;&amp; rm *.tar.gz
+
+&gt; start.sh &lt;&lt;&quot;EOF&quot;
+SCRIPT_DIR=$( cd -- &quot;$( dirname -- &quot;${BASH_SOURCE[0]}&quot; )&quot; &amp;&gt; /dev/null &amp;&amp; pwd )
+
+unshare -rm --map-auto --propagation slave bash -c &quot;\
+    mount -R /proc $SCRIPT_DIR/proc;\
+    mount -R /dev $SCRIPT_DIR/dev;\
+    mount --bind /etc/resolv.conf $SCRIPT_DIR/etc/resolv.conf;\
+    mount -o nodev,nosuid,size=16G -t tmpfs tmpfs $SCRIPT_DIR/tmp;\
+    mount -o nodev,nosuid,size=16G -t tmpfs tmpfs $SCRIPT_DIR/run;\
+    export HOME=/root;\
+    export SHELL=/bin/sh;\
+    export PATH=/usr/bin:/usr/sbin:/bin:/sbin;\
+    chroot $SCRIPT_DIR $*&quot;
+EOF
+
+chmod +x start.sh
+
+touch etc/resolv.conf
+</code></pre><h3 id=some-of-my-containers>Some of my containers</h3><pre><code>wget &#39;https://r2.ylxdzsw.com/arch.230601.tar.xz&#39;   # 116M sha256sum 24ef32def517576a5f22b8f2fdc4577450fa31ab120448820ff0b636bdc6d6e4
+wget &#39;https://r2.ylxdzsw.com/alpine.230601.tar.xz&#39; # 2.6M sha256sum 39f31ede4d550c388c24b2eacb37d55f862d65b9ec106b480b6545ba1a841c0e
+wget &#39;https://r2.ylxdzsw.com/pluto.230601.tar.xz&#39;  # 132M sha256sum 6183b4b5fa71cc29f7269e5e700ebeec5dbd427003217ead2723d55f833c2e5d
+</code></pre>
