@@ -1,0 +1,192 @@
+\documentclass[a4paper, 11pt]{article}
+
+\usepackage[left=1.1in,right=1.1in,top=1in,bottom=1in]{geometry}
+
+\usepackage[hidelinks]{hyperref}
+\usepackage{textcomp}
+\usepackage{amsmath}
+
+\title{Distributed LLM Training in GPU Clouds:\\Methods and Opportunities}
+\author{Shiwei Zhang}
+\date{Jul 2023}
+
+\begin{document}
+    \begin{center}
+        \makeatletter \LARGE \textbf{\@title} \makeatother
+    \end{center}
+
+    \vskip 2em
+
+    \section{Introduction}
+
+    Large language models (LLM) have revolutionized the field of natural language processing (NLP) and have garnered
+    significant attention in academic and industrial communities. These models are based on deep learning
+    techniques, specifically Transformer \cite{attention} neural networks, and are trained on massive amounts of text
+    data to learn the patterns and relationships within language.
+
+    Training LLMs requires a cluster of accelerator devices such as GPUs and specialized distributed training systems.
+    In this document, we examine the characteristics of LLM training and its impacts on the system design, and then discuss
+    some of the state-of-the-art optimization methods and potential opportunities.
+
+    \section{Background}
+
+    \subsection{Transformer Models}
+
+    Transformer \cite{attention} layers are the backbone of most state-of-the-art models. The input tensor to a
+    transformer layer has the shape $(B, S, H)$, where $B$ is the batch size, $S$ is the sequence length (number of
+    tokens in a sentence), and $H$ is the embedding length. A Transformer layer is composed of a multi-head
+    self-attention layer \cite{attention} followed by an MLP layer. The attention layer calculates an attention matrix
+    across the tokens in a sequence. Without additional optimizations, this operation has quadratic time and space
+    complexity with respect to $S$ \cite{attentionquadratic}. The MLP layer is applied to each token individually.
+    Therefore, it has a linear time and space complexity with respect to $S$.
+
+    Transformer layers expect the input tokens to be feature vectors. Additional encoders are used to convert the raw
+    inputs into feature vectors according to their modalities. For example, when processing a text input, word embedding
+    layers are used to convert token id numbers into feature vectors. Word embedding layers are simple trainable matrices of
+    the shape $(D, H)$, where $D$ is the dictionary size and H is the embedding length. When processing image or audio
+    inputs, more complex encoders such as the image patch embedding layer \cite{vit} are used. Those encoders may have
+    different resource requirements than the main transformer network. For instance, the word embedding layers require a
+    large amount of memory but have nearly no computation, while the image patch embedding layer is composed of
+    computation-intensive convolution operations.
+
+    To further scale transformer models, recent studies have been exploring mixture-of-expert (MoE) layers
+    \cite{gshard,gspmd,palme,switchtransformer,m6}, which can enlarge the model capacity (number of parameters) without
+    increasing the computation time. An MoE layer comprises a number of conditionally activated experts. A gating
+    network is used to compute the scores of each expert for each token and route the tokens to $k$ experts with the
+    highest scores. MoE models usually scale the total number of experts proportionally to the number of devices while
+    choosing a fixed value for $k$. To route tokens to their corresponding experts, \texttt{All-to-All} operations are
+    used before and after the MoE layers \cite{gshard}.
+
+    \subsection{Distributed Training Methods}
+
+    Recent models are becoming increasingly large and do not fit into a single device. Many distributed training methods
+    have been proposed to train DNN models on GPU clusters, including data parallelism (DP), model parallelism (MP),
+    pipeline parallelism \cite{pipedream,gpipe}, etc. These methods can be applied to different parts of the model,
+    resulting in a mixed parallelism; they can also be used together on the same part of the model to form the so-called 2D
+    or 3D parallelism.
+
+    In transformer models, the MLP layer can be partitioned along any of the $B$, $S$, and $H$ dimensions, resulting in
+    data parallelism, sequence parallelism \cite{colossalai, megatron3}, and intra-layer model parallelism,
+    respectively. On the other hand, since the attention layer works on the sequence level and requires all tokens in a
+    sequence, it cannot be easily partitioned on the $S$ dimension.
+
+    All distributed training methods come with communication overheads. With data parallelism, the parameters of the
+    model are replicated on all devices. Each device calculates the gradient of parameters regarding a distinct portion
+    of the input data batch, and these gradients need to be aggregated across devices using the \texttt{All-Reduce}
+    communication before being applied to the parameters. With model parallelism, the parameters are sharded on the $H$
+    dimension and each device only stores a shard. \texttt{All-Gather} and \texttt{Reduce-Scatter} are usually used in
+    MP. Pipeline parallelism splits the model into stages (consecutive layers) and places each stage on different
+    devices. The input minibatch is also split into several micro batches. When device $i$ is processing stage $i$ of
+    micro batch $j$, device $i+1$ can process stage $i+1$ of micro batch $j-1$. With the expert parallelism used in MoE
+    models \cite{gshard}, tokens are routed to different experts with the \texttt{All-to-All} operation.
+
+
+    \section{Communication Optimization}
+
+    \subsection{Holistic Model Partitioning Strategy}
+
+    Existing DNN training frameworks, such as DeepSpeed \cite{deepspeed}, allow choosing the sharding strategy for each
+    kind of operation in the network. For example, the user can choose to use expert parallelism for MoE layers and data
+    parallelism for other layers. However, this does not always lead to optimal performance. Communication is required
+    when the producer and consumer of a tensor are sharded in an incompatible way. For example, if tensor $z$ is
+    produced by an attention layer that is sharded along the $B$ dimension and is consumed by an MLP layer that is
+    sharded on the $H$ dimension, an \texttt{All-to-All} operation is required to convert the sharding dimension of $z$.
+    Therefore, the optimal sharding method for an operator does not only depend on the operator itself, but also on the
+    sharding methods of its neighbors, necessitating a holistic partitioning strategy on the model level.
+
+    Dynamic programming \cite{tofu,hypar,hidup}, mixed integer linear programming \cite{alpa}, random search
+    \cite{flexflow,unity}, and reinforcement learning \cite{heterog,gdp} approaches have been explored to automatically
+    generate partitioning strategies for a given model.
+
+    Since transformer models are usually identical stacks of transformer layers, expert-designed sharding strategies
+    such as Megatron \cite{megatron} tend to work well. However, these methods quickly become suboptimal when modifying
+    the model structure, such as adding patch embedding layers for multi-modality support \cite{vit}, adopting MoE
+    layers \cite{moe}, or using local attention \cite{longformer}. In addition, expert-designed sharding strategies
+    usually only consider homogeneous clusters with high inter-connection bandwidth.
+
+    Unity \cite{unity} exhibits a 3.6$\times$ training speed-up for models that do not have highly optimized
+    partitioning strategies. When training on heterogeneous clusters, AccPar \cite{accpar} brings up to 6.3$\times$
+    speed-up.
+
+    \subsection{Gradient Compression}
+
+    Gradient compression techniques reduce the communication volume of gradients with lossy compression. The most
+    commonly used methods include quantization \cite{quantization1} and sparsification \cite{sparsification1}.
+    Quantization encodes the elements (16-bit or 32-bit floating point numbers) in gradient tensors with fewer bits,
+    such as 8-bit or even 1-bit. To reduce the quantization errors, the encoding residuals are saved and incorporated in
+    the next round of communication. Sparsification discards elements whose absolute values are smaller than a threshold
+    value, and then uses a more efficient encoding for the resulting sparse tensor. These two methods can be used together.
+    State-of-the-art gradient compression techniques can bring up to 42.5\% training speed-up
+    \cite{gradientcompressionsurvey}.
+
+    Lossy \cite{powersgd} and lossless \cite{sfb} low-rank decomposition reduce the communication volume by replacing a
+    gradient matrix $M$ with two smaller matrices $P$ and $Q$ that $PQ^T$ equals or approximates $M$. They can reduce
+    the training time by up to 55\%, without significant impacts on the convergence and final model accuracy
+    \cite{powersgd}.
+
+    \subsection{Heterogeneous Network}
+
+    Common communication libraries, such as NCCL \cite{nccl}, are mostly optimized for homogeneous networks. In public
+    clouds, the inter-machine connections are often heterogeneous. Some of the machines may co-locate on the same rack
+    and have a stable connection with a high bandwidth, while some other machines that locate in another room may have
+    a worse connection. Existing communication libraries cannot exploit the higher bandwidth between co-located machines
+    and will be bottlenecked by the slowest link.
+
+    Topology-aware collective communication methods have been proposed to better utilize heterogeneous networks.
+    Blink \cite{blink}, PLink \cite{plink}, and BlueConnect \cite{blueconnect} are designed for hierarchical topologies.
+    SCCL \cite{sccl} and TACCL \cite{taccl} propose automated methods to synthesize optimal collective communication for
+    a given topology. These methods have exhibited superior performance to NCCL even on seemingly uniform topologies,
+    with up to 17\% end-to-end training speed-up for MoE models \cite{taccl}.
+
+    \section{Computation Optimization}
+
+    \subsection{Optimized Kernel Implementation}
+
+    Recent work \cite{flashattention2} has shown that the attention operation in transformer models does not fully
+    utilize the GPU even with sufficiently large batch size and sequence length, due to its frequent access to the
+    global memory. More optimized implementations, such as Flash Attention \cite{flashattention}, can speed up LLM
+    training by up to 3 times.
+
+    Though highly optimized implementations are available for common operations, they cannot easily be composited or
+    altered to implement new operations such as local attention \cite{longformer} or sparse attention
+    \cite{sparsetransformer}. Automated methods, such as TVM \cite{tvm} and Triton \cite{triton}, are proposed to
+    optimize new computation patterns.
+
+    \subsection{Parallel Execution}
+
+    Another way to increase GPU utilization is to schedule multiple operations in parallel, as illustrated by IOS
+    \cite{ios} and FasterMoE \cite{fastermoe}. Though there are few opportunities for parallel execution in regular
+    transformer models, MoE layers and image patch embedding introduce operations that could benefit from this
+    optimization. When training CNN models, IOS \cite{ios} outperforms commonly used libraries by 1.5$\times$.
+
+    \subsection{Kernel Fusion}
+
+    Kernel fusion merges multiple GPU kernels into a single kernel to reuse SRAM or even registers and reduce the number
+    of global GPU memory access. Existing DNN training frameworks such as PyTorch JIT and DeepSpeed fuse kernels using a
+    set of pre-defined rules. Recent work \cite{disco} shows that automated fusion methods can bring up to 26.7\% speed
+    up when training transformer models.
+
+    \section{Computation and Communication Overlap}
+
+    \subsection{Computation and Communication Overlap with intra-layer model parallelism}
+
+    Overlapping the \texttt{All-Reduce} communication with backward computation has been a standard practice for data
+    parallelism \cite{byteps,horovod,deepspeed}. However, the communication introduced by model parallelism cannot be
+    easily overlapped with computation due to data dependency. HiDup \cite{hidup}, Merak \cite{merak}, and Oases
+    \cite{oases} propose to split a minibatch into micro batches and overlap the computation of one micro batch with
+    the communication of another. Wang et al. \cite{overlapdecomposition} proposes decomposing computation operations
+    to form local pipelines. When training in public clouds with limited bandwidths, HiDup \cite{hidup} can achieve up to
+    61\% training speed-up for MoE models.
+
+    \subsection{Pipeline Planning and Scheduling}
+
+    With pipeline parallelism, the communication of activations between devices naturally overlaps with the computation.
+    However, the performance depends heavily on the stage division and scheduling. Current DNN training frameworks often
+    use simple stage division methods that balance the number of layers on each stage and use the simple GPipe-style
+    \cite{gpipe} scheduling, which has been shown to not achieve optimal performance. More sophisticated methods like
+    SPP \cite{spp} and DAPPLE \cite{dapple} can improve the overlapping ratio and better balance the workload among
+    devices, with up to 3.23$\times$ end-to-end speed-up \cite{dapple}.
+
+    \bibliographystyle{unsrt}
+    \bibliography{main}
+\end{document}

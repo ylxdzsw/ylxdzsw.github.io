@@ -89,12 +89,28 @@ class TeXPost extends Post {
     async compile() {
         try {
             const status = await Deno.run({
-                cmd: ["latexmk", "main.tex", "-interaction=nonstopmode", "-pdf"],
+                cmd: ["pdflatex", "main.tex", "-interaction=nonstopmode", "-file-line-error"],
                 cwd: this.path
             }).status()
 
             if (status.code != 0)
-                throw "latexmk failed with code: " + status.code
+                throw "pdflatex failed with code: " + status.code
+
+            const bibstatus = await Deno.run({
+                cmd: ["bibtex", "main.aux"],
+                cwd: this.path
+            }).status()
+
+            if (bibstatus.code == 0) {
+                await Deno.run({
+                    cmd: ["pdflatex", "main.tex", "-interaction=nonstopmode", "-file-line-error"],
+                    cwd: this.path
+                }).status()
+                await Deno.run({
+                    cmd: ["pdflatex", "main.tex", "-interaction=nonstopmode", "-file-line-error"],
+                    cwd: this.path
+                }).status()
+            }
 
             const src = path.join(this.path, "main.pdf")
             const dst = path.join(__dirname, this.link)
