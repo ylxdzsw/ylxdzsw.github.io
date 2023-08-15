@@ -101,16 +101,16 @@ class TeXPost extends Post {
                 cwd: this.path
             }).status()
 
-            if (bibstatus.code == 0) {
+            if (bibstatus.code == 0)
                 await Deno.run({
                     cmd: ["pdflatex", "main.tex", "-interaction=nonstopmode", "-file-line-error"],
                     cwd: this.path
                 }).status()
-                await Deno.run({
-                    cmd: ["pdflatex", "main.tex", "-interaction=nonstopmode", "-file-line-error"],
-                    cwd: this.path
-                }).status()
-            }
+
+            await Deno.run({
+                cmd: ["pdflatex", "main.tex", "-interaction=nonstopmode", "-file-line-error"],
+                cwd: this.path
+            }).status()
 
             const src = path.join(this.path, "main.pdf")
             const dst = path.join(__dirname, this.link)
