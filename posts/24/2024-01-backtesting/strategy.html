@@ -1,0 +1,21 @@
+<nattoppet-card data-title="策略">
+    <textarea id="strategy-editor"></textarea>
+</nattoppet-card>
+
+<script type="module">
+    const code_mirror = CodeMirror.fromTextArea(document.getElementById('strategy-editor'), {
+        lineNumbers: true,
+        indentUnit: 4,
+
+    })
+
+    code_mirror.on('change', () => {
+        app.emit('strategy-change', code_mirror.getValue())
+    })
+
+    app.on('load-strategy', code => {
+        code_mirror.setValue(code)
+    })
+
+
+</script>

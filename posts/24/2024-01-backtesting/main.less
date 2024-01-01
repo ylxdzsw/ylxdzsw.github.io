@@ -1,0 +1,68 @@
+html {
+    font-family: sans-serif;
+    font-size: 14px;
+    line-height: 1.5;
+    text-align: justify;
+    hyphens: auto;
+    color: #33333d;
+
+    @media (max-width: 425px) {
+        font-size: 12.5px;
+    }
+}
+
+/*
+responsive:
+    a card is 375px - 625px wide, including its internal padding
+    when the screen < 425px, use a smaller font
+    when the screen < 800px + 4rem, use one column
+    otherwise, use two columns and additional padding on the page
+    when using two columns, the cards are at least 400px (375px minimal is used only with small font)
+*/
+
+body {
+    position: relative;
+    min-width: 375px;
+    max-width: calc(625px * 2 + 4rem);
+    min-height: calc(100vh - 5rem);
+    margin: 0 auto;
+    padding: 1rem 2rem 4rem;
+
+    &::after {
+        content: "";
+        clear: both;
+        display: table;
+    }
+
+    @media (max-width: calc(400px * 2 + 4rem)) {
+        max-width: 625px;
+        min-height: calc(100vh - 4rem);
+        padding: 0 0 4rem;
+    }
+}
+
+#bottom-notice {
+    position: absolute;
+    bottom: 0;
+    text-align: center;
+    font-size: .6rem;
+    color: #aaa;
+    width: calc(100% - 4rem);
+
+    a {
+        color: #aaa;
+    }
+
+    @media (max-width: calc(400px * 2 + 4rem)) {
+        width: 100%;
+    }
+}
+
+.column {
+    float: left;
+    width: 50%;
+
+    @media (max-width: calc(400px * 2 + 4rem)) {
+        width: 100%;
+    }
+}

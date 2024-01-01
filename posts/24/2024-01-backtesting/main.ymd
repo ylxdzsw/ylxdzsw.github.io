@@ -1,0 +1,38 @@
+<!doctype html>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="author" content="root@ylxdzsw.com">
+<meta name="license" content="MIT">
+<meta name="github" content="https://github.com/ylxdzsw/ylxdzsw.github.io/tree/master/posts/24/2024-01-backtesting">
+
+<title>倒钱落海模拟器</title>
+
+[require](klinecharts.min.js)
+[require](codemirror.js)
+[require](codemirror.css)
+[require](codemirror-javascript.js)
+
+[require](main.less)
+[require](main.js)
+[require](Card.html)
+
+[require](bitfinex_btcusd_1d.json)
+[require](hkex_etf_csop_hs_tech.json)
+
+<div class="column">
+
+[require](candles.html)
+
+</div> <div class="column">
+
+[require](strategy.html)
+
+</div>
+
+
+<div id="bottom-notice">
+Copyright © 2024: root@ylxdzsw.com <br>
+[link](https://github.com/ylxdzsw/ylxdzsw.github.io/tree/master/posts/24/2024-01-backtesting) Source code available under the MIT license
+</div>
+
+[mixin] common.ymd

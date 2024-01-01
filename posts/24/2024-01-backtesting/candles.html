@@ -1,0 +1,22 @@
+<nattoppet-card data-title="蜡烛">
+    <div id="candle-chart" style="width:100%;height:375px"></div>
+</nattoppet-card>
+
+<script type="module">
+    const chart = klinecharts.init('candle-chart', {
+        locale: 'zh-CN',
+        styles: {
+            candle: {
+                tooltip: {
+                    custom: [{ title: 'open', value: '{open}' }, { title: 'high', value: '{high}' }, { title: 'low', value: '{low}' }, { title: 'close', value: '{close}' }, { title: 'volume', value: '{volume}' }]
+                }
+            }
+        }
+    })
+
+    window.addEventListener('resize', () => chart.resize())
+
+    app.on('load-data', data => {
+        chart.applyNewData(data)
+    })
+</script>
