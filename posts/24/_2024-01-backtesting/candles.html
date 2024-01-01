@@ -16,7 +16,7 @@
 
     window.addEventListener('resize', () => chart.resize())
 
-    app.on('load-data', data => {
+    app.on('data-load', chart._on_data_load = data => {
         chart.applyNewData(data)
     })
 </script>

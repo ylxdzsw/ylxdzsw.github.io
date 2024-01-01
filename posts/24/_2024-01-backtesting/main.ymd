@@ -18,14 +18,18 @@
 
 [require](bitfinex_btcusd_1d.json)
 [require](hkex_etf_csop_hs_tech.json)
+[require](aapl.json)
+[require](ndx100.json)
 
 <div class="column">
 
 [require](candles.html)
+[require](data.html)
 
 </div> <div class="column">
 
 [require](strategy.html)
+[require](disclaimer.html)
 
 </div>
 

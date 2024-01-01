@@ -13,7 +13,7 @@
         app.emit('strategy-change', code_mirror.getValue())
     })
 
-    app.on('load-strategy', code => {
+    app.on('strategy-load', code_mirror._on_strategy_load = code => {
         code_mirror.setValue(code)
     })
 

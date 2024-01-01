@@ -33,7 +33,7 @@
         }
 
         connectedCallback() {
-            this.shadowRoot.querySelector('h3').innerText = this.attributes.getNamedItem('data-title').value
+            this.shadowRoot.querySelector('h3').innerText = this.dataset.title
         }
     })
 </script>

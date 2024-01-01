@@ -1,0 +1,52 @@
+<nattoppet-card data-title="数据">
+    <button class="data-builtin" data-name="bitfinex_btcusd_1d">比特币-美元(Bitfinex)</button>
+    <button class="data-builtin" data-name="hkex_etf_csop_hs_tech">南方恒生科技(3033.HK)</button>
+    <button class="data-builtin" data-name="aapl">苹果(AAPL)</button>
+    <button class="data-builtin" data-name="ndx100">纳斯达克100(^NDX)</button>
+    <button id="data-load-csv">本地CSV文件</button>
+    <button id="data-load-json">本地JSON文件</button>
+</nattoppet-card>
+
+<style>
+    nattoppet-card[data-title="数据"] > button {
+        font-size: .9rem;
+    }
+</style>
+
+<script type="module">
+    document.querySelectorAll('.data-builtin').forEach(button => {
+        button.addEventListener('click', () => {
+            const name = button.dataset.name
+            app.emit('data-load', window[name])
+        })
+    })
+
+    document.getElementById('data-load-csv').addEventListener('click', () => {
+        alert("这个功能还没做")
+    })
+
+    document.getElementById('data-load-json').addEventListener('click', () => {
+        const file_input = document.createElement('input')
+        file_input.type = 'file'
+        file_input.accept = 'application/json'
+        file_input.addEventListener('change', () => {
+            const file = file_input.files[0]
+            const reader = new FileReader()
+            reader.onload = () => {
+                try {
+                    const data = JSON.parse(reader.result)
+                    if (!Array.isArray(data) || data.length == 0 || data[0].timestamp == null || data[0].open == null || data[0].high == null || data[0].low == null || data[0].close == null) {
+                        throw new Error()
+                    }
+                    app.emit('data-load', data)
+                    app.log(data.length + '条数据加载成功')
+                } catch {
+                    alert('数据格式不正确')
+                }
+            }
+            reader.readAsText(file)
+        })
+        file_input.click()
+    })
+
+</script>

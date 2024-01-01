@@ -24,18 +24,21 @@ const app = {
     save_to_local_storage() {
 
     },
+
+    log(info) {
+        console.log(info)
+    }
 }
 
 addEventListener('load', async () => {
     await window.json_ready
 
-    app.emit("load-data", window.bitfinex_btcusd_1d)
+    app.emit("data-load", window.bitfinex_btcusd_1d)
 })
 
 addEventListener("beforeunload", () => {
     return app.save_to_local_storage()
 })
-
 
 // https://klinecharts.com/guide/chart-api.html
 // https://docs.bitfinex.com/reference/rest-public-candles
