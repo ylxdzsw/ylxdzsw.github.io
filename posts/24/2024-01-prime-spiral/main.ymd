@@ -1,0 +1,20 @@
+[mixin] vue
+
+[title]: Prime Spiral
+
+[h3] Prime Spiral
+
+<canvas id="" style="display: block; width: 400px; height: 350px; margin: 1em 0" width="800" height="700"></canvas>
+
+<div><label>c<input type="range" id="c" value="0.996" min="0" max="[pi]" style="width: 300px" step="0.001"></label></div>
+<div><label>s<input type="range" id="s" value="50000" min="100" max="100000" style="width: 300px" step="1"></label></div>
+
+[pi]= Math.PI
+
+[require](main.js)
+
+[h3] References
+
+[link](https://en.wikipedia.org/wiki/Dirichlet%27s_theorem_on_arithmetic_progressions)
+
+[link](https://www.youtube.com/watch?v=EK32jo7i5LQ)
