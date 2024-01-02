@@ -1,12 +1,51 @@
 <nattoppet-card data-title="策略">
-    <textarea id="strategy-editor"></textarea>
+    <textarea id="strategy-editor" style="height: 300px; width: 100%;"></textarea> <br>
+    <button id="run-backtest">跑回测</button>
+    <button id="run-backtest-random">随机截取一段时间跑</button>
+    <button id="run-backtest-bootstrap">Bootstrapping</button>
+    <button id="strategy-share">生成分享链接</button>
+    <details style="margin-top: .5em;">
+        <summary>示例策略</summary>
+        <div style="margin: .5rem 0 1rem;">
+        <button class="strategy-builtin" data-code="// 连续三天上涨&#13;if (t(0).close > t(0).open)&#13;if (t(-1).close > t(-1).open)&#13;if (t(-2).close > t(-2).open)&#13;	buy()&#13;// 赚或亏超过10%&#13;if (profit > 0.1 || profit < 0.1)&#13;    sell()">倒钱一号</button>
+        <button class="strategy-builtin" data-code="if (price >= MA(5) && t(-1).price < t(-1).MA(5)) buy()&#13;if (profit > 0.05 || profit < -0.05) sell()&#13;if (price < MA(5)) sell()">倒钱二号</button>
+        </div>
+    </details>
+    <details>
+        <summary>帮助</summary>
+        <p>策略是一段JavaScript代码，它会在每个交易日结束时执行。</p>
+        <ul>
+            <li><code>price</code>：当前价格（即<code>t(0).close</code>）
+            <li><code>profit</code>：当前持仓收益率，例如-0.05就是亏损5%。没有持仓就是0。
+            <li><code>cash</code>：当前现金。
+            <li><code>holding</code>：当前持仓。
+            <li><code>buy()</code>：买入。若无现金则无动作。
+            <li><code>sell()</code>：卖出。若无持仓则无动作。
+            <li><code>log(msg)</code>：打印日志。
+            <li><code>t(n)</code>：n天前的数据，例如<code>t(-1).high</code>是昨天的最高价。
+            <li><code>open</code>：开盘价。
+            <li><code>high</code>：最高价。
+            <li><code>low</code>：最低价。
+            <li><code>close</code>：收盘价。
+            <li><code>volume</code>：成交量。有些数据集没有。
+            <li><code>MA(n)</code>：n日均线，例如<code>MA(5)</code>是5日均线。<code>t(-2).MA(5)</code>是前天的5日均线。
+        </ul>
+    </details>
 </nattoppet-card>
+
+<style>
+    nattoppet-card[data-title="策略"] code {
+        color: #c7254e;
+    }
+    nattoppet-card[data-title="策略"] details li {
+        font-size: .9rem;
+    }
+</style>
 
 <script type="module">
     const code_mirror = CodeMirror.fromTextArea(document.getElementById('strategy-editor'), {
         lineNumbers: true,
         indentUnit: 4,
-
     })
 
     code_mirror.on('change', () => {
@@ -17,5 +56,62 @@
         code_mirror.setValue(code)
     })
 
+    document.querySelectorAll('.strategy-builtin').forEach(button => {
+        button.addEventListener('click', () => {
+            const code = button.dataset.code
+            app.emit('strategy-load', code)
+        })
+    })
 
+    document.getElementById('run-backtest').addEventListener('click', () => {
+        const final_cash = app.backtest(code_mirror.getValue())
+        app.log(`回测完成。总收益：${(final_cash / 100 - 100).toPrecision(4)}%`)
+    })
+
+    document.getElementById('run-backtest-random').addEventListener('click', () => {
+        alert("这个功能还没做")
+    })
+
+    document.getElementById('run-backtest-bootstrap').addEventListener('click', () => {
+        alert("这个功能还没做")
+    })
+
+    document.getElementById('strategy-share').addEventListener('click', async () => {
+        const encoded = new TextEncoder().encode(code_mirror.getValue())
+        const compressor = new CompressionStream('deflate-raw')
+        const writer = compressor.writable.getWriter()
+        writer.write(encoded).then(() => writer.close())
+        const compressed = await new Response(compressor.readable).arrayBuffer()
+        const base64 = btoa(String.fromCharCode(...new Uint8Array(compressed)))
+        const url_safe_base64 = base64.replace(/\+/g, '-').replace(/\//g, '_').replace(/=/g, '')
+        const url = new URL(location.href)
+        url.searchParams.set('strategy', url_safe_base64)
+        navigator.clipboard.writeText(url.href)
+        alert('已复制分享链接到剪贴板')
+    })
+
+    app.on('load', code_mirror._on_load = async () => {
+        const url = new URL(location.href)
+        const shared_strategy = url.searchParams.get('strategy')
+        if (shared_strategy) {
+            const url_safe_base64 = shared_strategy.replace(/-/g, '+').replace(/_/g, '/')
+            const compressed = Uint8Array.from(atob(url_safe_base64), c => c.charCodeAt(0))
+            const decompressor = new DecompressionStream('deflate-raw')
+            const writer = decompressor.writable.getWriter()
+            writer.write(compressed).then(() => writer.close())
+            const code = await new Response(decompressor.readable).text()
+            app.emit('strategy-load', code)
+            return
+        }
+
+        const saved_strategy = localStorage.getItem('strategy')
+        if (saved_strategy)
+            app.emit('strategy-load', saved_strategy)
+        else
+            document.querySelector('.strategy-builtin').click()
+    })
+
+    app.on('save', code_mirror._on_save = () => {
+        localStorage.setItem('strategy', code_mirror.getValue())
+    })
 </script>

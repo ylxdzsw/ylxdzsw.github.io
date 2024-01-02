@@ -8,12 +8,18 @@
 </nattoppet-card>
 
 <style>
+    nattoppet-card[data-title="数据"] {
+        text-align: left;
+        line-height: 1.9;
+    }
     nattoppet-card[data-title="数据"] > button {
         font-size: .9rem;
     }
 </style>
 
 <script type="module">
+    const card = document.querySelector('nattoppet-card[data-title="数据"]')
+
     document.querySelectorAll('.data-builtin').forEach(button => {
         button.addEventListener('click', () => {
             const name = button.dataset.name
@@ -49,4 +55,19 @@
         file_input.click()
     })
 
+    app.on("data-load", card._on_data_load = data => {
+        app.active_dataset = data
+    })
+
+    app.on('load', card._on_load = () => {
+        const saved_data = localStorage.getItem('data')
+        if (saved_data)
+            app.emit('data-load', JSON.parse(saved_data))
+        else
+            document.querySelector('.data-builtin').click()
+    })
+
+    app.on('save', card._on_save = () => {
+        localStorage.setItem('data', JSON.stringify(app.active_dataset))
+    })
 </script>
