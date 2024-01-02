@@ -1,0 +1,39 @@
+<nattoppet-card data-title="日志">
+    <div id="log-container"></div>
+</nattoppet-card>
+
+<style>
+    #log-container {
+        border: 1px solid #bcd;
+        background-color: #ebf1f5;
+        padding: .5rem .8rem;
+        margin: 0;
+        overflow-y: auto;
+        height: 16rem;
+    }
+
+    #log-container .log {
+        font-family: monospace;
+        color: #222;
+        font-size: .8rem;
+        margin: .5em 0 0;
+        width: 100%;
+        line-height: 1.15;
+    }
+</style>
+
+<script type="module">
+    const container = document.querySelector('#log-container')
+
+    app.on('log', container._on_log = (msg) => {
+        const el = document.createElement("p")
+        el.classList.add('log')
+        el.textContent = msg
+        container.append(el)
+
+        while (container.childNodes.length > 1024)
+            container.firstChild.remove()
+
+        container.scrollTop = container.scrollHeight
+    })
+</script>

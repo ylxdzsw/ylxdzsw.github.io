@@ -2,13 +2,14 @@
     <textarea id="strategy-editor" style="height: 300px; width: 100%;"></textarea> <br>
     <button id="run-backtest">跑回测</button>
     <button id="run-backtest-random">随机截取一段时间跑</button>
-    <button id="run-backtest-bootstrap">Bootstrapping</button>
     <button id="strategy-share">生成分享链接</button>
     <details style="margin-top: .5em;">
         <summary>示例策略</summary>
         <div style="margin: .5rem 0 1rem;">
-        <button class="strategy-builtin" data-code="// 连续三天上涨&#13;if (t(0).close > t(0).open)&#13;if (t(-1).close > t(-1).open)&#13;if (t(-2).close > t(-2).open)&#13;	buy()&#13;// 赚或亏超过10%&#13;if (profit > 0.1 || profit < 0.1)&#13;    sell()">倒钱一号</button>
+        <button class="strategy-builtin" data-code="// 连续三天上涨&#13;if (t(0).close > t(0).open)&#13;if (t(-1).close > t(-1).open)&#13;if (t(-2).close > t(-2).open)&#13;if (t(-3).close <= t(-3).open)&#13;    buy()&#13;// 赚或亏超过10%&#13;if (profit > 0.1 || profit < -0.1)&#13;    sell()">倒钱一号</button>
         <button class="strategy-builtin" data-code="if (price >= MA(5) && t(-1).price < t(-1).MA(5)) buy()&#13;if (profit > 0.05 || profit < -0.05) sell()&#13;if (price < MA(5)) sell()">倒钱二号</button>
+        <button class="strategy-builtin" data-code="buy()">持仓到死</button>
+        <button class="strategy-builtin" data-code="Math.random() < 0.1 && buy()&#13;profit > 0.1 && sell()">随机买</button>
         </div>
     </details>
     <details>
@@ -17,18 +18,23 @@
         <ul>
             <li><code>price</code>：当前价格（即<code>t(0).close</code>）
             <li><code>profit</code>：当前持仓收益率，例如-0.05就是亏损5%。没有持仓就是0。
-            <li><code>cash</code>：当前现金。
+            <li><code>cash</code>：当前现金。开局一万。
             <li><code>holding</code>：当前持仓。
             <li><code>buy()</code>：买入。若无现金则无动作。
             <li><code>sell()</code>：卖出。若无持仓则无动作。
             <li><code>log(msg)</code>：打印日志。
-            <li><code>t(n)</code>：n天前的数据，例如<code>t(-1).high</code>是昨天的最高价。
+            <li><code>t(n)</code>：<code>n</code>天前的数据，例如<code>t(-1).high</code>是昨天的最高价。
             <li><code>open</code>：开盘价。
             <li><code>high</code>：最高价。
             <li><code>low</code>：最低价。
             <li><code>close</code>：收盘价。
             <li><code>volume</code>：成交量。有些数据集没有。
-            <li><code>MA(n)</code>：n日均线，例如<code>MA(5)</code>是5日均线。<code>t(-2).MA(5)</code>是前天的5日均线。
+            <li><code>MA(n)</code>：<code>n</code>日简单移动平均，例如<code>MA(5)</code>是5日均线。<code>t(-2).MA(5)</code>是前天的5日均线。
+            <li><code>EMA(n)</code>：<code>n</code>日指数移动平均。
+            <li><code>DIF(fast, slow)</code>：就是MACD里的一条线。默认<code>fast=12</code>，<code>slow=26</code>。
+            <li><code>DEA(fast, slow, n)</code>：MACD里的另一条线。默认<code>fast=12</code>，<code>slow=26</code>，<code>n=9</code>。
+            <li><code>MACD(fast, slow, n)</code>：MACD里那个柱子。默认<code>fast=12</code>，<code>slow=26</code>，<code>n=9</code>。
+            <li><code>RSI(n)</code>：一个指标。默认<code>n=14</code>。
         </ul>
     </details>
 </nattoppet-card>
@@ -63,17 +69,25 @@
         })
     })
 
-    document.getElementById('run-backtest').addEventListener('click', () => {
-        const final_cash = app.backtest(code_mirror.getValue())
-        app.log(`回测完成。总收益：${(final_cash / 100 - 100).toPrecision(4)}%`)
+    document.getElementById('run-backtest').addEventListener('click', async () => {
+        try {
+            const final_cash = await app.backtest(code_mirror.getValue())
+            app.log(`回测完成。总收益：${(final_cash / 100 - 100).toFixed(2)}%`)
+        } catch (e) {
+            app.log("策略运行出错。错误信息：" + e)
+        }
     })
 
-    document.getElementById('run-backtest-random').addEventListener('click', () => {
-        alert("这个功能还没做")
-    })
-
-    document.getElementById('run-backtest-bootstrap').addEventListener('click', () => {
-        alert("这个功能还没做")
+    document.getElementById('run-backtest-random').addEventListener('click', async () => {
+        const data = app.active_dataset
+        const start_index = Math.floor(Math.random() * (data.length - 100))
+        const end_index = start_index + 100 + Math.floor(Math.random() * (data.length - start_index - 100))
+        try {
+            const final_cash = await app.backtest(code_mirror.getValue(), data.slice(start_index, end_index))
+            app.log(`回测完成。总收益：${(final_cash / 100 - 100).toFixed(2)}%`)
+        } catch (e) {
+            app.log("策略运行出错。错误信息：" + e)
+        }
     })
 
     document.getElementById('strategy-share').addEventListener('click', async () => {
