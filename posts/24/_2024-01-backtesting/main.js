@@ -31,6 +31,8 @@ const app = {
             history: [],
             candles: app.active_dataset,
             log: true,
+            interest: 0, // annualized interest rate of cash
+            slippage: 0,
             ...opts
         }
         for (let i = 0; i < ctx.candles.length; i++) {
@@ -46,15 +48,15 @@ const app = {
                 case "buy":
                     ctx.log && env.log(`买入${(env.cash / env.price).toFixed(2)}份标的，价格${env.price.toFixed(2)}`)
                     env.cash_after_action = 0
-                    env.holding_after_action = env.cash / env.price
+                    env.holding_after_action = env.cash / env.price * (1 - ctx.slippage)
                     break
                 case "sell":
                     ctx.log && env.log(`卖出${env.holding.toFixed(2)}份标的，价格${env.price.toFixed(2)}，收益${(100*env.profit).toFixed(2)}%`)
-                    env.cash_after_action = env.holding * env.price
+                    env.cash_after_action = env.holding * env.price * (1 - ctx.slippage)
                     env.holding_after_action = 0
                     break
                 default:
-                    env.cash_after_action = env.cash
+                    env.cash_after_action = env.cash * Math.pow(1 + ctx.interest, 1 / 365)
                     env.holding_after_action = env.holding
             }
 
@@ -66,16 +68,15 @@ const app = {
     },
 
     analyze_backtest_result(history) {
-        const total_days = history.length - 1
         const total_profit = history[history.length - 1].cash_after_action / 10000 - 1
         const holding_days = history.filter(x => x.action == 'sell').map(x => x.holding_days).reduce((a, b) => a + b, 0)
         const max_profit = history.filter(x => x.action == 'sell').map(x => x.profit).reduce((a, b) => Math.max(a, b), 0)
         const min_profit = history.filter(x => x.action == 'sell').map(x => x.profit).reduce((a, b) => Math.min(a, b), 0)
         return `\
 === 回测结果 ===
-总日数：${total_days}
-总收益：${(total_profit * 100).toFixed(2)}%，年化：${(100 * Math.pow(1 + total_profit, 365 / total_days) - 100).toFixed(2)}%
-持仓日数：${holding_days}，占总日数：${(100 * holding_days / total_days).toFixed(2)}%
+总日数：${history.length}
+总收益：${(total_profit * 100).toFixed(2)}%，年化：${(100 * Math.pow(1 + total_profit, 365 / history.length) - 100).toFixed(2)}%
+持仓日数：${holding_days}，占总日数：${(100 * holding_days / history.length).toFixed(2)}%
 最大单次持仓收益：${(100 * max_profit).toFixed(2)}%，亏损：${(100 * min_profit).toFixed(2)}%
 `
     }
@@ -226,8 +227,6 @@ addEventListener("beforeunload", () => {
 // https://docs.bitfinex.com/reference/rest-public-candles
 
 // TODO:
-// simulation options: transaction fee, slippage, cash interest
 // bootstraping
-// more backtest result analysis, like holding interval, profit distribution
 // random walk data synthesis
 // annotate simulation result on chart

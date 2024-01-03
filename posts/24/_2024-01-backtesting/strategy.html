@@ -40,6 +40,12 @@
             <li><code>RSI(n)</code>：一个指标。默认<code>n=14</code>。
         </ul>
     </details>
+    <details>
+        <summary>选项</summary>
+        <div><label>日志记录交易<input type="checkbox" id="strategy-options-log" checked></label></div>
+        <div><label>现金年化利率 <input type="number" id="strategy-options-interest" value="0"></label></div>
+        <div><label>交易摩擦及费率 <input type="number" id="strategy-options-slippage" value="0"></label></div>
+    </details>
 </nattoppet-card>
 
 <style>
@@ -74,7 +80,7 @@
 
     document.getElementById('run-backtest').addEventListener('click', async () => {
         try {
-            const result = await app.backtest(code_mirror.getValue())
+            const result = await app.backtest(code_mirror.getValue(), get_options())
             app.log(app.analyze_backtest_result(result))
         } catch (e) {
             app.log("策略运行出错。错误信息：" + e)
@@ -87,7 +93,8 @@
         const end_index = start_index + 100 + Math.floor(Math.random() * (data.length - start_index - 100))
         try {
             const result = await app.backtest(code_mirror.getValue(), {
-                candles: data.slice(start_index, end_index)
+                candles: data.slice(start_index, end_index),
+                ...get_options()
             })
             app.log(app.analyze_backtest_result(result))
         } catch (e) {
@@ -110,6 +117,10 @@
     })
 
     app.on('load', code_mirror._on_load = async () => {
+        const saved_options = localStorage.getItem('strategy-options')
+        if (saved_options)
+            set_options(JSON.parse(saved_options))
+
         const url = new URL(location.href)
         const shared_strategy = url.searchParams.get('strategy')
         if (shared_strategy) {
@@ -132,5 +143,20 @@
 
     app.on('save', code_mirror._on_save = () => {
         localStorage.setItem('strategy', code_mirror.getValue())
+        localStorage.setItem('strategy-options', JSON.stringify(get_options()))
     })
+
+    function get_options() {
+        return {
+            log: document.getElementById('strategy-options-log').checked,
+            interest: parseFloat(document.getElementById('strategy-options-interest').value),
+            slippage: parseFloat(document.getElementById('strategy-options-slippage').value),
+        }
+    }
+
+    function set_options(options) {
+        document.getElementById('strategy-options-log').checked = options.log
+        document.getElementById('strategy-options-interest').value = options.interest
+        document.getElementById('strategy-options-slippage').value = options.slippage
+    }
 </script>
