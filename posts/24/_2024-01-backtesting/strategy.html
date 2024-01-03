@@ -41,10 +41,12 @@
         </ul>
     </details>
     <details>
-        <summary>选项</summary>
-        <div><label>日志记录交易<input type="checkbox" id="strategy-options-log" checked></label></div>
+        <summary>高级</summary>
+        <div><label>日志记录交易<input type="checkbox" id="strategy-options-verbose" checked></label></div>
         <div><label>现金年化利率 <input type="number" id="strategy-options-interest" value="0"></label></div>
         <div><label>交易摩擦及费率 <input type="number" id="strategy-options-slippage" value="0"></label></div>
+        <button id="run-bootstrapping">从所有数据集里随机截取10000次跑</button>
+        <progress id="bootstrapping-progress" class="hidden" value="0" max="10000"></progress>
     </details>
 </nattoppet-card>
 
@@ -54,6 +56,9 @@
     }
     nattoppet-card[data-title="策略"] details li {
         font-size: .9rem;
+    }
+    .hidden {
+        display: none;
     }
 </style>
 
@@ -99,6 +104,43 @@
             app.log(app.analyze_backtest_result(result))
         } catch (e) {
             app.log("策略运行出错。错误信息：" + e)
+        }
+    })
+
+    document.getElementById('run-bootstrapping').addEventListener('click', async () => {
+        const datasets = Array.from(document.querySelectorAll('.data-builtin')).map(button => window[button.dataset.name])
+        const results = []
+        document.getElementById('bootstrapping-progress').classList.remove('hidden')
+        try {
+            for (let i = 0; i < 10000; i++) {
+                if (i % 100 == 0) {
+                    document.getElementById('bootstrapping-progress').value = i
+                    await new Promise(resolve => setTimeout(resolve, 0))
+                }
+
+                const data = datasets[Math.floor(Math.random() * datasets.length)]
+                const start_index = Math.floor(Math.random() * (data.length - 100))
+                const end_index = start_index + 100 + Math.floor(Math.random() * (data.length - start_index - 100))
+                try {
+                    const result = await app.backtest(code_mirror.getValue(), {
+                        candles: data.slice(start_index, end_index),
+                        silent: true,
+                        ...get_options()
+                    })
+                    results.push(result)
+                } catch (e) {
+                    app.log("策略运行出错。错误信息：" + e)
+                    return
+                }
+            }
+            const avg_annualized_profit = results.map(history => {
+                const total_profit = history[history.length - 1].cash_after_action / 10000 - 1
+                return 1 * Math.pow(1 + total_profit, 365 / history.length) - 1
+            }).reduce((a, b) => a + b) / results.length
+
+            app.log(`平均年化收益率：${(avg_annualized_profit * 100).toFixed(2)}%`)
+        } finally {
+            document.getElementById('bootstrapping-progress').classList.add('hidden')
         }
     })
 
@@ -148,14 +190,14 @@
 
     function get_options() {
         return {
-            log: document.getElementById('strategy-options-log').checked,
+            verbose: document.getElementById('strategy-options-verbose').checked,
             interest: parseFloat(document.getElementById('strategy-options-interest').value),
             slippage: parseFloat(document.getElementById('strategy-options-slippage').value),
         }
     }
 
     function set_options(options) {
-        document.getElementById('strategy-options-log').checked = options.log
+        document.getElementById('strategy-options-verbose').checked = options.verbose
         document.getElementById('strategy-options-interest').value = options.interest
         document.getElementById('strategy-options-slippage').value = options.slippage
     }
