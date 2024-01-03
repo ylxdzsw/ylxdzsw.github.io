@@ -18,8 +18,11 @@
         <ul>
             <li><code>price</code>：当前价格（即<code>t(0).close</code>）
             <li><code>profit</code>：当前持仓收益率，例如-0.05就是亏损5%。没有持仓就是0。
+            <li><code>profit_annualized</code>：当前持仓年化收益率。
             <li><code>cash</code>：当前现金。开局一万。
             <li><code>holding</code>：当前持仓。
+            <li><code>holding_days</code>：当前持仓天数。
+            <li><code>holding_price</code>：当前持仓成本价。
             <li><code>buy()</code>：买入。若无现金则无动作。
             <li><code>sell()</code>：卖出。若无持仓则无动作。
             <li><code>log(msg)</code>：打印日志。
@@ -71,8 +74,8 @@
 
     document.getElementById('run-backtest').addEventListener('click', async () => {
         try {
-            const final_cash = await app.backtest(code_mirror.getValue())
-            app.log(`回测完成。总收益：${(final_cash / 100 - 100).toFixed(2)}%`)
+            const result = await app.backtest(code_mirror.getValue())
+            app.log(app.analyze_backtest_result(result))
         } catch (e) {
             app.log("策略运行出错。错误信息：" + e)
         }
@@ -83,8 +86,10 @@
         const start_index = Math.floor(Math.random() * (data.length - 100))
         const end_index = start_index + 100 + Math.floor(Math.random() * (data.length - start_index - 100))
         try {
-            const final_cash = await app.backtest(code_mirror.getValue(), data.slice(start_index, end_index))
-            app.log(`回测完成。总收益：${(final_cash / 100 - 100).toFixed(2)}%`)
+            const result = await app.backtest(code_mirror.getValue(), {
+                candles: data.slice(start_index, end_index)
+            })
+            app.log(app.analyze_backtest_result(result))
         } catch (e) {
             app.log("策略运行出错。错误信息：" + e)
         }
