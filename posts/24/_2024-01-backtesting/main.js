@@ -77,6 +77,7 @@ const app = {
         const min_profit = transactions.map(x => x.profit).reduce((a, b) => Math.min(a, b), 0)
         const winning_rate = transactions.map(x => x.profit > 0 ? 1 : 0).reduce((a, b) => a + b, 0) / transactions.length
         const avg_profit = transactions.map(x => x.profit).reduce((a, b) => a + b, 0) / transactions.length
+
         return `\
 === 回测结果 ===
 总日数：${history.length}，交易笔数：${transactions.length}

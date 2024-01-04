@@ -34,10 +34,10 @@
             <li><code>volume</code>：成交量。有些数据集没有。
             <li><code>MA(n)</code>：<code>n</code>日简单移动平均，例如<code>MA(5)</code>是5日均线。<code>t(-2).MA(5)</code>是前天的5日均线。
             <li><code>EMA(n)</code>：<code>n</code>日指数移动平均。
-            <li><code>DIF(fast, slow)</code>：就是MACD里的一条线。默认<code>fast=12</code>，<code>slow=26</code>。
-            <li><code>DEA(fast, slow, n)</code>：MACD里的另一条线。默认<code>fast=12</code>，<code>slow=26</code>，<code>n=9</code>。
-            <li><code>MACD(fast, slow, n)</code>：MACD里那个柱子。默认<code>fast=12</code>，<code>slow=26</code>，<code>n=9</code>。
-            <li><code>RSI(n)</code>：一个指标。默认<code>n=14</code>。
+            <li><code>DIF(fast, slow)</code>：<code>EMA(fast) - EMA(slow)</code>。
+            <li><code>DEA(fast, slow, n)</code>：<code>DIF(fast, slow)</code>的<code>n</code>日指数移动平均。
+            <li><code>MACD(fast, slow, n)</code>：<code>DIF(fast, slow) - DEA(fast, slow, n)</code>
+            <li><code>RSI(n)</code>：一个指标。
         </ul>
     </details>
     <details>
@@ -45,8 +45,9 @@
         <div><label>日志记录交易<input type="checkbox" id="strategy-options-verbose" checked></label></div>
         <div><label>现金年化利率 <input type="number" id="strategy-options-interest" value="0"></label></div>
         <div><label>交易摩擦及费率 <input type="number" id="strategy-options-slippage" value="0"></label></div>
-        <button id="run-bootstrapping">从所有数据集里随机截取10000次跑</button>
-        <progress id="bootstrapping-progress" class="hidden" value="0" max="10000"></progress>
+        <button id="run-bootstrapping">从当前数据随机截取10000次跑</button><br>
+        <button id="run-bootstrapping-all">从所有数据集里随机截取10000次跑</button><br>
+        <progress id="bootstrapping-progress" class="hidden" value="0" max="1"></progress>
     </details>
 </nattoppet-card>
 
@@ -108,13 +109,51 @@
     })
 
     document.getElementById('run-bootstrapping').addEventListener('click', async () => {
+        const results = []
+        document.getElementById('bootstrapping-progress').classList.remove('hidden')
+        try {
+            for (let i = 0; i < 10000; i++) {
+                if (i % 100 == 0) {
+                    document.getElementById('bootstrapping-progress').value = i / 10000
+                    await new Promise(resolve => setTimeout(resolve, 0))
+                }
+
+                const start_index = Math.floor(Math.random() * (app.active_dataset.length - 100))
+                const end_index = start_index + 100 + Math.floor(Math.random() * (app.active_dataset.length - start_index - 100))
+                try {
+                    const result = await app.backtest(code_mirror.getValue(), {
+                        candles: app.active_dataset.slice(start_index, end_index),
+                        silent: true,
+                        ...get_options()
+                    })
+                    results.push(result)
+                } catch (e) {
+                    app.log("策略运行出错。错误信息：" + e)
+                    return
+                }
+            }
+            const annualized_profits = results.map(history => {
+                const total_profit = history[history.length - 1].cash_after_action / 10000 - 1
+                return 1 * Math.pow(1 + total_profit, 365 / history.length) - 1
+            })
+
+            const avg = annualized_profits.reduce((a, b) => a + b) / annualized_profits.length
+            const std = Math.sqrt(annualized_profits.map(x => Math.pow(x - avg, 2)).reduce((a, b) => a + b) / (annualized_profits.length - 1))
+
+            app.log(`平均年化收益率：${(avg * 100).toFixed(2)}%，标准差：${(std * 100).toFixed(2)}%`)
+        } finally {
+            document.getElementById('bootstrapping-progress').classList.add('hidden')
+        }
+    })
+
+    document.getElementById('run-bootstrapping-all').addEventListener('click', async () => {
         const datasets = Array.from(document.querySelectorAll('.data-builtin')).map(button => window[button.dataset.name])
         const results = []
         document.getElementById('bootstrapping-progress').classList.remove('hidden')
         try {
             for (let i = 0; i < 10000; i++) {
                 if (i % 100 == 0) {
-                    document.getElementById('bootstrapping-progress').value = i
+                    document.getElementById('bootstrapping-progress').value = i / 10000
                     await new Promise(resolve => setTimeout(resolve, 0))
                 }
 
@@ -133,12 +172,15 @@
                     return
                 }
             }
-            const avg_annualized_profit = results.map(history => {
+            const annualized_profits = results.map(history => {
                 const total_profit = history[history.length - 1].cash_after_action / 10000 - 1
                 return 1 * Math.pow(1 + total_profit, 365 / history.length) - 1
-            }).reduce((a, b) => a + b) / results.length
+            })
 
-            app.log(`平均年化收益率：${(avg_annualized_profit * 100).toFixed(2)}%`)
+            const avg = annualized_profits.reduce((a, b) => a + b) / annualized_profits.length
+            const std = Math.sqrt(annualized_profits.map(x => Math.pow(x - avg, 2)).reduce((a, b) => a + b) / (annualized_profits.length - 1))
+
+            app.log(`平均年化收益率：${(avg * 100).toFixed(2)}%，标准差：${(std * 100).toFixed(2)}%`)
         } finally {
             document.getElementById('bootstrapping-progress').classList.add('hidden')
         }
