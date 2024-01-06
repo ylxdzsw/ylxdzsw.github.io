@@ -1,0 +1,26 @@
+<!doctype html>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="author" content="root@ylxdzsw.com">
+<meta name="license" content="MIT">
+<meta name="github" content="https://github.com/ylxdzsw/ylxdzsw.github.io/tree/master/posts/24/2024-01-backtesting-builder">
+
+<title>策略编辑器</title>
+
+[require](main.less)
+[require](blockly.js)
+
+<div id="app">
+<div id="blocklyDiv"></div>
+<div id="copy"><button>复制到剪贴板</button></div>
+<div id="output"></div>
+</div>
+
+[require](main.js)
+
+<div id="bottom-notice">
+Copyright © 2024: root@ylxdzsw.com <br>
+[link](https://github.com/ylxdzsw/ylxdzsw.github.io/tree/master/posts/24/2024-01-backtesting-builder) Source code available under the MIT license
+</div>
+
+[mixin] common.ymd

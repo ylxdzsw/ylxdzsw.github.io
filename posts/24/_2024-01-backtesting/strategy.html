@@ -3,6 +3,7 @@
     <button id="run-backtest">跑回测</button>
     <button id="run-backtest-random">随机截取一段时间跑</button>
     <button id="strategy-share">生成分享链接</button>
+    <button id="strategy-builder">图形化策略构建器</button>
     <details style="margin-top: .5em;">
         <summary>示例策略</summary>
         <div style="margin: .5rem 0 1rem;">
@@ -66,7 +67,7 @@
 <script type="module">
     const code_mirror = CodeMirror.fromTextArea(document.getElementById('strategy-editor'), {
         lineNumbers: true,
-        indentUnit: 4,
+        indentUnit: 2,
     })
 
     code_mirror.on('change', () => {
@@ -198,6 +199,10 @@
         url.searchParams.set('strategy', url_safe_base64)
         navigator.clipboard.writeText(url.href)
         alert('已复制分享链接到剪贴板')
+    })
+
+    document.getElementById('strategy-builder').addEventListener('click', () => {
+        window.open("https://blog.ylxdzsw.com/_2024-01-backtesting-builder.html", "_blank")
     })
 
     app.on('load', code_mirror._on_load = async () => {
