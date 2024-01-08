@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?><rss version="2.0"><channel><title>ylxdzsw's blog</title><link>https://blog.ylxdzsw.com/</link><description>Works, thoughts, life, and balderdash.</description>
-<lastBuildDate>Mon, 08 Jan 2024 12:00:52 GMT</lastBuildDate>
+<lastBuildDate>Mon, 08 Jan 2024 19:04:11 GMT</lastBuildDate>
+<item><title>2024-01-rag</title><link>https://blog.ylxdzsw.com/2024-01-rag.pdf</link><guid>305c5e2f27bb074defe48cbfcc908786</guid><pubDate>Mon, 08 Jan 2024 19:04:11 GMT</pubDate></item>
 <item><title>2024-01-prime-spiral</title><link>https://blog.ylxdzsw.com/2024-01-prime-spiral.html</link><guid>4a96c81ca1aec4febbedb9e9eaac4688</guid><pubDate>Mon, 01 Jan 2024 15:59:39 GMT</pubDate></item>
-<item><title>2024-01-backtesting-builder</title><link>https://blog.ylxdzsw.com/2024-01-backtesting-builder.html</link><guid>0817750a6a7845e4f28176ea771be85b</guid><pubDate>Sat, 06 Jan 2024 13:51:12 GMT</pubDate></item>
+<item><title>2024-01-backtesting-builder</title><link>https://blog.ylxdzsw.com/2024-01-backtesting-builder.html</link><guid>13c874b5a772a435638d11807af9f257</guid><pubDate>Mon, 08 Jan 2024 19:01:20 GMT</pubDate></item>
 <item><title>2024-01-backtesting</title><link>https://blog.ylxdzsw.com/2024-01-backtesting.html</link><guid>29bdeaebfb7fe4ea7e4850eeff1044ef</guid><pubDate>Mon, 08 Jan 2024 11:23:33 GMT</pubDate></item>
 <item><title>2023-12-oneset</title><link>https://ylxdzsw.github.io/oneset</link><guid>undefined</guid><pubDate>Tue, 05 Dec 2023 16:00:00 GMT</pubDate></item>
 <item><title>2023-09-slime-trait-calculator</title><link>https://ylxdzsw.github.io/slime-trait-calculator</link><guid>undefined</guid><pubDate>Mon, 08 May 2023 16:00:00 GMT</pubDate></item>
@@ -14,5 +15,4 @@
 <item><title>2022-07-100-prisoners-problem</title><link>https://blog.ylxdzsw.com/2022-07-100-prisoners-problem.html</link><guid>cd60b6afced58d6e0616486e130d701f</guid><pubDate>Wed, 06 Jul 2022 06:36:52 GMT</pubDate></item>
 <item><title>2022-06-synthesizing-optimal-parallelism-placement-and-reduction-strategies-on-hierarchical-systems-for-deep-learning</title><link>https://blog.ylxdzsw.com/2022-06-synthesizing-optimal-parallelism-placement-and-reduction-strategies-on-hierarchical-systems-for-deep-learning.pdf</link><guid>763b05c8255f66809fada6fa58de8aef</guid><pubDate>Wed, 06 Jul 2022 06:36:52 GMT</pubDate></item>
 <item><title>2022-02-amazon-sagemaker-model-parallism</title><link>https://blog.ylxdzsw.com/2022-02-amazon-sagemaker-model-parallism.pdf</link><guid>01bae7d26dfeeea7e34b4a9b263bf825</guid><pubDate>Mon, 21 Feb 2022 13:00:03 GMT</pubDate></item>
-<item><title>2022-01-sopipe-builder</title><link>https://ylxdzsw.github.io/sopipe</link><guid>undefined</guid><pubDate>Sun, 23 Jan 2022 14:14:00 GMT</pubDate></item>
 </channel></rss>

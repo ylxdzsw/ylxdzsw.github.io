@@ -365,7 +365,7 @@ function add_technical_indicator_block(name, arity, defaults = []) {
         for (let i = 0; i < arity; i++) {
             args.push(block.getFieldValue(`arg${i}`))
         }
-        return [`${name}(${args.join(', ')})`, js_order.FUNCTION_CALL]
+        return [`${name.toUpperCase()}(${args.join(', ')})`, js_order.FUNCTION_CALL]
     }
 }
 
