@@ -2,7 +2,7 @@
 
 [title]: An EM view of policy iteration
 
-[mixin] assets/katex.css
+[mixin] katex
 
 <style>@media (min-width: 625px) { .directive { margin-left: calc(50% - 220px) } }</style>
 

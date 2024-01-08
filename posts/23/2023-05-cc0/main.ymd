@@ -1,5 +1,5 @@
 [mixin] vue
-[mixin] assets/katex.css
+[mixin] katex
 
 [h2] [title]
 

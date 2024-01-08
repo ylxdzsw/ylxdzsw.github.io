@@ -2,7 +2,7 @@
 
 [title]: Ducks
 
-[mixin] assets/katex.css
+[mixin] katex
 
 [h3] Problem
 <p>

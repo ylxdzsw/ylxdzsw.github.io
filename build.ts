@@ -190,7 +190,7 @@ Deno.writeTextFileSync(path.join(__dirname, 'info.json'), infostr.slice(0, -2) +
 
 // step 4. handle links in `links.txt`
 
-const links = Deno.readTextFileSync(path.join(__dirname, 'links.txt')).split('\n')
+const links = Deno.readTextFileSync(path.join(__dirname, 'links.txt')).trimEnd().split('\n')
 
 for (const link of links) {
     const [src, dest, time] = link.split(' ')
