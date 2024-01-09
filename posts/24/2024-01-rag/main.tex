@@ -70,7 +70,7 @@
             \setlength{\itemsep}{.8em}
             \item Introduction
             \item Models
-            \item Process
+            \item Training and Inference
             \item Experiments
             \item Conclusion
         \end{itemize}
@@ -159,9 +159,9 @@
 
         \vskip .5em
         $\mathbf{d}(z)$ is a vector representation of a document produced by a BERT model and $\mathbf{q}(x)$ is a vector
-        presentation of the query produced by another BERT model.
+        representation of the query produced by another BERT model.
 
-        Calculating $\operatorname*{top-k}(p_\eta(\cdot|x))$ is a Maximum Inner Produce Search (MIPS) problem, which can
+        Calculating $\operatorname*{top-k}(p_\eta(\cdot|x))$ is a Maximum Inner Product Search (MIPS) problem, which can
         be approximately solved in sub-linear time.
     \end{frame}
 
@@ -173,7 +173,7 @@
     \end{frame}
 
 
-    \section{Process}
+    \section{Training and Inference}
 
     \begin{frame}
         \frametitle{Training}
@@ -183,7 +183,7 @@
 
         \vskip 1em
         The document encoder $\text{BERT}_d$ is not updated during training as it is costly to do so (the document
-        indices needs to be updated as the model changes).
+        index needs to be updated as the model changes).
     \end{frame}
 
     \begin{frame}
@@ -219,7 +219,7 @@
             \setlength{\itemsep}{.8em}
             \item \textbf{Non-parametric knowledge}: Dec. 2018 Wikipedia dump split into 100 word chunks, totaling 21M documents.
             \item \textbf{MIPS solver}: FAISS with Hierarchical Navigable Small World approximation.
-            \item \textbf{Hyper-parameters}: $k \in {5, 10}$ when retrieving the top-k documents.
+            \item \textbf{Hyper-parameters}: $k \in \{5, 10\}$ when retrieving the top-k documents.
         \end{itemize}
     \end{frame}
 
@@ -300,9 +300,9 @@
         \begin{itemize}
             \setlength{\itemsep}{.4em}
             \item Does not actually solve the hallucination problem.
-            \item Needs to run $k$ times inference passes during generation.
+            \item Needs to run $k$ times more inference passes during generation.
             \item The input $x$ needs to be additionally processed by another model.
-            \item The retrieving process does not use GPU and is likely to be disk-IO intensive.
+            \item The retrieving process is likely to be disk-IO intensive or memory demanding.
         \end{itemize}
     \end{frame}
 
