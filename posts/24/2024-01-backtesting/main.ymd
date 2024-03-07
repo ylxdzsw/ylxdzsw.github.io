@@ -20,6 +20,8 @@
 [require](hkex_etf_csop_hs_tech.json)
 [require](aapl.json)
 [require](ndx100.json)
+[require](sa405_15m.json)
+[require](sh513130_1d.json)
 
 <div class="column">
 

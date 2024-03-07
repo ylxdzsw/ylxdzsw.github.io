@@ -3,6 +3,8 @@
     <button class="data-builtin" data-name="hkex_etf_csop_hs_tech">南方恒生科技(3033.HK)</button>
     <button class="data-builtin" data-name="aapl">苹果(AAPL)</button>
     <button class="data-builtin" data-name="ndx100">纳斯达克100(^NDX)</button>
+    <button class="data-builtin" data-name="sa405_15m">纯碱2405</button>
+    <button class="data-builtin" data-name="sh513130_1d">恒生科技ETF</button>
     <button id="data-load-csv">本地CSV文件</button>
     <button id="data-load-json">本地JSON文件</button>
 </nattoppet-card>
@@ -26,6 +28,34 @@
             app.emit('data-load', window[name])
         })
     })
+
+    // TODO: make it a folable menu under DATA panel
+    function load_csv(str, {
+        strip_start = 0,
+        strip_end = 0,
+        open = null,
+        high = null,
+        low = null,
+        close = null,
+        volume = null,
+        timestamp = null,
+        timestamp_callback = parseInt
+    }) {
+        const lines = str.split('\n').slice(strip_start, -strip_end)
+        const data = []
+        for (let line of lines) {
+            const cells = line.split(',').map(cell => cell.trim())
+            const item = {}
+            if (open != null) item.open = parseFloat(cells[open])
+            if (high != null) item.high = parseFloat(cells[high])
+            if (low != null) item.low = parseFloat(cells[low])
+            if (close != null) item.close = parseFloat(cells[close])
+            if (volume != null) item.volume = parseFloat(cells[volume])
+            if (timestamp != null) item.timestamp = timestamp_callback(cells[timestamp])
+            data.push(item)
+        }
+        return data
+    }
 
     document.getElementById('data-load-csv').addEventListener('click', () => {
         alert("这个功能还没做")
