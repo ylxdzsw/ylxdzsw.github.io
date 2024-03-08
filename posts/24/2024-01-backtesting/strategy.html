@@ -44,8 +44,6 @@
     <details>
         <summary>高级</summary>
         <div><label>日志记录交易<input type="checkbox" id="strategy-options-verbose" checked></label></div>
-        <div><label>现金年化利率 <input type="number" id="strategy-options-interest" value="0"></label></div>
-        <div><label>交易摩擦及费率 <input type="number" id="strategy-options-slippage" value="0"></label></div>
         <button id="run-bootstrapping">从当前数据随机截取10000次跑</button><br>
         <button id="run-bootstrapping-all">从所有数据集里随机截取10000次跑</button><br>
         <progress id="bootstrapping-progress" class="hidden" value="0" max="1"></progress>
@@ -238,14 +236,10 @@
     function get_options() {
         return {
             verbose: document.getElementById('strategy-options-verbose').checked,
-            interest: parseFloat(document.getElementById('strategy-options-interest').value),
-            slippage: parseFloat(document.getElementById('strategy-options-slippage').value),
         }
     }
 
     function set_options(options) {
-        document.getElementById('strategy-options-verbose').checked = options.verbose
-        document.getElementById('strategy-options-interest').value = options.interest
-        document.getElementById('strategy-options-slippage').value = options.slippage
+        document.getElementById('strategy-options-verbose').checked = options.verbose ?? true
     }
 </script>
