@@ -172,7 +172,7 @@
                 }
             }
             const annualized_profits = results.map(history => {
-                const total_profit = history[history.length - 1].cash_after_action / 10000 - 1
+                const total_profit = history[history.length - 1].balance / history[0].balance - 1
                 return 1 * Math.pow(1 + total_profit, 365 / history.length) - 1
             })
 
