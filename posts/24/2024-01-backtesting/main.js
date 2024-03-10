@@ -141,9 +141,9 @@ const app = {
 
 return `\
 === 回测结果 ===
-总日数：${history.length}，总收益：${(total_profit * 100).toFixed(2)}%，年化：${(100 * Math.pow(1 + total_profit, 365 / history.length) - 100).toFixed(2)}%
-持仓日数：${holding_days}，占总日数：${(100 * holding_days / history.length).toFixed(2)}%
-最大回撤：${(100 * drawdown).toFixed(2)}%，夏普比率：${(100 * sharpe).toFixed(2)}
+总周期：${history.length}，总收益：${(total_profit * 100).toFixed(2)}%
+持仓周期：${holding_days}，占总周期：${(100 * holding_days / history.length).toFixed(2)}%
+最大回撤：${(100 * drawdown).toFixed(2)}%，夏普比率：${sharpe.toFixed(4)}
 `
         // const transactions = history.filter(x => x.holding * x.t(-1).holding <= 0 && x.t(-1).holding != 0)
 
