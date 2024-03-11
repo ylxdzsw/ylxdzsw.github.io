@@ -7,10 +7,12 @@
     <details style="margin-top: .5em;">
         <summary>示例策略</summary>
         <div style="margin: .5rem 0 1rem;">
-        <button class="strategy-builtin" data-code="// 连续三天上涨&#13;if (t(0).close > t(0).open)&#13;if (t(-1).close > t(-1).open)&#13;if (t(-2).close > t(-2).open)&#13;if (t(-3).close <= t(-3).open)&#13;    buy()&#13;// 赚或亏超过10%&#13;if (profit > 0.1 || profit < -0.1)&#13;    sell()">倒钱一号</button>
-        <button class="strategy-builtin" data-code="if (price >= MA(5) && t(-1).price < t(-1).MA(5)) buy()&#13;if (profit > 0.05 || profit < -0.05) sell()&#13;if (price < MA(5)) sell()">倒钱二号</button>
-        <button class="strategy-builtin" data-code="buy()">持仓到死</button>
-        <button class="strategy-builtin" data-code="Math.random() < 0.1 && buy()&#13;profit > 0.1 && sell()">随机买</button>
+            <button class="strategy-builtin" data-code="// 连续三天上涨&#13;if (t(0).close > t(0).open)&#13;if (t(-1).close > t(-1).open)&#13;if (t(-2).close > t(-2).open)&#13;if (t(-3).close <= t(-3).open)&#13;    buy()&#13;// 赚或亏超过10%&#13;if (profit > 0.1 || profit < -0.1)&#13;    sell()">倒钱一号</button>
+            <button class="strategy-builtin" data-code="if (price >= MA(5) && t(-1).price < t(-1).MA(5)) buy()&#13;if (profit > 0.05 || profit < -0.05) sell()&#13;if (price < MA(5)) sell()">倒钱二号</button>
+            <button class="strategy-builtin" data-code="buy()">持仓到死</button>
+            <button class="strategy-builtin" data-code="Math.random() < 0.1 && buy()&#13;profit > 0.1 && sell()">随机买</button>
+            <button class="strategy-builtin" data-code="if (price > MA(40) && price > EMA(10))&#13;  position(1)&#13;else if (price < MA(40) && price < EMA(10))&#13;  position(-1)&#13;else&#13;  position(0)">长短均值</button>
+            <button class="strategy-builtin" data-code="let p = 0&#13;if (price > MA(40)) p += 0.25&#13;if (price > EMA(10)) p += 0.25&#13;if (MACD() > 0) p += 0.25&#13;if (RSI(6) > 50) p += 0.25&#13;if (price < MA(40)) p -= 0.25&#13;if (price < EMA(10)) p -= 0.25&#13;if (MACD() < 0) p -= 0.25&#13;if (RSI(6) < 50) p -= 0.25&#13;position(p)">鸡尾酒</button>
         </div>
     </details>
     <details>
@@ -18,7 +20,7 @@
         <p>策略是一段JavaScript代码，它会在每个交易日结束时执行。</p>
         <ul>
             <li><code>price</code>：当前价格（即<code>t(0).close</code>）
-            <li><code>profit</code>：当前持仓收益率，例如-0.05就是亏损5%。没有持仓就是0。
+            <li><code>profit</code>：当前持仓收益率，例如-0.05就是亏损5%。
             <li><code>profit_annualized</code>：当前持仓年化收益率。
             <li><code>cash</code>：当前现金。开局一万。
             <li><code>holding</code>：当前持仓。
@@ -26,6 +28,7 @@
             <li><code>holding_price</code>：当前持仓成本价。
             <li><code>buy()</code>：买入。若无现金则无动作。
             <li><code>sell()</code>：卖出。若无持仓则无动作。
+            <li><code>position(p)</code>：调仓至持有股票价值与总资产比例为<code>p</code>∈[-1,1]。
             <li><code>log(msg)</code>：打印日志。
             <li><code>t(n)</code>：<code>n</code>天前的数据，例如<code>t(-1).high</code>是昨天的最高价。
             <li><code>open</code>：开盘价。

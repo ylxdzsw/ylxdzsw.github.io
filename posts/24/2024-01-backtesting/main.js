@@ -37,34 +37,19 @@ const app = {
         for (let i = 0; i < ctx.candles.length; i++) {
             const env = new BacktestEnvironment(ctx, i)
 
-            function long(price) {
-                const limit = env.balance / price
-                const volume = limit - env.holding
-
-                ctx.verbose && env.log(`买入${volume.toFixed(2)}份标的，价格${price.toFixed(2)}`)
-                env.cash = 0
-                env.holding = limit
-            }
-
-            function short(price) {
-                const limit = -env.balance / price
-                const volume = env.holding - limit
-
-                ctx.verbose && env.log(`卖出${volume.toFixed(2)}份标的，价格${price.toFixed(2)}`)
-                env.cash = env.balance - limit * price
-                env.holding = limit
-            }
-
-            function close(price) {
-                const volume = env.holding
+            function execute(position, price) {
+                const target_holding = position * env.balance / price
+                const volume = target_holding - env.holding
+                if (Math.abs(volume) < 0.01)
+                    return
 
                 if (ctx.verbose && volume > 0)
-                    env.log(`卖出${volume.toFixed(2)}份标的，价格${price.toFixed(2)}`)
+                    env.log(`买入${volume.toFixed(2)}份标的，价格${price.toFixed(2)}`)
                 else if (ctx.verbose && volume < 0)
-                    env.log(`买入${-volume.toFixed(2)}份标的，价格${price.toFixed(2)}`)
+                    env.log(`卖出${-volume.toFixed(2)}份标的，价格${price.toFixed(2)}`)
 
-                env.cash = env.balance
-                env.holding = 0
+                env.cash = (1 - position) * env.balance
+                env.holding = Math.abs(target_holding) * price < 0.01 ? 0 : target_holding
             }
 
             let order_index = 0
@@ -72,9 +57,7 @@ const app = {
                 const order = env.orders[order_index]
                 if (order.condition == ">=" && env.high > order.price) {
                     env.orders.splice(order_index, 1)
-                    if (order.direction == "long") long(order.price)
-                    if (order.direction == "short") short(order.price)
-                    if (order.direction == "close") close(order.price)
+                    execute(order.position, order.price)
                     order.callback()
                     order_index = 0
                     continue
@@ -82,9 +65,7 @@ const app = {
 
                 if (order.condition == "<=" && env.low < order.price) {
                     env.orders.splice(order_index, 1)
-                    if (order.direction == "long") long(order.price)
-                    if (order.direction == "short") short(order.price)
-                    if (order.direction == "close") close(order.price)
+                    execute(order.position, order.price)
                     order.callback()
                     order_index = 0
                     continue
@@ -105,9 +86,7 @@ const app = {
                 const order = env.orders[order_index]
                 if (order.condition == null) { // market order
                     env.orders.splice(order_index, 1)
-                    if (order.direction == "long") long(env.price)
-                    if (order.direction == "short") short(env.price)
-                    if (order.direction == "close") close(env.price)
+                    execute(order.position, env.price)
                     order.callback()
                     order_index = 0
                     continue
@@ -211,20 +190,27 @@ class BacktestEnvironment {
         return Math.pow(1 + this.profit, 365 / this.holding_days) - 1
     }
 
-    order(direction, condition, price, callback) {
+    order(position, condition, price, callback) {
         if (callback === undefined) {
             callback = () => this.clear_orders()
         } else if (callback === false) {
             callback = () => {}
         }
 
-        console.log({direction, condition, price, callback})
+        if (position == "long")
+            position = 1
+        if (position == "short")
+            position = -1
+        if (position == "close")
+            position = 0
+        if (position > 1 || position < -1)
+            throw new Error("position must be [-1, 1]")
 
         this.orders.push({
-            direction, // "long", "short"
+            position, // [-1, 1]
             condition, // ">=", "<=". null for market order
             price, // null for market order
-            callback, // executed upon order filled
+            callback, // executed upon order fulfilled
         })
     }
 
@@ -244,6 +230,11 @@ class BacktestEnvironment {
             this.clear_orders()
             this.order("close")
         }
+    }
+
+    position(position) {
+        this.clear_orders()
+        this.order(position)
     }
 
     t(i) {
