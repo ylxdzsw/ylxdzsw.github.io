@@ -145,22 +145,6 @@ return `\
 持仓周期：${holding_days}，占总周期：${(100 * holding_days / history.length).toFixed(2)}%
 最大回撤：${(100 * drawdown).toFixed(2)}%，夏普比率：${sharpe.toFixed(4)}
 `
-        // const transactions = history.filter(x => x.holding * x.t(-1).holding <= 0 && x.t(-1).holding != 0)
-
-        // const holding_days = transactions.map(x => x.t(-1).holding_days + 1).reduce((a, b) => a + b, 0)
-        // const max_profit = transactions.map(x => x.t(-1).profit).reduce((a, b) => Math.max(a, b), 0)
-        // const min_profit = transactions.map(x => x.t(-1).profit).reduce((a, b) => Math.min(a, b), 0)
-        // const winning_rate = transactions.map(x => x.t(-1).profit > 0 ? 1 : 0).reduce((a, b) => a + b, 0) / transactions.length
-        // const avg_profit = transactions.map(x => x.t(-1).profit).reduce((a, b) => a + b, 0) / transactions.length
-
-//         return `\
-// === 回测结果 ===
-// 总日数：${history.length}，交易笔数：${transactions.length}
-// 总收益：${(total_profit * 100).toFixed(2)}%，年化：${(100 * Math.pow(1 + total_profit, 365 / history.length) - 100).toFixed(2)}%
-// 持仓日数：${holding_days}，占总日数：${(100 * holding_days / history.length).toFixed(2)}%
-// 最大单次持仓收益：${(100 * max_profit).toFixed(2)}%，最大亏损：${(100 * min_profit).toFixed(2)}%
-// 胜率：${(100 * winning_rate).toFixed(2)}%，平均每次盈利：${(100 * avg_profit).toFixed(2)}%
-// `
     }
 }
 

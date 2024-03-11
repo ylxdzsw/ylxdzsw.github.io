@@ -5,8 +5,25 @@
     <button class="data-builtin" data-name="ndx100">纳斯达克100(^NDX)</button>
     <button class="data-builtin" data-name="sa405_15m">纯碱2405</button>
     <button class="data-builtin" data-name="sh513130_1d">恒生科技ETF</button>
-    <button id="data-load-csv">本地CSV文件</button>
-    <button id="data-load-json">本地JSON文件</button>
+    <details>
+        <summary>读取CSV文件</summary>
+        <div>
+            <label>跳过开头行数<input type="number" id="data-load-csv-strip-start" value="0"></label><br>
+            <label>跳过末尾行数<input type="number" id="data-load-csv-strip-end" value="0"></label><br>
+            <label>开盘价列数(从0数起)<input type="number" id="data-load-csv-column-open" value="3"></label><br>
+            <label>最高价列数(从0数起)<input type="number" id="data-load-csv-column-high" value="4"></label><br>
+            <label>最低价列数(从0数起)<input type="number" id="data-load-csv-column-low" value="5"></label><br>
+            <label>收盘价列数(从0数起)<input type="number" id="data-load-csv-column-close" value="6"></label><br>
+            <label>成交量列数(从0数起，可选)<input type="number" id="data-load-csv-column-volume"></label><br>
+            <label>时间戳列数(从0数起)<input type="number" id="data-load-csv-column-timestamp" value="2"></label><br>
+            <label>时间戳解析函数<input type="text" id="data-load-csv-timestamp-callback" value="Date.parse"></label><br>
+            <button id="data-load-csv">选择文件</button>
+        </div>
+    </details>
+    <details>
+        <summary>读取JSON文件</summary>
+        <button id="data-load-json">选择文件</button>
+    </details>
 </nattoppet-card>
 
 <style>
@@ -29,36 +46,67 @@
         })
     })
 
-    // TODO: make it a folable menu under DATA panel
-    function load_csv(str, {
-        strip_start = 0,
-        strip_end = 0,
-        open = null,
-        high = null,
-        low = null,
-        close = null,
-        volume = null,
-        timestamp = null,
-        timestamp_callback = parseInt
-    }) {
-        const lines = str.split('\n').slice(strip_start, -strip_end)
-        const data = []
-        for (let line of lines) {
-            const cells = line.split(',').map(cell => cell.trim())
-            const item = {}
-            if (open != null) item.open = parseFloat(cells[open])
-            if (high != null) item.high = parseFloat(cells[high])
-            if (low != null) item.low = parseFloat(cells[low])
-            if (close != null) item.close = parseFloat(cells[close])
-            if (volume != null) item.volume = parseFloat(cells[volume])
-            if (timestamp != null) item.timestamp = timestamp_callback(cells[timestamp])
-            data.push(item)
-        }
-        return data
-    }
-
     document.getElementById('data-load-csv').addEventListener('click', () => {
-        alert("这个功能还没做")
+        function get_column_int(x) {
+            x = parseInt(x)
+            return isNaN(x) || x < 0 ? null : x
+        }
+
+        function load_csv(str, {
+            strip_start = 0,
+            strip_end = 0,
+            open = null,
+            high = null,
+            low = null,
+            close = null,
+            volume = null,
+            timestamp = null,
+            timestamp_callback = parseInt
+        }) {
+            const lines = str.trim().split('\n').slice(strip_start, -strip_end)
+            const data = []
+            for (let line of lines) {
+                const cells = line.split(',').map(cell => cell.trim())
+                const item = {}
+                if (open != null) item.open = parseFloat(cells[open])
+                if (high != null) item.high = parseFloat(cells[high])
+                if (low != null) item.low = parseFloat(cells[low])
+                if (close != null) item.close = parseFloat(cells[close])
+                if (volume != null) item.volume = parseFloat(cells[volume])
+                if (timestamp != null) item.timestamp = timestamp_callback(cells[timestamp])
+                data.push(item)
+            }
+            return data
+        }
+
+        const file_input = document.createElement('input')
+        file_input.type = 'file'
+        file_input.accept = '.csv'
+        file_input.addEventListener('change', () => {
+            const file = file_input.files[0]
+            const reader = new FileReader()
+            reader.onload = () => {
+                try {
+                    const data = load_csv(reader.result, {
+                        strip_start: get_column_int(document.getElementById('data-load-csv-strip-start').value),
+                        strip_end: get_column_int(document.getElementById('data-load-csv-strip-end').value),
+                        open: get_column_int(document.getElementById('data-load-csv-column-open').value),
+                        high: get_column_int(document.getElementById('data-load-csv-column-high').value),
+                        low: get_column_int(document.getElementById('data-load-csv-column-low').value),
+                        close: get_column_int(document.getElementById('data-load-csv-column-close').value),
+                        volume: get_column_int(document.getElementById('data-load-csv-column-volume').value),
+                        timestamp: get_column_int(document.getElementById('data-load-csv-column-timestamp').value),
+                        timestamp_callback: eval(document.getElementById('data-load-csv-timestamp-callback').value)
+                    })
+                    app.emit('data-load', data)
+                    app.log(data.length + '条数据加载成功')
+                } catch (e) {
+                    app.log("读取失败：" + e)
+                }
+            }
+            reader.readAsText(file)
+        })
+        file_input.click()
     })
 
     document.getElementById('data-load-json').addEventListener('click', () => {

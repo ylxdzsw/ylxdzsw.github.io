@@ -44,8 +44,7 @@
     <details>
         <summary>高级</summary>
         <div><label>日志记录交易<input type="checkbox" id="strategy-options-verbose" checked></label></div>
-        <button id="run-bootstrapping">从当前数据随机截取10000次跑</button><br>
-        <button id="run-bootstrapping-all">从所有数据集里随机截取10000次跑</button><br>
+        <button id="run-bootstrapping">随机截取10000次跑</button><br>
         <progress id="bootstrapping-progress" class="hidden" value="0" max="1"></progress>
     </details>
 </nattoppet-card>
@@ -132,54 +131,14 @@
                 }
             }
             const annualized_profits = results.map(history => {
-                const total_profit = history[history.length - 1].cash_after_action / 10000 - 1
-                return 1 * Math.pow(1 + total_profit, 365 / history.length) - 1
-            })
-
-            const avg = annualized_profits.reduce((a, b) => a + b) / annualized_profits.length
-            const std = Math.sqrt(annualized_profits.map(x => Math.pow(x - avg, 2)).reduce((a, b) => a + b) / (annualized_profits.length - 1))
-
-            app.log(`平均年化收益率：${(avg * 100).toFixed(2)}%，标准差：${(std * 100).toFixed(2)}%`)
-        } finally {
-            document.getElementById('bootstrapping-progress').classList.add('hidden')
-        }
-    })
-
-    document.getElementById('run-bootstrapping-all').addEventListener('click', async () => {
-        const datasets = Array.from(document.querySelectorAll('.data-builtin')).map(button => window[button.dataset.name])
-        const results = []
-        document.getElementById('bootstrapping-progress').classList.remove('hidden')
-        try {
-            for (let i = 0; i < 10000; i++) {
-                if (i % 100 == 0) {
-                    document.getElementById('bootstrapping-progress').value = i / 10000
-                    await new Promise(resolve => setTimeout(resolve, 0))
-                }
-
-                const data = datasets[Math.floor(Math.random() * datasets.length)]
-                const start_index = Math.floor(Math.random() * (data.length - 100))
-                const end_index = start_index + 100 + Math.floor(Math.random() * (data.length - start_index - 100))
-                try {
-                    const result = await app.backtest(code_mirror.getValue(), {
-                        candles: data.slice(start_index, end_index),
-                        silent: true,
-                        ...get_options()
-                    })
-                    results.push(result)
-                } catch (e) {
-                    app.log("策略运行出错。错误信息：" + e)
-                    return
-                }
-            }
-            const annualized_profits = results.map(history => {
                 const total_profit = history[history.length - 1].balance / history[0].balance - 1
-                return 1 * Math.pow(1 + total_profit, 365 / history.length) - 1
+                return Math.pow(1 + total_profit, 365 / history.length) - 1
             })
 
             const avg = annualized_profits.reduce((a, b) => a + b) / annualized_profits.length
             const std = Math.sqrt(annualized_profits.map(x => Math.pow(x - avg, 2)).reduce((a, b) => a + b) / (annualized_profits.length - 1))
 
-            app.log(`平均年化收益率：${(avg * 100).toFixed(2)}%，标准差：${(std * 100).toFixed(2)}%`)
+            app.log(`平均每365周期收益：${(avg * 100).toFixed(2)}%，标准差：${(std * 100).toFixed(2)}%`)
         } finally {
             document.getElementById('bootstrapping-progress').classList.add('hidden')
         }
