@@ -16,6 +16,9 @@
     \begin{tikzpicture}\node{\includegraphics[width=4.2cm]{alibaba.png}};\end{tikzpicture}
 }
 
+\newcommand*\circled[1]{\tikz[baseline=(char.base)]{
+            \node[shape=circle,draw,inner sep=2pt] (char) {#1};}}
+
 \begin{document}
     \beamertemplatenavigationsymbolsempty
 
@@ -27,207 +30,197 @@
         \titlepage
     \end{frame}
 
-
-    % \section*{Introduction}
-
     % \begin{frame}
-    %     Deep neural networks (DNN), especially Transformer-based models with \textbf{Mixture-of-Expert (MoE)} layers,
-    %     have become so large that distributed training is necessary.
+    %     \frametitle{Introduction}
 
-    %     \vskip 1em
-    %     Communication overhead is a major problem in distributed DNN training. Using \textbf{TPUs} with fast device-to-device
-    %     links, communication can take up to \textbf{11\%} of training time. On \textbf{GPU clouds} with Ethernet connection,
-    %     communication can take more than \textbf{60\%} of training time.
 
-    %     \vskip 1em
-    %     We present our system, HiDup, that mitigates the communication overhead by
-    %     \textbf{computation-communication overlapping} and \textbf{overlapping-aware sharding strategy}.
-
-    %     \note{There are various ways to train a model distributedly and there are many matrue frameworks to choose from.
-    %     However, they all face the same problem: the communication overhead. There must be some kind of communication in
-    %     a distributed system. In DNN training, that's collective communication of tensors.}
     % \end{frame}
-
-    % \begin{frame}
-    %     \frametitle{Content}
-
-    %     \begin{itemize}
-    %         \setlength{\itemsep}{.8em}
-    %         \item Introduction
-    %         \item Program Synthesis
-    %         \item Sharding Ratios
-    %         \item Communication
-    %         \item Implementation
-    %         \item Evaluation
-    %         \item Conclusion
-    %     \end{itemize}
-    % \end{frame}
-
-
-    \section{Introduction}
 
     \begin{frame}
-        \frametitle{Data Parallelism}
+        \frametitle{Tensor Programs}
 
-        % \begin{columns}
-        %     \begin{column}{0.48\textwidth}
-        %         With data parallelism (DP), a minibatch of training data is split along the batch size dimension and
-        %         each worker processes a slice independently. \texttt{All-Reduce} is used to synchonize the grandients
-        %         at the end of each iteration.
-        %         \vskip 1em
-        %         \centering
-        %         \includegraphics[width=.85\textwidth]{toy_example_single.pdf}
-        %     \end{column}
-        %     \begin{column}{0.55\textwidth}
-        %         \centering
-        %         \includegraphics[width=\textwidth]{toy_example_dp.pdf}
-        %     \end{column}
-        % \end{columns}
+        Neural network models are implemented as tensor programs, where the variables are multi-dimentional arrays
+        (tensors). Tensor programs are usually executed on accelerator devices such as GPUs.
 
+        \vskip 2em
+        \centering
+        \includegraphics[width=.9\textwidth]{single_card.pdf}
     \end{frame}
+
+
+    \begin{frame}
+        \frametitle{Tensor Sharding}
+
+        \centering
+        \includegraphics[width=.85\textwidth]{transformation.pdf}
+    \end{frame}
+
 
     \begin{frame}
         \frametitle{SPMD Parallelism}
 
-        DP does not support models that exceed the memory of a single device. SPMD parallelism is a more general method
-        that allows sharding along any dimension of any tensor. Collective communication is needed when the sharding
-        methods of two tensors are incompatible.
-
-        \vskip 1em
         \centering
-        % \includegraphics[width=.85\textwidth]{toy_example_mp.pdf}
-    \end{frame}
-
-
-    \begin{frame}
-        \frametitle{SPMD Parallelism Examples}
-
-        % \begin{columns}
-        %     \begin{column}{0.5\textwidth}
-        %         \centering
-        %         \includegraphics[page=4,trim=10.9cm 17.5cm 1.9cm 2.2cm,clip,scale=0.75]{megatron.pdf}
-        %         \hbox{\tiny Source: Shoeybi, M., et al.~``Megatron-LM'' (2019).}
-        %     \end{column}
-        %     \begin{column}{0.5\textwidth}
-        %         \centering
-        %         \vskip -1.5em
-        %         \includegraphics[page=5,trim=10.5cm 16.8cm 4cm 3cm,clip,scale=0.83]{GShard.pdf}
-        %         \hbox{\tiny Source: Lepikhin, D., et al.~``GShard'' (2020).}
-        %     \end{column}
-        % \end{columns}
-    \end{frame}
-
-
-    \section*{Duplex}
-
-    \begin{frame}
-        \centering
-        \begin{beamercolorbox}[sep=8pt,center,shadow=true,rounded=true]{title}
-          \usebeamerfont{title}Duplex: Enable Computation-Communication Overlapping with SPMD Parallelism\par%
-        \end{beamercolorbox}
+        \includegraphics[width=.85\textwidth]{spmd.pdf}
     \end{frame}
 
     \begin{frame}
-        \frametitle{Duplex}
-
-        % \begin{columns}
-        %     \begin{column}{0.54\textwidth}
-        %         Inspired by gradient accumulation, we split the input data on each worker into two microbatches
-        %         \textbf{after applying SPMD parallelism}, and scheduling the two microbatches into a pipeline such that
-        %         the computation of one microbatch overlaps with the communication of the other microbatch.
-        %     \end{column}
-        %     \begin{column}{0.5\textwidth}
-        %         \centering
-        %         \vskip -1em
-        %         \includegraphics[width=.9\textwidth]{duplex.pdf}
-        %     \end{column}
-        % \end{columns}
-    \end{frame}
-
-    \begin{frame}
-        \frametitle{Duplex Example}
+        \frametitle{Multiple Ways to Parallelize a Tensor Program}
 
         \centering
-        % \includegraphics[width=.9\textwidth]{toy_example_duplex.pdf}
+        \includegraphics[width=.85\textwidth]{spmd2.pdf}
     \end{frame}
 
     \begin{frame}
-        \frametitle{Duplex}
+        \frametitle{SPMD Parallelism on Heterogeneous Clusters}
 
-        \begin{itemize}
-            \setlength{\itemsep}{.8em}
-            \item \textbf{Accuracy}: Only floating-point arithmetic errors.
-            \item \textbf{Memory Usage}: No increase.
-            \item \textbf{GPU Utilization}: Slightly reduced due to smaller tensor sizes.
-            \item \textbf{Overheads}: CUDA synchonization, gradient aggregation, memory bus contention, interference between computation and communication.
-            \item \textbf{Speed-up}: Up to 100\% in ideal case.
-        \end{itemize}
+        \centering
+        \includegraphics[width=.85\textwidth]{hetspmd.pdf}
+    \end{frame}
+
+    \begin{frame}
+        \frametitle{Challenges}
+
+        \begin{center}
+            \vspace{-3em}
+            \includegraphics[width=.85\textwidth]{goal.pdf}
+        \end{center}
+        \vskip -2em
+
+        \circled{1} How to generate a distributed program that produces equivalent results \\
+        \circled{2} How to determine the sharding ratios for the heterogeneous devices \\
+        \circled{3} How to choose the communication method on heterogeneous networks
     \end{frame}
 
 
-    \section*{Sharding Strategy}
 
     \begin{frame}
         \centering
         \begin{beamercolorbox}[sep=8pt,center,shadow=true,rounded=true]{title}
-          \usebeamerfont{title}Duplex-aware Sharding Strategy\par%
+          \usebeamerfont{title}Automated Program Synthesis\par%
         \end{beamercolorbox}
     \end{frame}
 
     \begin{frame}
-        \frametitle{Motivation}
-
-        With the fast emergence of new DNN models, manually designing SPMD strategies for each model is manpower
-        intensive and time-consuming. Further, the strategy may not always be optimal on different clusters.
-
-        \vskip 1em
-        Existing studies search for sharding strategy that \textbf{minimizes communication volume}. This strategy
-        may not be optimal when used together with Duplex.
-    \end{frame}
-
-    \begin{frame}
-        \frametitle{Sharding Strategy}
-
-        \begin{itemize}
-            \setlength{\itemsep}{.8em}
-            \item \textbf{Objective}: Find the sharding methods for all operators that minimizes the training time with computation-communication overlapping.
-            \item \textbf{Basic Idea}: Using dynamic programming to incrementally search for the best strategies of a subgraph.
-            \item \textbf{Challenge}: The best strategy of a subgraph may not be optimal for the complete graph due to computation-communication overlapping.
-            \item \textbf{Solution}: We propose a stage-based cost model and track two costs associated with a search state.
-        \end{itemize}
-    \end{frame}
-
-    \begin{frame}
-        \frametitle{Sharding Strategy}
+        \frametitle{Automated Program Synthesis}
 
         \begin{columns}
-            \begin{column}{0.5\textwidth}
-                {
-                \centering
-                \includegraphics[page=8,trim=2.2cm 20cm 11.2cm 2.8cm,clip,scale=0.84]{paper.pdf}
-                }
-
-                More details in the paper.
+            \begin{column}{0.46\textwidth}
+                We synthesize a distributed program from scratch on a distributed instruction set that emulates the single-device program.
+                \vskip 1em
+                To ensure the equivalence of the original and synthesized programs, we formalize the semantics of the single-device program and generate the distributed program under a semantic constraint.
             \end{column}
             \begin{column}{0.54\textwidth}
                 \centering
-                \vskip -2em
-                \includegraphics[page=8,trim=11cm 17cm 2.2cm 2.8cm,clip,scale=0.8]{paper.pdf}
+                \includegraphics[width=\textwidth]{emulator.pdf}
             \end{column}
         \end{columns}
     \end{frame}
 
-    \section{Implementation}
+    \begin{frame}
+        \frametitle{Automated Program Synthesis}
+
+        \begin{columns}
+            \begin{column}{0.46\textwidth}
+                \centering
+                \includegraphics[page=7,trim=56.82bp 616.43bp 324.91bp 69.14bp,clip,scale=.85]{paper.pdf}
+                \vskip .5em
+                Syntax Rules
+            \end{column}
+            \begin{column}{0.54\textwidth}
+                \centering
+                \includegraphics[page=8,trim=51.72bp 545.40bp 309.34bp 72.99bp,clip,scale=.9]{paper.pdf}
+                \vskip .5em
+                Semantic Rules
+            \end{column}
+        \end{columns}
+    \end{frame}
+
+
+
+    \begin{frame}
+        \frametitle{Load Balancing}
+
+        \begin{center}
+            \vspace{-3em}
+            \includegraphics[width=.85\textwidth]{goal.pdf}
+        \end{center}
+        \vskip -2em
+
+        \circled{1} How to generate a distributed program that produces equivalent results \\
+        \textbf{\circled{2} How to determine the sharding ratios for the heterogeneous devices} \\
+        \circled{3} How to choose the communication method on heterogeneous networks
+    \end{frame}
+
+    \begin{frame}
+        \frametitle{Cost Model}
+
+        As synchronization among devices is required during collective communication, the execution of the distributed program can be divided into stages.
+
+        \vskip 2em
+        \centering
+        \includegraphics[page=6,trim=64.08bp 633.23bp 332.38bp 67.73bp,clip,scale=1.1]{paper.pdf}
+    \end{frame}
+
+    \begin{frame}
+        \frametitle{Optimization Problem Formulation}
+
+        \begin{center}
+            \vspace{-1em}
+            \includegraphics[page=10,trim=335.25bp 397.28bp 71.11bp 321.51bp,clip]{paper.pdf}
+        \end{center}
+
+        \textbf{Q}: distributed program \\
+        \textbf{B}: sharding ratios for the devices \\
+        \textbf{comm}, \textbf{comp}: linear models of communication and computation times.
+    \end{frame}
+
+    \begin{frame}
+        \frametitle{Communication Optimization}
+
+        \begin{center}
+            \vspace{-3em}
+            \includegraphics[width=.85\textwidth]{goal.pdf}
+        \end{center}
+        \vskip -2em
+
+        \circled{1} How to generate a distributed program that produces equivalent results \\
+        \circled{2} How to determine the sharding ratios for the heterogeneous devices \\
+        \textbf{\circled{3} How to choose the communication method on heterogeneous networks}
+    \end{frame}
+
+    \begin{frame}
+        \frametitle{Optimal Communication Method Depends}
+
+    \end{frame}
+
+    \begin{frame}
+        \frametitle{Sufficient Factor Broadcasting}
+
+    \end{frame}
+
+
+
+    \begin{frame}
+        \centering
+        \begin{beamercolorbox}[sep=8pt,center,shadow=true,rounded=true]{title}
+          \usebeamerfont{title}Implementation\par%
+        \end{beamercolorbox}
+    \end{frame}
 
     \begin{frame}
         \frametitle{Implementation}
 
-        We implement HiDup as a graph transformation module on PyTorch. It takes as input a single-card model (as
-        PyTorch fx graph) and the cluster specification, producing a modified graph that runs on all workers.
-
-        \vskip 1em
-        \centering
-        % \includegraphics[width=.5\textwidth]{arch.pdf}
+        \begin{columns}
+            \begin{column}{0.5\textwidth}
+                We implement HAP on top of PyTorch.
+                \vskip 1em
+                We round the sharding ratios to ensure that the program runs with any number of devices, even if it does not evenly divide the tensor dimensions.
+            \end{column}
+            \begin{column}{0.5\textwidth}
+                \centering
+                \includegraphics[page=11,trim=342.71bp 491.17bp 83.58bp 69.93bp,clip,scale=.9]{paper.pdf}
+            \end{column}
+        \end{columns}
     \end{frame}
 
     \begin{frame}
@@ -243,7 +236,12 @@
         \note{The annotator encodes the domain knowledge, the other two components are generic. To add support for a new operator, only the annotator needs to be modified.}
     \end{frame}
 
-    \section{Evaluation}
+    \begin{frame}
+        \centering
+        \begin{beamercolorbox}[sep=8pt,center,shadow=true,rounded=true]{title}
+          \usebeamerfont{title}Evaluation\par%
+        \end{beamercolorbox}
+    \end{frame}
 
     \begin{frame}
         \frametitle{Experimental Setup}
@@ -303,19 +301,6 @@
         \end{columns}
     \end{frame}
 
-
-    \section{Conclusion}
-
-    \begin{frame}
-        \frametitle{Conclusion}
-
-        \begin{itemize}
-            \setlength{\itemsep}{.8em}
-            \item We propose Duplex that enables computation-communication overlapping with SPMD parallelism.
-            \item We design a Duplex-aware sharding strategy search algorithm.
-            \item We explore graph transformation on PyTorch and implement HiDup based on PyTorch fx.
-        \end{itemize}
-    \end{frame}
 
     \appendix
 
