@@ -3,3 +3,4 @@
 2022-01-sopipe-builder https://ylxdzsw.github.io/sopipe 1642947240079
 2023-09-slime-trait-calculator https://ylxdzsw.github.io/slime-trait-calculator 1683561600000
 2023-12-oneset https://ylxdzsw.github.io/oneset 1701792000000
+2024-04-hap-eurosys-slides https://view.officeapps.live.com/op/embed.aspx?src=https%3A%2F%2Fblog.ylxdzsw.com%2Fposts%2F24%2F2024-04-hap-slides%2Fslides.pptx 1714927751987
